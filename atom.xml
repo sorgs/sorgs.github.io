@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sorgs.cn/"/>
-  <updated>2019-08-15T01:29:03.838Z</updated>
+  <updated>2019-08-15T07:17:09.398Z</updated>
   <id>http://sorgs.cn/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Android Handler运行机制以问题点解答</title>
+    <title>Android Handler运行机制以及问题点解答</title>
     <link href="http://sorgs.cn/post/62013/"/>
     <id>http://sorgs.cn/post/62013/</id>
     <published>2019-08-14T15:09:18.000Z</published>
-    <updated>2019-08-15T01:29:03.838Z</updated>
+    <updated>2019-08-15T07:17:09.398Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>Handler机制笔记，原文地址<a href="https://mp.weixin.qq.com/s/7PAMm_FPrA0P3jf0tn3yyQ" target="_blank" rel="external">：https://mp.weixin.qq.com/s/7PAMm_FPrA0P3jf0tn3yy</a></p>
@@ -3316,15 +3316,15 @@
       <category term="Android逆向实例" scheme="http://sorgs.cn/categories/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
     
-      <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
-    
       <category term="Android逆向实例" scheme="http://sorgs.cn/tags/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
       <category term="so修改" scheme="http://sorgs.cn/tags/so%E4%BF%AE%E6%94%B9/"/>
     
+      <category term="游戏" scheme="http://sorgs.cn/tags/%E6%B8%B8%E6%88%8F/"/>
+    
       <category term="IDA" scheme="http://sorgs.cn/tags/IDA/"/>
     
-      <category term="游戏" scheme="http://sorgs.cn/tags/%E6%B8%B8%E6%88%8F/"/>
+      <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
     
   </entry>
   
@@ -3446,15 +3446,15 @@
       <category term="Android逆向实例" scheme="http://sorgs.cn/categories/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
     
-      <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
-    
-      <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
-    
       <category term="Android逆向实例" scheme="http://sorgs.cn/tags/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
       <category term="so修改" scheme="http://sorgs.cn/tags/so%E4%BF%AE%E6%94%B9/"/>
     
       <category term="IDA" scheme="http://sorgs.cn/tags/IDA/"/>
+    
+      <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
+    
+      <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
     
   </entry>
   
@@ -3584,11 +3584,11 @@
       <category term="Android逆向实例" scheme="http://sorgs.cn/categories/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
     
-      <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
-    
       <category term="Android逆向实例" scheme="http://sorgs.cn/tags/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
       <category term="游戏" scheme="http://sorgs.cn/tags/%E6%B8%B8%E6%88%8F/"/>
+    
+      <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
     
       <category term="支付" scheme="http://sorgs.cn/tags/%E6%94%AF%E4%BB%98/"/>
     
@@ -3705,11 +3705,11 @@
       <category term="Android逆向实例" scheme="http://sorgs.cn/categories/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
     
-      <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
+      <category term="Android逆向实例" scheme="http://sorgs.cn/tags/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
       <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
     
-      <category term="Android逆向实例" scheme="http://sorgs.cn/tags/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
+      <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
     
       <category term="同步学习" scheme="http://sorgs.cn/tags/%E5%90%8C%E6%AD%A5%E5%AD%A6%E4%B9%A0/"/>
     
@@ -3912,11 +3912,11 @@
     
       <category term="Android逆向基础" scheme="http://sorgs.cn/tags/Android%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%80/"/>
     
-      <category term="动态调试" scheme="http://sorgs.cn/tags/%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95/"/>
+      <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
     
       <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
     
-      <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
+      <category term="动态调试" scheme="http://sorgs.cn/tags/%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95/"/>
     
       <category term="调试" scheme="http://sorgs.cn/tags/%E8%B0%83%E8%AF%95/"/>
     
