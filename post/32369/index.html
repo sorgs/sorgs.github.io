@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/32369/">
+    
+    
+    <title>Android开发中屏幕的适配问题 px pd sp之间的转换工具 | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android开发">
+    <meta name="description" content="在Android开发中，美工妹子给我的图片都是px的单位，但是这个但是这个单位在程序中并不好，不能够自动适配。所以需要我们手动转换为dp。 #关于DP,PD,SPPPI = Pixels per inch，每英寸上的像素数,即 “像素密度” ppi的运算方式是：PPI = √（长度像素数² + 宽度像素数²） / 屏幕对角线英寸数 dp：Density-independent pixels，以16">
+<meta name="keywords" content="Android开发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android开发中屏幕的适配问题 px pd sp之间的转换工具">
+<meta property="og:url" content="http://sorgs.cn/post/32369/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="在Android开发中，美工妹子给我的图片都是px的单位，但是这个但是这个单位在程序中并不好，不能够自动适配。所以需要我们手动转换为dp。 #关于DP,PD,SPPPI = Pixels per inch，每英寸上的像素数,即 “像素密度” ppi的运算方式是：PPI = √（长度像素数² + 宽度像素数²） / 屏幕对角线英寸数 dp：Density-independent pixels，以16">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.843Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android开发中屏幕的适配问题 px pd sp之间的转换工具">
+<meta name="twitter:description" content="在Android开发中，美工妹子给我的图片都是px的单位，但是这个但是这个单位在程序中并不好，不能够自动适配。所以需要我们手动转换为dp。 #关于DP,PD,SPPPI = Pixels per inch，每英寸上的像素数,即 “像素密度” ppi的运算方式是：PPI = √（长度像素数² + 宽度像素数²） / 屏幕对角线英寸数 dp：Density-independent pixels，以16">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Android开发中屏幕的适配问题 px pd sp之间的转换工具</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Android开发中屏幕的适配问题 px pd sp之间的转换工具</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-03-28T02:31:28.000Z" itemprop="datePublished" class="page-time">
+  2017-03-28
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android开发/">Android开发</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-Android开发中屏幕的适配问题 px pd sp之间的转换工具"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Android开发中屏幕的适配问题 px pd sp之间的转换工具</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-03-28 10:31:28" datetime="2017-03-28T02:31:28.000Z"  itemprop="datePublished">2017-03-28</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android开发/">Android开发</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>在Android开发中，美工妹子给我的图片都是px的单位，但是这个但是这个单位在程序中并不好，不能够自动适配。所以需要我们手动转换为dp。</p>
+<p>#关于DP,PD,SP<br>PPI = Pixels per inch，每英寸上的像素数,即 “像素密度”</p>
+<p>ppi的运算方式是：<br>PPI = √（长度像素数² + 宽度像素数²） / 屏幕对角线英寸数</p>
+<p>dp：Density-independent pixels，以160PPI屏幕为标准，则1dp=1px，</p>
+<p>dp和px的换算公式 ：<br>dp*ppi/160 = px。比如1dp x 320ppi/160 = 2px。</p>
+<p>sp：Scale-independent pixels，它是安卓的字体单位，以160PPI屏幕为标准，当字体大小为 100%时， 1sp=1px。</p>
+<p>sp 与 px 的换算公式：sp*ppi/160 = px</p>
+<p>得出：</p>
+<p>px = dp*ppi/160<br>dp = px / (ppi / 160)</p>
+<p>px = sp*ppi/160<br>sp = px / (ppi / 160)</p>
+<p>dp ≈ sp</p>
+<p>#程序<br>所以我就需要按计算机计算咯。但是我怎么可能手动呢，于是我就写了一个C艹的可以执行文件。帮助计算。都是些垃圾代码。不敢私藏，拿出来分享，有需要改进的就随便改。（改了给我说说，一起用）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PX_PD</span><span class="params">(<span class="keyword">float</span> b)</span> </span>&#123;</div><div class="line">	<span class="keyword">while</span> (<span class="literal">true</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">float</span> a;</div><div class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入px："</span>;</div><div class="line">		<span class="built_in">cin</span> &gt;&gt; a;</div><div class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"dp =  "</span> &lt;&lt; a / b &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PD_PX</span><span class="params">(<span class="keyword">float</span> b)</span> </span>&#123;</div><div class="line">	<span class="keyword">while</span> (<span class="literal">true</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">float</span> a;</div><div class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入pd："</span>;</div><div class="line">		<span class="built_in">cin</span> &gt;&gt; a;</div><div class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"dx =  "</span> &lt;&lt; a * b &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</div><div class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"------------------------------------------------------------------------------------------------------------"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"author：sorgs.如有需要改进的地方欢迎提出QQ：1042746391"</span> &lt;&lt; <span class="built_in">endl</span> &lt;&lt; <span class="string">" 由于开发Android程序员，美工妹子给的图片的单位和程序单位不一致，所以产生需要转换。(所有数据基于标准)"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"dp是虚拟像素，在不同的像素密度的设备上会自动适配,这里就采用标准的就OK。（sp和dp基本一样）"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"在mdpi分辨率，像素密度为160，1dp=1px"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"在hdpi分辨率，像素密度为240，1dp=1.5px"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"在xhdpi分辨率，像素密度为320，1dp=2px"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"在xxhdpi分辨率，像素密度为480，1dp=3px"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"计算公式：1dp*像素密度/160 = 实际像素数"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"------------------------------------------------------------------------------------------------------------"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line"></div><div class="line">	</div><div class="line">number3:</div><div class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入需要转化的形式：1(px-&gt;dp) 2(dp-&gt;px)"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">int</span> i;</div><div class="line">	<span class="built_in">cin</span> &gt;&gt; i;</div><div class="line">	<span class="keyword">if</span> (i == <span class="number">1</span>) &#123;</div><div class="line">	number1:</div><div class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入需要计算的分辨率: 1(mdpi) 2(hdpi) 3(xhdpi) 4(xxhdpi)"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">		<span class="keyword">int</span> j;</div><div class="line">		<span class="built_in">cin</span> &gt;&gt; j;</div><div class="line">		<span class="keyword">if</span> (j == <span class="number">1</span>) &#123;</div><div class="line">			PX_PD(<span class="number">1</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (j == <span class="number">2</span>) &#123;</div><div class="line">			PX_PD(<span class="number">1.5</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (j == <span class="number">3</span>) &#123;</div><div class="line">			PX_PD(<span class="number">2</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (j == <span class="number">4</span>) &#123;</div><div class="line">			PX_PD(<span class="number">3</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			<span class="built_in">cout</span> &lt;&lt; <span class="string">"貌似输入有误呢"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">			<span class="keyword">goto</span> number1;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">	&#125;<span class="keyword">if</span> (i == <span class="number">2</span>) &#123;</div><div class="line">	number2:</div><div class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入需要计算的分辨率: 1(mdpi) 2(hdpi) 3(xhdpi) 4(xxhdpi)"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">		<span class="keyword">int</span> j;</div><div class="line">		<span class="built_in">cin</span> &gt;&gt; j;</div><div class="line">		<span class="keyword">if</span> (j == <span class="number">1</span>) &#123;</div><div class="line">			PX_PD(<span class="number">1</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (j == <span class="number">2</span>) &#123;</div><div class="line">			PX_PD(<span class="number">1.5</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (j == <span class="number">3</span>) &#123;</div><div class="line">			PX_PD(<span class="number">2</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (j == <span class="number">4</span>) &#123;</div><div class="line">			PX_PD(<span class="number">3</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			<span class="built_in">cout</span> &lt;&lt; <span class="string">"貌似输入有误呢"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">			<span class="keyword">goto</span> number2;</div><div class="line"></div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span> &#123;</div><div class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"输入有误哦！"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">		<span class="keyword">goto</span> number3;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最后放上源码地址：<a href="https://github.com/sorgs/DP_PX.git" target="_blank" rel="external">https://github.com/sorgs/DP_PX.git</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.843Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android开发/">Android开发</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/32369/&title=《Android开发中屏幕的适配问题 px pd sp之间的转换工具》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/32369/&title=《Android开发中屏幕的适配问题 px pd sp之间的转换工具》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/32369/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android开发中屏幕的适配问题 px pd sp之间的转换工具》 — Sorgs&url=http://sorgs.cn/post/32369/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/32369/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/50314/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Sorgs天气app开发</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/36822/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Android studio 报错 error opening trace file: Permission denied (13)</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/32369/&title=《Android开发中屏幕的适配问题 px pd sp之间的转换工具》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/32369/&title=《Android开发中屏幕的适配问题 px pd sp之间的转换工具》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/32369/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android开发中屏幕的适配问题 px pd sp之间的转换工具》 — Sorgs&url=http://sorgs.cn/post/32369/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/32369/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABwklEQVR42u3aMW7DMAwF0Nz/0unaRc4nKStu8TwFgWw9LQRJ8fWKn/fiWa25/n+1ctuDi4s75r4vn2RN8oXf31n9Tr6Ai4t7kruKGKs1yfGSd3MDLi7uX+HmCVASyHBxcf8TN69THhHIcHFxY241ZUnCVjWQba7VcHFxB9z5NvPft/R3cXFxW9xe6zNPVvKrl2h3XFzcI9x5GXNdqFyvrO6Li4t7htsrdarlStIEicIfLi7ucW71ALsGOArfwcXFPchN0pTqMSaXqctdcHFxH8CtJjS98Ys8ROLi4p7hVpsX1SGM3sXJh7dwcXFv5l4XIXmLc4JOQtuyVsPFxb2NmwevXa3P5PCF4gcXF3crt3rJmjdVe4eJDoaLi/slbvXipDpU0RsVxcXFPc/tbZZfo1aTpw+BDBcX9wg3H4PIU5M8wBVKLFxc3IPc/KMTejOt6aU4uLi4Le6u7fMrluq4Bi4u7nluNbhMWiHV5suo1YKLizvm7i1m8uTmOpAtd8HFxT3IzTfujXNtS2VwcXEfz52MavUGMnBxcZ/MrYawSe2Fi4v7Le5keKJHzBsluLi457m9imPSHMlbIaP+Li4ubof7A+0juWhh5QwTAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

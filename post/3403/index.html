@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/3403/">
+    
+    
+    <title>Android动态图片选择的一种简单实现方式 | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android开发,动态选择图片,朋友圈">
+    <meta name="description" content="很久没有更新博客了，以后还是决定每个月来更新一遍。本次到来的是一个常用的场景，比如我们在发朋友圈的时候，我们可以选择多张照片，也可以删除之前选择的，但是最多一般会有个上限，达到上限之后一般添加的就消失了。这里给出一个简单的实现思路。  效果图 我们还是先看看效果图 首先是没有图片的时候">
+<meta name="keywords" content="Android开发,动态选择图片,朋友圈">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android动态图片选择的一种简单实现方式">
+<meta property="og:url" content="http://sorgs.cn/post/3403/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="很久没有更新博客了，以后还是决定每个月来更新一遍。本次到来的是一个常用的场景，比如我们在发朋友圈的时候，我们可以选择多张照片，也可以删除之前选择的，但是最多一般会有个上限，达到上限之后一般添加的就消失了。这里给出一个简单的实现思路。  效果图 我们还是先看看效果图 首先是没有图片的时候">
+<meta property="og:image" content="http://pic.sorgs.cn/Android%E5%8A%A8%E6%80%81%E5%9B%BE%E7%89%87%E9%80%89%E6%8B%A9%E7%9A%84%E4%B8%80%E7%A7%8D%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%20%280%29.png">
+<meta property="og:image" content="http://pic.sorgs.cn/Android%E5%8A%A8%E6%80%81%E5%9B%BE%E7%89%87%E9%80%89%E6%8B%A9%E7%9A%84%E4%B8%80%E7%A7%8D%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%20%282%29.png">
+<meta property="og:image" content="http://pic.sorgs.cn/Android%E5%8A%A8%E6%80%81%E5%9B%BE%E7%89%87%E9%80%89%E6%8B%A9%E7%9A%84%E4%B8%80%E7%A7%8D%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%20%281%29.png">
+<meta property="og:image" content="http://pic.sorgs.cn/Android%E5%8A%A8%E6%80%81%E5%9B%BE%E7%89%87%E9%80%89%E6%8B%A9%E7%9A%84%E4%B8%80%E7%A7%8D%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%20%283%29.png">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.842Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android动态图片选择的一种简单实现方式">
+<meta name="twitter:description" content="很久没有更新博客了，以后还是决定每个月来更新一遍。本次到来的是一个常用的场景，比如我们在发朋友圈的时候，我们可以选择多张照片，也可以删除之前选择的，但是最多一般会有个上限，达到上限之后一般添加的就消失了。这里给出一个简单的实现思路。  效果图 我们还是先看看效果图 首先是没有图片的时候">
+<meta name="twitter:image" content="http://pic.sorgs.cn/Android%E5%8A%A8%E6%80%81%E5%9B%BE%E7%89%87%E9%80%89%E6%8B%A9%E7%9A%84%E4%B8%80%E7%A7%8D%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%20%280%29.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Android动态图片选择的一种简单实现方式</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Android动态图片选择的一种简单实现方式</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-01-20T12:20:08.000Z" itemprop="datePublished" class="page-time">
+  2018-01-20
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android开发/">Android开发</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#效果图"><span class="post-toc-number">1.</span> <span class="post-toc-text">效果图</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#代码实现"><span class="post-toc-number">2.</span> <span class="post-toc-text">代码实现</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Android动态图片选择的一种简单实现方式"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Android动态图片选择的一种简单实现方式</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-01-20 20:20:08" datetime="2018-01-20T12:20:08.000Z"  itemprop="datePublished">2018-01-20</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android开发/">Android开发</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>很久没有更新博客了，以后还是决定每个月来更新一遍。本次到来的是一个常用的场景，比如我们在发朋友圈的时候，我们可以选择多张照片，也可以删除之前选择的，但是最多一般会有个上限，达到上限之后一般添加的就消失了。这里给出一个简单的实现思路。</p>
+</blockquote>
+<h1 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h1><ul>
+<li>我们还是先看看效果图<ul>
+<li>首先是没有图片的时候</li>
+</ul>
+</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://pic.sorgs.cn/Android%E5%8A%A8%E6%80%81%E5%9B%BE%E7%89%87%E9%80%89%E6%8B%A9%E7%9A%84%E4%B8%80%E7%A7%8D%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%20%280%29.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure> 
+<ul>
+<li>然后我们选择两张图片</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://pic.sorgs.cn/Android%E5%8A%A8%E6%80%81%E5%9B%BE%E7%89%87%E9%80%89%E6%8B%A9%E7%9A%84%E4%B8%80%E7%A7%8D%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%20%282%29.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ul>
+<li>选可以点图片右上交的×删除一张</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://pic.sorgs.cn/Android%E5%8A%A8%E6%80%81%E5%9B%BE%E7%89%87%E9%80%89%E6%8B%A9%E7%9A%84%E4%B8%80%E7%A7%8D%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%20%281%29.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ul>
+<li>最后是选择6张，继续添加标志消失（我这里上限是6张，后面读者可以更新代码自己设置上限）</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://pic.sorgs.cn/Android%E5%8A%A8%E6%80%81%E5%9B%BE%E7%89%87%E9%80%89%E6%8B%A9%E7%9A%84%E4%B8%80%E7%A7%8D%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%20%283%29.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><ul>
+<li>这里简单的提供一种实现方式</li>
+<li>我这里是利用RecyclerView来实现，接下来具体看下<ul>
+<li>首先是主布局文件，其实就是一个RecyclerView</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">        <span class="tag">&lt;<span class="name">android.support.v7.widget.RecyclerView</span></span></div><div class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/rl_repair"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"250dp"</span>&gt;</div><div class="line">        <span class="tag">&lt;/<span class="name">android.support.v7.widget.RecyclerView</span>&gt;</span></div><div class="line">``` </div><div class="line"></div><div class="line"></div><div class="line">  - 然后主要逻辑代码在adapter，我们先看看adapter的布局</div><div class="line"> </div><div class="line"></div><div class="line">``` xml</div><div class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span></span></div><div class="line">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"100dp"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"100dp"</span></div><div class="line">    <span class="attr">android:layout_margin</span>=<span class="string">"10dp"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/iv_add"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:scaleType</span>=<span class="string">"centerCrop"</span></div><div class="line">        <span class="attr">android:src</span>=<span class="string">"@mipmap/bg_scan"</span>/&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/iv_photo"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:scaleType</span>=<span class="string">"centerCrop"</span>/&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/iv_remove"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_alignParentRight</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:paddingBottom</span>=<span class="string">"5dp"</span></div><div class="line">        <span class="attr">android:paddingLeft</span>=<span class="string">"5dp"</span></div><div class="line">        <span class="attr">android:scaleType</span>=<span class="string">"centerCrop"</span></div><div class="line">        <span class="attr">android:src</span>=<span class="string">"@mipmap/ic_delete"</span></div><div class="line">        <span class="attr">android:visibility</span>=<span class="string">"visible"</span>/&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>这部分代码没有什么要说的，主要是用RelativeLayout里面包裹3个ImageView，一个用图片右上角显示的删除，一个是添加新图片，还有一个是用来展示选择的图片</li>
+<li>接下来是adapter的逻辑部分代码了</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(ViewHolder holder, <span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (mList.size() &gt;= MAX_SIZE) &#123;</div><div class="line">        <span class="comment">//最多6张</span></div><div class="line">        holder.ivAdd.setVisibility(View.GONE);</div><div class="line">        holder.ivRemove.setVisibility(View.GONE);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        holder.ivPhoto.setVisibility(View.VISIBLE);</div><div class="line">        holder.ivPhoto.setVisibility(View.VISIBLE);</div><div class="line">        holder.ivRemove.setVisibility(View.VISIBLE);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (getItemViewType(position) == TYPE_ADD) &#123;</div><div class="line">        holder.ivRemove.setVisibility(View.GONE);</div><div class="line">        holder.ivPhoto.setVisibility(View.GONE);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        holder.ivRemove.setVisibility(View.VISIBLE);</div><div class="line">        holder.ivAdd.setVisibility(View.GONE);</div><div class="line">        holder.ivPhoto.setVisibility(View.VISIBLE);</div><div class="line">        holder.ivPhoto.setImageBitmap(BitmapFactory.decodeFile(mList.get(position)));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>不难看出，这里利用setVisibility来进行操作，更具数据来显示那些或者隐藏哪些。当我们的数目大于等于6的时候，我们就需要删除和添加隐藏起来。</li>
+<li>别忘了，我们一开始就需要有添加的图片，所以我们的size应该是</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> mList.size() + <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>数目应该要多加一个，然后应该注意到了我们的getItemViewType()方法了，这里我们进入看下</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemViewType</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (position == getItemCount() - <span class="number">1</span>) &#123;</div><div class="line">        <span class="keyword">return</span> TYPE_ADD;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span> TYPE_PIC;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>没错，这里就是用来区别是那种类型的方法，我们这里有两个类型</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TYPE_ADD = <span class="number">1</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TYPE_PIC = <span class="number">2</span>;</div></pre></td></tr></table></figure>
+<ul>
+<li>然后我们根据传入的postion来区分，如果position==我们的总数-1，那就说明我们这里显示添加图片，否则就显示展示的图片。为什么要减一个的原因就是最后总是要显示添加，除非达到了上限。然后回到我们的onBindViewHolder()代码中，就很简单了，当需要展示添加的时候，就把展示图片和删除的GONE，当需要展示图片的时候，就需要把添加隐藏，其余的展示出来</li>
+<li>然后我们还需要监听点击事件，用来增加或者是删除</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> OnItemClickListener itemClickListener;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OnItemClickListener</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 继续添加图片接口</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onItemAddClick</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 删除已经添加的图片接口</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> position 删除的position</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onItemRemoveClick</span><span class="params">(<span class="keyword">int</span> position)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>写一个点击事件的接口，两个方法，一个是添加，一个删除</li>
+<li>然后注册监听</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (context == <span class="keyword">null</span>) &#123;</div><div class="line">        context = parent.getContext();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">final</span> ViewHolder viewHolder = <span class="keyword">new</span> ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_photo, parent, <span class="keyword">false</span>));</div><div class="line"></div><div class="line">    viewHolder.ivAdd.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">            itemClickListener.onItemAddClick();</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    viewHolder.ivRemove.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">            itemClickListener.onItemRemoveClick(viewHolder.getAdapterPosition());</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">    <span class="keyword">return</span> viewHolder;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>在构造函数当中把接口进行注册</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TakePhotoAdapter</span><span class="params">(List&lt;String&gt; mList, OnItemClickListener itemClickListener)</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>.mList = mList;</div><div class="line">    <span class="keyword">this</span>.itemClickListener = itemClickListener;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>最后就是我们的页面的逻辑代码，先把adapter的接口引入implementsTakePhotoAdapter.OnItemClickListener</li>
+<li>然后就是两个接口中的方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onItemAddClick</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">//添加照片</span></div><div class="line">    mTakePhoto = getTakePhoto();</div><div class="line">    mTakePhoto.onPickFromCapture(configCompress());</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onItemRemoveClick</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">    <span class="comment">//删除照片</span></div><div class="line">    mPhotoList.remove(position);</div><div class="line">    mTakePhotoAdapter.notifyDataSetChanged();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>可以看到每次对图片操作了，我们需要进行刷新。这里图片的添加可以不是我们的重点，大家可以去用第三方库，我这里使用的是TakePhoto这个库。</li>
+<li>然后我们这边对RecyclerView进行注册就OK了</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">rlRepair.setLayoutManager(<span class="keyword">new</span> GridLayoutManager(<span class="keyword">this</span>, <span class="number">3</span>));</div><div class="line">mTakePhotoAdapter = <span class="keyword">new</span> TakePhotoAdapter(mPhotoList, <span class="keyword">this</span>);</div><div class="line">rlRepair.setAdapter(mTakePhotoAdapter);</div></pre></td></tr></table></figure>
+<ul>
+<li>这里用的是GridLayoutManager，并设置每行3个，读者可以更具情况自己设置</li>
+<li>差不多就是这么多内容了，很简单的东西。如果有不对或者更好的方式，欢迎指教</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.842Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android开发/">Android开发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/动态选择图片/">动态选择图片</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/朋友圈/">朋友圈</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/3403/&title=《Android动态图片选择的一种简单实现方式》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/3403/&title=《Android动态图片选择的一种简单实现方式》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/3403/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android动态图片选择的一种简单实现方式》 — Sorgs&url=http://sorgs.cn/post/3403/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/3403/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/4506/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">JAVA编程思想读书笔记_1</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/20591/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">关于MediaRecorder中的setAudioEncoder和setOutputFormat</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/3403/&title=《Android动态图片选择的一种简单实现方式》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/3403/&title=《Android动态图片选择的一种简单实现方式》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/3403/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android动态图片选择的一种简单实现方式》 — Sorgs&url=http://sorgs.cn/post/3403/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/3403/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAAAAAAZai4+AAABXElEQVR42u3aQY7DIBBEUd//0p5tpMToF5jFUJ9VFCHysjC0i74uPO6HMZ75+c21Y8iSdRDrHo6nOd8rcCL6k7JkVbKeFiUP+ZhL1pElS1bK4hsE/3uyZMl6i0Xmy5Ila8wiRfPcFrC9lpcl6wgWT3XWP2/Jt2TJ+uesOxzkZTXdFH78iixZZSz+APOymETAKIqSJauM9cLU4aZAtozgUJcl61DWymOfBkwoQpIlq4yVhj68vYAX2ah2kCXraBZfml9w8hWCgEmWrGIW3w7ICkvhryxZBSx+9ThXFvOX3vj2VZas41icy2MjXoLHHUmyZJWx0pL3rQhYlqwe1mQrAH6V5YGRLFnNrLS0TY/kpfBIlqwyFm+8IxESv6RBNz+yZJWx0kaEpa4iclTLkiVr6mYmBaEmA1myZIUNdmR+cJkqS1YlixzA68V0ECHJklXGmjtWOXRLsiVL1jmsPz+iz0cndZt2AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

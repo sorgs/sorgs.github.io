@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/45123/">
+    
+    
+    <title>一步步自定义一个封面选择框 | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android开发,自定义View,969,滑动事件">
+    <meta name="description" content="*本篇文章已授权微信公众号 guolin_blog （郭霖）独家发布  引言很多时候我们拍摄视频用户是竖屏拍摄，但是一个视频的封面需要一个16:9的图片，并且允许用户自己选择，于是做了一个简单的自定义View，进行展示封面选择。  先看看引入到项目的效果：">
+<meta name="keywords" content="Android开发,自定义View,969,滑动事件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一步步自定义一个封面选择框">
+<meta property="og:url" content="http://sorgs.cn/post/45123/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="*本篇文章已授权微信公众号 guolin_blog （郭霖）独家发布  引言很多时候我们拍摄视频用户是竖屏拍摄，但是一个视频的封面需要一个16:9的图片，并且允许用户自己选择，于是做了一个简单的自定义View，进行展示封面选择。  先看看引入到项目的效果：">
+<meta property="og:image" content="http://pic.sorgs.cn/dragView.gif">
+<meta property="og:image" content="http://pic.sorgs.cn/dragView3.jpg">
+<meta property="og:image" content="http://pic.sorgs.cn/dragView1.png">
+<meta property="og:image" content="http://pic.sorgs.cn/dragView2.png">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.858Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一步步自定义一个封面选择框">
+<meta name="twitter:description" content="*本篇文章已授权微信公众号 guolin_blog （郭霖）独家发布  引言很多时候我们拍摄视频用户是竖屏拍摄，但是一个视频的封面需要一个16:9的图片，并且允许用户自己选择，于是做了一个简单的自定义View，进行展示封面选择。  先看看引入到项目的效果：">
+<meta name="twitter:image" content="http://pic.sorgs.cn/dragView.gif">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">一步步自定义一个封面选择框</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">一步步自定义一个封面选择框</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-05-28T13:59:04.000Z" itemprop="datePublished" class="page-time">
+  2018-05-28
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android开发/">Android开发</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#引言"><span class="post-toc-number">1.</span> <span class="post-toc-text">引言</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#自定义View的准备"><span class="post-toc-number">2.</span> <span class="post-toc-text">自定义View的准备</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#分析"><span class="post-toc-number">3.</span> <span class="post-toc-text">分析</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#编码"><span class="post-toc-number">4.</span> <span class="post-toc-text">编码</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#结语"><span class="post-toc-number">5.</span> <span class="post-toc-text">结语</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-一步步自定义一个封面选择框"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">一步步自定义一个封面选择框</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-05-28 21:59:04" datetime="2018-05-28T13:59:04.000Z"  itemprop="datePublished">2018-05-28</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android开发/">Android开发</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>*本篇文章已授权微信公众号 guolin_blog （郭霖）独家发布</p>
+</blockquote>
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>很多时候我们拍摄视频用户是竖屏拍摄，但是一个视频的封面需要一个16:9的图片，并且允许用户自己选择，于是做了一个简单的自定义View，进行展示封面选择。</p>
+<ul>
+<li>先看看引入到项目的效果：<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://pic.sorgs.cn/dragView.gif" alt="-" title="">
+                </div>
+                <div class="image-caption">-</div>
+            </figure>
+</li>
+</ul>
+<h1 id="自定义View的准备"><a href="#自定义View的准备" class="headerlink" title="自定义View的准备"></a>自定义View的准备</h1><ul>
+<li>首先来说自定义View就是进行绘制，绘制肯定会需要确定大小，位置以及绘制的内容。对应的既是<br>onMeasure()、onLayout（）和onDraw（）<br>来看一张自定义View的流程图，对照图进行编写，变会轻松很多。<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://pic.sorgs.cn/dragView3.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></li>
+<li>本次主要是在滑动监听上做功夫进行绘制，即onTouchEvent()</li>
+</ul>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>1.当看到这自定义View的时候，我也是一脸懵逼。然后慢慢的思考。先绘制一个东西上去，让它跟着手指动起来就好，于是有了这样的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent event)</span> </span>&#123;  </div><div class="line">    <span class="keyword">switch</span> (event.getAction()) &#123;  </div><div class="line">        <span class="keyword">case</span> MotionEvent.ACTION_DOWN:  </div><div class="line">            moveX = event.getX();  </div><div class="line">            moveY = event.getY();  </div><div class="line">            <span class="keyword">break</span>;  </div><div class="line">        <span class="keyword">case</span> MotionEvent.ACTION_MOVE:  </div><div class="line">            setTranslationX(getX() + (event.getX() - moveX));  </div><div class="line">            setTranslationY(getY() + (event.getY() - moveY));  </div><div class="line">            <span class="keyword">break</span>;  </div><div class="line">        <span class="keyword">case</span> MotionEvent.ACTION_UP:  </div><div class="line">            <span class="keyword">break</span>;  </div><div class="line">        <span class="keyword">case</span> MotionEvent.ACTION_CANCEL:  </div><div class="line">            <span class="keyword">break</span>;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>2.动起来之后，我们继续再看目标，可以发现，我们只需要在Y轴上移动，并且是在一个长矩形中间滑动一个小的矩形。于是就绘制一个长矩形，和一个小矩形，修改onTouchEvent()中的方法，删除和x轴相关的代码。绘制矩形使用drawRect函数，传入两个点的坐标（左上角和右下角）和画笔。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">canvas.drawRect(mC1X1, mC1Y1, mC1X2, mC1Y2, mChildPaint);</div></pre></td></tr></table></figure>
+<p>3.这一步也不算很难。继续绘制，发现背景需要绘制一张图片，这个时候需要在调用这个View的地方传递一张Bitmap过来。于是有了这样的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 设置图片</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setData</span><span class="params">(Bitmap bitmap)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (bitmap == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"bitmap can't null"</span>);</div><div class="line">    &#125;</div><div class="line">    mParentBg = bitmap;</div><div class="line">    invalidate();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>invalidate()进行重新绘制，调用之后，流程进行onDraw()，调用绘制bitmap的函数</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 指定图片绘制区域</span></div><div class="line">Rect src = <span class="keyword">new</span> Rect(<span class="number">0</span>, <span class="number">0</span>, mParentBg.getWidth(), mParentBg.getHeight());</div><div class="line"><span class="comment">// 指定图片在屏幕上显示的区域</span></div><div class="line">Rect dst = <span class="keyword">new</span> Rect(mPX1, mPY1, mPX2, mPY2);</div><div class="line">canvas.drawBitmap(mParentBg, src, dst, <span class="keyword">null</span>);</div></pre></td></tr></table></figure>
+<ul>
+<li>先简单说明一下，mParentBg即为Bitmap对象，先获取要绘制的背景图片的大小，这里当然是把整个背景图绘制进行，然后显示的位置，即为矩形的位置，依然是左上角和右下角。我们不需要给图片着色，所以paint传null即可。</li>
+</ul>
+<ol>
+<li>完成这几部之后，觉得很不错，大功告成，这篇文章到此为止了。问题来了，本想中间的选择矩形绘制为透明的，长矩形即父控件矩形绘制一个半透明的。但是发现，根本没有作用，绘制透明的就好像没有绘制一样。</li>
+<li>于是，又开始认真思考。中间选择部分是透明的，也就是相当于没有绘制。那么就把父控件分为两个变化的子控件矩形，根据中间选择区域的变化，调整上下两个子控件矩形的大小。</li>
+</ol>
+<h1 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h1><p>1.初始化。根据上面的分析之后，开始编码。首先是要定义一些初始化的东西，于是在构造函数中调用init：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line"></div><div class="line">    mContext = context;</div><div class="line"></div><div class="line">    mChildPaint = <span class="keyword">new</span> Paint();</div><div class="line">    mChildPaint.setColor(context.getResources().getColor(R.color.colorT));</div><div class="line">    mChildPaint.setStyle(Paint.Style.FILL);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>定义了绘制两个子控件的画笔，设置了抗锯齿和半透明带黑色蒙层的颜色</li>
+</ul>
+<p>2.大小确定。根据流程肯定是测量出自定义View的大小：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</div><div class="line">    mParentHeight = MeasureSpec.getSize(heightMeasureSpec);</div><div class="line">    mScreenWidth = MeasureSpec.getSize(widthMeasureSpec);</div><div class="line">    <span class="comment">//父控件宽度 16:9的宽</span></div><div class="line">    mParentWidth = mParentHeight * <span class="number">9</span> / <span class="number">16f</span>;</div><div class="line">    <span class="comment">//选中区域高度</span></div><div class="line">    mChildHeight = mParentWidth * <span class="number">9</span> / <span class="number">16f</span>;</div><div class="line">    initCalc();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>我们首先获取到了view的宽高，然后去进行父控件的宽高和子控件的宽高<ul>
+<li>首先来说，父控件的高度肯定就是整个view的高度，而宽度的话，因为要求是16:9，所以根据高度计算出宽度</li>
+<li>有了父控件的宽度，也便有了中间选择矩形的宽度，也是要求16:9,所以根据比例计算出来高度大小</li>
+</ul>
+</li>
+<li>获取到一些宽高之后，便马上进行对坐标点的计算。首先来看一张图</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://pic.sorgs.cn/dragView1.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ul>
+<li>这是我优化之前的一张草图。首先来说，绘制矩形只需要知道左上角和右下角的坐标。<ul>
+<li>如图，第一个状态，是子控件1是0，也就是左上角即为父控件的左上角，右下角即为父控件的左上角，而这个状态中，子控件2呈现最大的状态，左上角的仅仅为父控件的减去一个选择区域的大小，右下角即为父控件的右下角。</li>
+<li>中间的状态进行变化，子控件1的左上角和子控件2的右下角始终和父控件一样，不进行变化。而这里只有上下滑动，所以，变化的仅仅为Y轴上面。根据Android的坐标系来说，Y轴向下为正方向。也就是子控件1的右下角的Y坐标和子控件2的左上角的Y坐标进行加减手指滑动的距离，然后进行重绘，即可达到绘制效果。</li>
+<li>第三个状态便是当滑到最底部的时候，原理和第一个状态类似，子控件1达到最大，左下角的坐标仅仅减去选择区域的高度；子控件2为0，左上角为父控件的左下角，右下角为父控件的右下角。</li>
+</ul>
+</li>
+<li>搞清楚这些之后，开始计算初始化的坐标点：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">    <span class="comment">/**</span></div><div class="line">     * 坐标点的计算</div><div class="line">     * X轴基本不变，变化的是Y轴</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initCalc</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">//计算父控件的位置点</span></div><div class="line">        mPX1 = (<span class="keyword">int</span>) (mScreenWidth / <span class="number">2f</span> - mParentWidth / <span class="number">2f</span>);</div><div class="line">        mPY1 = <span class="number">0</span>;</div><div class="line">        mPX2 = (<span class="keyword">int</span>) (mScreenWidth / <span class="number">2f</span> + mParentWidth / <span class="number">2f</span>);</div><div class="line">        mPY2 = (<span class="keyword">int</span>) (mParentHeight);</div><div class="line"></div><div class="line">        <span class="comment">//刚开始子控件1的位置点</span></div><div class="line">        mC1X1 = mPX1;</div><div class="line">        mC1Y1 = mPY1;</div><div class="line">        mC1X2 = mPX2;</div><div class="line">        mC1Y2 = mPY1;</div><div class="line"></div><div class="line">        <span class="comment">//刚开始子控件2的位置点</span></div><div class="line">        mC2X1 = mPX1;</div><div class="line">        mC2Y1 = (<span class="keyword">int</span>) (mChildHeight);</div><div class="line">        mC2X2 = mPX2;</div><div class="line">        mC2Y2 = mPY2;</div><div class="line">    &#125;</div><div class="line">``` </div><div class="line"></div><div class="line"></div><div class="line">- 值得注意的是，我们需要把控件摆放到屏幕中间，所以，左上角的X便是屏幕宽度除以<span class="number">2</span>减去计算出来的父控件宽度除以<span class="number">2</span>。右下角同理是加上父控件宽度除以<span class="number">2</span>。</div><div class="line"></div><div class="line"><span class="number">3</span>.位置确定。坐标计算完毕，进行设置view的大小：</div><div class="line"></div><div class="line">``` <span class="function">Java</span></div><div class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onSizeChanged</span><span class="params">(<span class="keyword">int</span> w, <span class="keyword">int</span> h, <span class="keyword">int</span> oldw, <span class="keyword">int</span> oldh)</span> &#123;</div><div class="line">        <span class="keyword">super</span>.onSizeChanged(w, h, oldw, oldh);</div><div class="line">        setMeasuredDimension((<span class="keyword">int</span>) mParentWidth, (<span class="keyword">int</span>) mParentHeight);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>这里调用setMeasuredDimension（）将我们计算好的宽高设置上去</li>
+</ul>
+<p>5.绘制。因为我们这边已经通过坐标来进行了位置的确定，所以直接调用onDraw()进行绘制：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>.onDraw(canvas);</div><div class="line"></div><div class="line">    <span class="comment">//绘制父控件</span></div><div class="line"></div><div class="line">    <span class="comment">// 指定图片绘制区域</span></div><div class="line">    Rect src = <span class="keyword">new</span> Rect(<span class="number">0</span>, <span class="number">0</span>, mParentBg.getWidth(), mParentBg.getHeight());</div><div class="line">    <span class="comment">// 指定图片在屏幕上显示的区域</span></div><div class="line">    Rect dst = <span class="keyword">new</span> Rect(mPX1, mPY1, mPX2, mPY2);</div><div class="line">    canvas.drawBitmap(mParentBg, src, dst, <span class="keyword">null</span>);</div><div class="line"></div><div class="line">    <span class="comment">//绘制子控件1</span></div><div class="line">    canvas.drawRect(mC1X1, mC1Y1, mC1X2, mC1Y2, mChildPaint);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">//绘制子控件2</span></div><div class="line">    canvas.drawRect(mC2X1, mC2Y1, mC2X2, mC2Y2, mChildPaint);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>这里的基本都在分析的时候已经进行了说明，没有太多要说的地方。mParentBg即为传入Bitmap对象。</li>
+</ul>
+<p>6.划动事件。要进行划动了，心里开始莫名的紧张，这部分是最不好进行控制。还是先看图：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://pic.sorgs.cn/dragView2.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<ul>
+<li>MotionEvent.ACTION_DOWN:<ul>
+<li>首先我们肯定是有一个拖拽范围的。因为我们只能拖选择框的地方才能有效。所以，图上右边紫色我写了可选中范围。<ul>
+<li>在X轴上面，没的说，很好办，就在父控件的宽度内。</li>
+<li>但是在Y轴上面的话，需要动态根据选择框的位置进行变化了。</li>
+<li>一开始，我进行判断划动的时候，写死了区域。不在这个区域直接不进行划动监听。这样也是可以做到，但是效果并不好。第一点，当手指从不可选中区域划入到可选中的时候，这样会响应事件，表现出来的便是选择区域突然跳到手指最开始落下的地方(从上往下划动)；第二点，从可选中区域划动到不可选中区域，这样不会响应时间，效果表现出来好像划不动一样。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//手指按下</span></div><div class="line"><span class="comment">//记录按下的距离</span></div><div class="line"><span class="keyword">float</span> beginY = event.getY();</div><div class="line"><span class="keyword">if</span> (beginY &lt; mC1Y2) &#123;</div><div class="line">    <span class="comment">//起始点在选择框上部，不做反应</span></div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (beginY &gt; mC1Y2 + mChildHeight) &#123;</div><div class="line">    <span class="comment">//起始点在选择框下部，不做反应</span></div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<pre><code>- 我们记录手指按下的Y坐标，进行判断，如果小于了子控件1的右下角Y坐标，说明按下的时候在选择框的上面，那么不做反应，针对上述第一点。如果按下距离在子控件2的右下角加上一个可选取与的高度，那么说明按下的点再选择框的下部，那已经超出了可选范围，也不做反应。
+</code></pre><ul>
+<li>说完了可拖拽区域，现在来看一下划动的距离变化。其实这部分在分析的时候也说了，主要是就是加减手指移动的距离便可。<ul>
+<li>要计算距离，这里需要减去一个按下的距离和可选区域的上边框的差值，否则，选择框会跳一下，然后以上边框为基准线进行改变，这显然不是我们想要的结果：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//记录按下的位置和选择区域的上边距的差</span></div><div class="line">mDistanceY = beginY - mC1Y2;</div></pre></td></tr></table></figure>
+<ul>
+<li>MotionEvent.ACTION_MOVE:<ul>
+<li>我们手指移动的距离为event.getY() - beginY。而我们实际要计算的是画在图中右边一点的实际移动的改变值，便是event.getY() - mDistanceY。event.getY()是指距离父控件的上边距，减去之前算好的mDistanceY，便可以比较精确得出实际移动的距离。可能还是会有疑问，为什么这样计算出来的距离会多一部分手指按下的距离和可选区域上边距的距离。因为我们这边是改变的子控件1和2的大小，子控件1是以右下角的Y，也可以理解为可选区域上边这根线绘制。如果不算手指和可选区域上边距的距离，那么效果就是划动起来，可选区域就会跳一下，然后以可选区域上边这根线在划动，而手指按下的时候明明和上边是有一定距离的。这部分可以尝试去掉进行感受。（感觉文字功底不好，有点扯不清，逃~）简单来说，反正就是要记录下手指按下距离可选区域上边的距离，在移动完之后，手指还是要距离可选区域同样的距离。嗯，就是这样，喵。</li>
+<li>这样就完工了。等等，不急。我们的可选区域肯定是不能划出父控件哒。也就是说可选区域上面不能划出父控件的上面，下面也不能划出父控件的下面的。<ul>
+<li>往上划动。需要判断下子控件1右下角的Y不能小于0，即不能小于了父控件的Y，超过了则保持状态一。</li>
+<li>往下划动。需要判断下子控件1右下角的Y不能大于父控件高度减去一个可选区域的高度，超过了则保持状态三。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//往上滑动</span></div><div class="line"><span class="keyword">if</span> (mC1Y2 &lt; <span class="number">0</span>) &#123;</div><div class="line">    <span class="comment">//防止顶部超过出</span></div><div class="line">    <span class="comment">//子控件1为0</span></div><div class="line">    mC1Y2 = <span class="number">0</span>;</div><div class="line">    <span class="comment">//子控件2为最大</span></div><div class="line">    mC2Y1 = (<span class="keyword">int</span>) (mSelectHeight);</div><div class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (mC1Y2 &gt; mParentHeight - mSelectHeight) &#123;</div><div class="line">    <span class="comment">//防止底部超过</span></div><div class="line">    <span class="comment">//子控件1为最大</span></div><div class="line">    mC1Y2 = (<span class="keyword">int</span>) (mParentHeight - mSelectHeight);</div><div class="line">    <span class="comment">//子控件2为0</span></div><div class="line">    mC2Y1 = (<span class="keyword">int</span>) (mParentHeight);</div></pre></td></tr></table></figure>
+<ul>
+<li>最后执行一下重绘。invalidate()<ul>
+<li>最后来一个完整的onTouchEvent()的代码，其实上诉已经说完了</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent event)</span> </span>&#123;</div><div class="line">    <span class="comment">//有效触控范围(X轴，Y轴另外判断)</span></div><div class="line">    <span class="keyword">if</span> (mC1X1 &lt;= event.getRawX() &amp;&amp; event.getRawX() &lt;= mC1X1 + mParentWidth) &#123;</div><div class="line">        <span class="keyword">switch</span> (event.getAction()) &#123;</div><div class="line">            <span class="keyword">case</span> MotionEvent.ACTION_DOWN:</div><div class="line">                <span class="comment">//手指按下</span></div><div class="line">                <span class="comment">//记录按下的距离</span></div><div class="line">                <span class="keyword">float</span> beginY = event.getY();</div><div class="line"></div><div class="line">                <span class="keyword">if</span> (beginY &lt; mC1Y2) &#123;</div><div class="line">                    <span class="comment">//起始点在选择框上部，不做反应</span></div><div class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (beginY &gt; mC1Y2 + mSelectHeight) &#123;</div><div class="line">                    <span class="comment">//起始点在选择框下部，不做反应</span></div><div class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                <span class="comment">//记录按下的位置和选择区域的上边距的差</span></div><div class="line">                mDistanceY = beginY - mC1Y2;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> MotionEvent.ACTION_MOVE:</div><div class="line"></div><div class="line">                <span class="comment">//mC1Y1和mC2Y2始终不变</span></div><div class="line">                <span class="comment">//更改子控件坐标</span></div><div class="line">                mC1Y2 = (<span class="keyword">int</span>) (event.getY() - mDistanceY);</div><div class="line"></div><div class="line">                mC2Y1 = (<span class="keyword">int</span>) (event.getY() - mDistanceY + mSelectHeight);</div><div class="line"></div><div class="line">                <span class="comment">//往上滑动</span></div><div class="line">                <span class="keyword">if</span> (mC1Y2 &lt; <span class="number">0</span>) &#123;</div><div class="line">                    <span class="comment">//防止顶部超过出</span></div><div class="line"></div><div class="line">                    <span class="comment">//子控件1为0</span></div><div class="line">                    mC1Y2 = <span class="number">0</span>;</div><div class="line"></div><div class="line">                    <span class="comment">//子控件2为最大</span></div><div class="line">                    mC2Y1 = (<span class="keyword">int</span>) (mSelectHeight);</div><div class="line"></div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mC1Y2 &gt; mParentHeight - mSelectHeight) &#123;</div><div class="line">                    <span class="comment">//防止底部超过</span></div><div class="line"></div><div class="line">                    <span class="comment">//子控件1为最大</span></div><div class="line">                    mC1Y2 = (<span class="keyword">int</span>) (mParentHeight - mSelectHeight);</div><div class="line">                    <span class="comment">//子控件2为0</span></div><div class="line">                    mC2Y1 = (<span class="keyword">int</span>) (mParentHeight);</div><div class="line">                &#125;</div><div class="line">                <span class="comment">//重新绘制</span></div><div class="line">                invalidate();</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> MotionEvent.ACTION_UP:</div><div class="line">                <span class="comment">//手指抬起</span></div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> MotionEvent.ACTION_CANCEL:</div><div class="line">                <span class="comment">//事件取消</span></div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">default</span>:</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>7.后续处理。后续处理的话，和项目不一样就不一样的，我们项目是把可选区域的坐标绝对值给后台，后台截取。demo里面是利用Android的截图，然后传去可选区域的坐标截取出来，但是这样分辨率肯定比较低，不太适合做封面。然后就是截取的话，需要注意下有个状态栏高度。（这里有个小坑的地方，就是Android截图系统只有能一张，需要重新加载才能获取新的截图，因为项目没有用到这个，所以没有深入研究，如果有知道的，麻烦赐教，感谢）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> Bitmap <span class="title">getBitmap</span><span class="params">(Activity activity)</span> </span>&#123;</div><div class="line">    View screenView = activity.getWindow().getDecorView();</div><div class="line">    screenView.setDrawingCacheEnabled(<span class="keyword">true</span>);</div><div class="line">    screenView.buildDrawingCache();</div><div class="line"></div><div class="line">    <span class="comment">//获取屏幕整张图</span></div><div class="line">    Bitmap bitmap = screenView.getDrawingCache();</div><div class="line">    <span class="comment">//截图指定部分</span></div><div class="line">    <span class="keyword">if</span> (bitmap != <span class="keyword">null</span>) &#123;</div><div class="line">        bitmap = Bitmap.createBitmap(bitmap, mC1X1, mC1Y2 + getStatusBarHeight(),</div><div class="line">                (<span class="keyword">int</span>) mParentWidth, (<span class="keyword">int</span>) mSelectHeight);</div><div class="line">    &#125;</div><div class="line">    invalidate();</div><div class="line">    <span class="keyword">return</span> bitmap;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 获取状态栏高度</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getStatusBarHeight</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> resourceId = mContext.getResources().getIdentifier(<span class="string">"status_bar_height"</span>, <span class="string">"dimen"</span>, <span class="string">"android"</span>);</div><div class="line">    <span class="keyword">if</span> (resourceId &gt; <span class="number">0</span>) &#123;</div><div class="line">        result = mContext.getResources().getDimensionPixelSize(resourceId);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><ol>
+<li>demo已经放到了github：<a href="https://github.com/sorgs/DragView" title="https://github.com/sorgs/DragView" target="_blank" rel="external">https://github.com/sorgs/DragView</a>上面了，如果能帮到您的话，还麻烦动动小指头给个小星星，万分感谢了！</li>
+<li>本人才疏学浅，仅仅是一个还差一个多月才毕业的应届生，写的比较简单，请大家见谅。如果有什么纰漏和不对的地方，感谢指出。</li>
+<li>对自定义View安利一个学习的地方：<a href="http://www.gcssloop.com/customview/CustomViewIndex/" title="http://www.gcssloop.com/customview/CustomViewIndex/" target="_blank" rel="external">http://www.gcssloop.com/customview/CustomViewIndex/</a>，GcsSloop大佬的系列，很受教！</li>
+<li>最后就是我最想说的。其实很多东西看起来很复杂，但是慢慢静下心去做还是可以做出来的。虽然这个很简单，但是我们老大说让我研究下的时候，我也是一脸懵逼啊。心里想，这，我怎么能做得出来。反正研究嘛，做不出来还有老大撑腰。就是就一步一步来尝试，先让动起来，然后再慢慢靠近需求，最后优化。最终发现还是弄出来了。写这篇博客的主要目的就是给自己和大家说这个道理，不畏惧，一步步来！</li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.858Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/969/">969</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android开发/">Android开发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/滑动事件/">滑动事件</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自定义View/">自定义View</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/45123/&title=《一步步自定义一个封面选择框》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/45123/&title=《一步步自定义一个封面选择框》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/45123/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《一步步自定义一个封面选择框》 — Sorgs&url=http://sorgs.cn/post/45123/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/45123/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/388/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">自定义签到的步骤View</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/45310/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">JAVA编程思想读书笔记-2</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/45123/&title=《一步步自定义一个封面选择框》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/45123/&title=《一步步自定义一个封面选择框》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/45123/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《一步步自定义一个封面选择框》 — Sorgs&url=http://sorgs.cn/post/45123/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/45123/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABy0lEQVR42u3aS27DMAwFwNz/0um2RSD7kfrEBUarwFGsURYERer1isf7Y/x+/jln9NvrmcsGLi7uNPd9ORJK8p78/aM5uLi457mjiJEErDzAXc+5NuDi4j6Zmwey6l+Ai4v7f7n5oSVPmHBxcZ/JTQ4nvaJGsu0tZzVcXNwJ7tole5+31HdxcXFb3JniZr6xpMUSrY6Li3uEmweUfMn8WNVcFxcX9wg3T26q1yzyIki18IqLi7uP2wtM1SsXvfcPMzJcXNzj3CTJqF6nmGnW/vkWFxf3ODe/PFG9gFVmjVbExcU9wr1OLHpHnTyhqbZtcHFxT3KTSXl46hVZknQKFxf3u9wkGFWTmPxqV7QWLi7uNm61LVoteVRbJjcbw8XFPcKtlkR77ZOZcXNWw8XF3cztHXVyel5sjQqmuLi4R7j54WcVpdliwcXFfQC3V+yI2iF5WtPr4eDi4ra47+IoNEFbZZFoH7i4uJu51eAyUwpJ6L0gi4uLu4NbDV55/3bm2tbNxQtcXNwj3GpjtVruXJbK4OLiPpJbndkrrQ43iYuL+0ju2qZLOXbh4uIe5PaWqV7R6BVKcHFxz3NXnTiqSU/yfKq+i4uL2+H+ACfbw0K7QDfxAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

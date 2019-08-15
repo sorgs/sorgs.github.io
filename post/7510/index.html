@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/7510/">
+    
+    
+    <title>Android中JNI调用第三方so以及头文件方式 | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android开发,so,NDK,JNI">
+    <meta name="description" content="引言有时候我们在android开发JNI的时候，会涉及到引用第三方的so和头文件引用。现在网上也有相应的资料，但是还是感觉不全和描述不清晰。这里进行整理一些，方便大家参考。 准备工作 NDK，进行JNI开发，Android studio中的NDK肯定是需要配好的。需要注意一点的是，如果上比较新的NDK版本的话，在toolchains目录会少几种，需要去下载比较旧的版本把缺失的放进去。原因大概是Go">
+<meta name="keywords" content="Android开发,so,NDK,JNI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android中JNI调用第三方so以及头文件方式">
+<meta property="og:url" content="http://sorgs.cn/post/7510/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="引言有时候我们在android开发JNI的时候，会涉及到引用第三方的so和头文件引用。现在网上也有相应的资料，但是还是感觉不全和描述不清晰。这里进行整理一些，方便大家参考。 准备工作 NDK，进行JNI开发，Android studio中的NDK肯定是需要配好的。需要注意一点的是，如果上比较新的NDK版本的话，在toolchains目录会少几种，需要去下载比较旧的版本把缺失的放进去。原因大概是Go">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.842Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android中JNI调用第三方so以及头文件方式">
+<meta name="twitter:description" content="引言有时候我们在android开发JNI的时候，会涉及到引用第三方的so和头文件引用。现在网上也有相应的资料，但是还是感觉不全和描述不清晰。这里进行整理一些，方便大家参考。 准备工作 NDK，进行JNI开发，Android studio中的NDK肯定是需要配好的。需要注意一点的是，如果上比较新的NDK版本的话，在toolchains目录会少几种，需要去下载比较旧的版本把缺失的放进去。原因大概是Go">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Android中JNI调用第三方so以及头文件方式</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Android中JNI调用第三方so以及头文件方式</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-05-19T13:05:57.000Z" itemprop="datePublished" class="page-time">
+  2019-05-19
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android开发/">Android开发</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#引言"><span class="post-toc-number">1.</span> <span class="post-toc-text">引言</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#准备工作"><span class="post-toc-number">2.</span> <span class="post-toc-text">准备工作</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#文件放置放置"><span class="post-toc-number">3.</span> <span class="post-toc-text">文件放置放置</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#cMake编写"><span class="post-toc-number">4.</span> <span class="post-toc-text">cMake编写</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#引用"><span class="post-toc-number">5.</span> <span class="post-toc-text">引用</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#结语"><span class="post-toc-number">6.</span> <span class="post-toc-text">结语</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Android中JNI调用第三方so以及头文件方式"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Android中JNI调用第三方so以及头文件方式</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-05-19 21:05:57" datetime="2019-05-19T13:05:57.000Z"  itemprop="datePublished">2019-05-19</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android开发/">Android开发</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>有时候我们在android开发JNI的时候，会涉及到引用第三方的so和头文件引用。现在网上也有相应的资料，但是还是感觉不全和描述不清晰。这里进行整理一些，方便大家参考。</p>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ul>
+<li>NDK，进行JNI开发，Android studio中的NDK肯定是需要配好的。需要注意一点的是，如果上比较新的NDK版本的话，在toolchains目录会少几种，需要去下载比较旧的版本把缺失的放进去。原因大概是Google已经放弃哪几种了。这个主要是针对比较老的工程会遇得到，也会有报错信息，搜一下很容易就知道了，就不展开说了。</li>
+<li>cMake和cpp。一般来说进行了JNI开发了，这些应该是有了，不再细说。只说下目录，cpp可以建一个cpp文件夹放在main文件夹下面，cMake需要放在app目录下面。详情目录结构可以参考Demo。</li>
+<li><p>build.gradle</p>
+<ul>
+<li><p>首先是在defaultConfig闭包类添加如下内容。我这边是生成了armeabi-v7a的格式，如需要其他格式，自行添加即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">externalNativeBuild &#123;</div><div class="line">    cmake &#123;</div><div class="line">        cppFlags &quot;&quot;</div><div class="line">        abiFilters &apos;armeabi-v7a&apos;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在android闭包下面，即最大的闭包下面添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">externalNativeBuild &#123;</div><div class="line">    cmake &#123;</div><div class="line">        path &quot;CMakeLists.txt&quot;</div><div class="line">        version &quot;3.10.2&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">sourceSets &#123;</div><div class="line">    main &#123;</div><div class="line">        // let gradle pack the shared library into apk</div><div class="line">        jniLibs.srcDirs = [&apos;src/main/jniLibs&apos;]</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="文件放置放置"><a href="#文件放置放置" class="headerlink" title="文件放置放置"></a>文件放置放置</h1><ul>
+<li>so文件：在main目录下面建立jniLibs文件夹。然后在下面在建立armeabi-v7a文件夹，把相应的so文件放到里面。需要注意的是，在自己需要生成什么类型的so，就需要建立什么类的文件夹，然后拷入相应类型第三方so文件。</li>
+<li>头文件：在cpp目录下面建立include文件夹，放入第三方头文件即可。</li>
+</ul>
+<h1 id="cMake编写"><a href="#cMake编写" class="headerlink" title="cMake编写"></a>cMake编写</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"># For more information about using CMake with Android Studio, read the</div><div class="line"># documentation: https://d.android.com/studio/projects/add-native-code.html</div><div class="line"></div><div class="line"># Sets the minimum version of CMake required to build the native library.</div><div class="line">cmake_minimum_required(VERSION 3.4.1)</div><div class="line"></div><div class="line"># Creates and names a library, sets it as either STATIC</div><div class="line"># or SHARED, and provides the relative paths to its source code.</div><div class="line"># You can define multiple libraries, and CMake builds them for you.</div><div class="line"># Gradle automatically packages shared libraries with your APK.</div><div class="line"></div><div class="line">add_library( # Sets the name of the library.</div><div class="line">        native-lib</div><div class="line"></div><div class="line">        # Sets the library as a shared library.</div><div class="line">        SHARED</div><div class="line"></div><div class="line">        # Provides a relative path to your source file(s).</div><div class="line">        src/main/cpp/native-lib.cpp)</div><div class="line"></div><div class="line">#动态方式加载 STATIC：表示静态的.a的库 SHARED：表示.so的库。</div><div class="line">add_library(gmpfprojectorfocusmanager_hidl SHARED IMPORTED)</div><div class="line">add_library(utils SHARED IMPORTED)</div><div class="line">add_library(hidlbase SHARED IMPORTED)</div><div class="line">add_library(hwbinder SHARED IMPORTED)</div><div class="line">add_library(hidltransport SHARED IMPORTED)</div><div class="line">add_library(hidlmemory SHARED IMPORTED)</div><div class="line">#设置要连接的so的相对路径 $&#123;CMAKE_SOURCE_DIR&#125;：表示CMake.txt的当前文件夹路径 $&#123;ANDROID_ABI&#125;：编译时会自动根据CPU架构去选择相应的库</div><div class="line">set_target_properties(gmpfprojectorfocusmanager_hidl PROPERTIES IMPORTED_LOCATION $&#123;CMAKE_SOURCE_DIR&#125;/src/main/jniLibs/$&#123;ANDROID_ABI&#125;/libgmpfprojectorfocusmanager_hidl.so)</div><div class="line">set_target_properties(utils PROPERTIES IMPORTED_LOCATION $&#123;CMAKE_SOURCE_DIR&#125;/src/main/jniLibs/$&#123;ANDROID_ABI&#125;/libutils.so)</div><div class="line">set_target_properties(hidlbase PROPERTIES IMPORTED_LOCATION $&#123;CMAKE_SOURCE_DIR&#125;/src/main/jniLibs/$&#123;ANDROID_ABI&#125;/libhidlbase.so)</div><div class="line">set_target_properties(hwbinder PROPERTIES IMPORTED_LOCATION $&#123;CMAKE_SOURCE_DIR&#125;/src/main/jniLibs/$&#123;ANDROID_ABI&#125;/libhwbinder.so)</div><div class="line">set_target_properties(hidltransport PROPERTIES IMPORTED_LOCATION $&#123;CMAKE_SOURCE_DIR&#125;/src/main/jniLibs/$&#123;ANDROID_ABI&#125;/libhidltransport.so)</div><div class="line">set_target_properties(hidlmemory PROPERTIES IMPORTED_LOCATION $&#123;CMAKE_SOURCE_DIR&#125;/src/main/jniLibs/$&#123;ANDROID_ABI&#125;/libhidlmemory.so)</div><div class="line">#添加第三方头文件</div><div class="line">target_include_directories(native-lib PRIVATE $&#123;CMAKE_SOURCE_DIR&#125;/src/main/cpp/include)</div><div class="line"># Searches for a specified prebuilt library and stores the path as a</div><div class="line"># variable. Because CMake includes system libraries in the search path by</div><div class="line"># default, you only need to specify the name of the public NDK library</div><div class="line"># you want to add. CMake verifies that the library exists before</div><div class="line"># completing its build.</div><div class="line"></div><div class="line">find_library( # Sets the name of the path variable.</div><div class="line">        log-lib</div><div class="line"></div><div class="line">        # Specifies the name of the NDK library that</div><div class="line">        # you want CMake to locate.</div><div class="line">        log)</div><div class="line"></div><div class="line"># Specifies libraries CMake should link to your target library. You</div><div class="line"># can link multiple libraries, such as libraries you define in this</div><div class="line"># build script, prebuilt third-party libraries, or system libraries.</div><div class="line"></div><div class="line">target_link_libraries( # Specifies the target library.</div><div class="line">        native-lib</div><div class="line"></div><div class="line">        # Links the target library to the log library</div><div class="line">         gmpfprojectorfocusmanager_hidl</div><div class="line">         utils</div><div class="line">         hidlbase</div><div class="line">         hwbinder</div><div class="line">         hidltransport</div><div class="line">         hidlmemory</div><div class="line">        # included in the NDK.</div><div class="line">        $&#123;log-lib&#125;)</div></pre></td></tr></table></figure>
+<ul>
+<li>add_library:这里主要是依赖第三方的so方式，每个so都要写一句。第一个参数是so的文件。例如libutils.so，则需要填写utils；第二个参数为STATIC：表示静态的.a的库或者SHARED：表示.so的库；第三个参数固定IMPORTED</li>
+<li>set_target_properties：链接so的路径。第一个参数依然是so的名字；第二个参数填写PROPERTIES即可；第三个填写IMPORTED_LOCATION即可；第四个则需要填写so的路径，需要注意的是会根据自己的需要生成so的类型去查找相应类型的so。</li>
+<li>target_include_directories：添加第三方头文件。第一个参数填写native-lib；第二个参数PRIVATE；第三个参数即头文件的文件夹路径。</li>
+<li>target_link_libraries：最后需要在这里把第三方so名字加入即可。</li>
+</ul>
+<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ul>
+<li>在自己的cpp里面就只直接通过include引用第三的文件夹了，以及调用第三方的so文件</li>
+</ul>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><ol>
+<li>建议按照这样的路径来放置，防止出现问题。</li>
+<li>demo已经放到了github上面，可以进行参考配置。<a href="https://github.com/sorgs/NDKTest" title="https://github.com/sorgs/NDKTest" target="_blank" rel="external">https://github.com/sorgs/NDKTest</a></li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.842Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android开发/">Android开发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JNI/">JNI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NDK/">NDK</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/so/">so</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/7510/&title=《Android中JNI调用第三方so以及头文件方式》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/7510/&title=《Android中JNI调用第三方so以及头文件方式》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/7510/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android中JNI调用第三方so以及头文件方式》 — Sorgs&url=http://sorgs.cn/post/7510/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/7510/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/35340/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Android每日一问笔记-对于事件分发，嵌套滚动的了解</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/9217/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">github发布和维护属于自己的基础工程远程库</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/7510/&title=《Android中JNI调用第三方so以及头文件方式》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/7510/&title=《Android中JNI调用第三方so以及头文件方式》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/7510/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android中JNI调用第三方so以及头文件方式》 — Sorgs&url=http://sorgs.cn/post/7510/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/7510/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAAAAAAZai4+AAABV0lEQVR42u3aQRKEIAxEUe9/aWY7VQp2d3Qh+aymSoU3CwIkHIfcxqT9Pz2/eX76cIMFayPWWLb1YOsh11/NxoIFqzNr1qnyzqxrPVjAggUrY91M7+jvwYIFS+9O3zrDggXLZekHVHfg1/fysGBtwdKzOvXfr+S3YMH6OGuYzU0YhaPAgtWMpU9gd0F1l2FYsGBlpRH3TfcADAtWH1Y2jZVLBm4p9IHoAgvWFix9GrvlFgV9sXeABasNq7J5zQYLE0ywYDVgVab6Uxvoi95gwWrJyiJKqUi5HgsWrMYs5dqBHgKyb2HB6sySJq0QFNzgYtR8YMHalJVdBdBTS3rCCBaszix3a6tvr6UDar3BgrURSw8Kbi1ST/LeVH5gwWrDyiZ5JQl1s1TDggXLpGQgu8wJCxas8n1bO6zAgtWS5ZZVsqOskUKCBasZK1tWFdyLmS1YsPZh/QDWXqZ+uTLZ6wAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

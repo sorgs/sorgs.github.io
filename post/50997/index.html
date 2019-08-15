@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/50997/">
+    
+    
+    <title>Android逆向实例笔记—续力破解三个Android程序 | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android逆向实例">
+    <meta name="description" content="这个首先感谢鱼C论坛的cbs大神，我是看了他的视频。自己再动手破解他给出这三个小程序。真心这样无私把技术分享给大家的人真的不多。再次感谢他。这里我就我自己破解的三个小程序自己做做笔记吧，方便自己以后查看，也方便刚刚入门的童鞋。这些都是些没啥技术含量的东西，大神请飘过。  一、认识新工具这里我先给出一个新的工具。jeb。给个我找的。分别有32和64的。https://yunpan.cn/cMuBp">
+<meta name="keywords" content="Android逆向实例">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android逆向实例笔记—续力破解三个Android程序">
+<meta property="og:url" content="http://sorgs.cn/post/50997/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="这个首先感谢鱼C论坛的cbs大神，我是看了他的视频。自己再动手破解他给出这三个小程序。真心这样无私把技术分享给大家的人真的不多。再次感谢他。这里我就我自己破解的三个小程序自己做做笔记吧，方便自己以后查看，也方便刚刚入门的童鞋。这些都是些没啥技术含量的东西，大神请飘过。  一、认识新工具这里我先给出一个新的工具。jeb。给个我找的。分别有32和64的。https://yunpan.cn/cMuBp">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824212829108?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824213332273?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824213337273?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824213837637?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824214200901?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824214807872?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824214554506?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824214640085?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824215101747?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824223358518?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824223651191?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824224046441?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824224312256?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824224504851?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824230444926?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824231333453?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824231600723?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825104817903?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825105036534?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825105209611?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825105501145?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825105713884?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825105810505?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825110048435?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://pic.sorgs.cn/af77339d0c8558cb2d7a5b369c3e326b.jpeg">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.853Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android逆向实例笔记—续力破解三个Android程序">
+<meta name="twitter:description" content="这个首先感谢鱼C论坛的cbs大神，我是看了他的视频。自己再动手破解他给出这三个小程序。真心这样无私把技术分享给大家的人真的不多。再次感谢他。这里我就我自己破解的三个小程序自己做做笔记吧，方便自己以后查看，也方便刚刚入门的童鞋。这些都是些没啥技术含量的东西，大神请飘过。  一、认识新工具这里我先给出一个新的工具。jeb。给个我找的。分别有32和64的。https://yunpan.cn/cMuBp">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20160824212829108?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Android逆向实例笔记—续力破解三个Android程序</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Android逆向实例笔记—续力破解三个Android程序</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-11-16T09:03:08.000Z" itemprop="datePublished" class="page-time">
+  2016-11-16
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android逆向实例/">Android逆向实例</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一、认识新工具"><span class="post-toc-number">1.</span> <span class="post-toc-text">一、认识新工具</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#二、Crackme03"><span class="post-toc-number">2.</span> <span class="post-toc-text">二、Crackme03</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-查看原apk"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">1.查看原apk</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-反编译"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2.反编译</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-验证"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">3.验证</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#三、CrackMe-F1F2"><span class="post-toc-number">3.</span> <span class="post-toc-text">三、CrackMe-F1F2</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-查看原apk-1"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">1.查看原apk</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-反汇编"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">2.反汇编</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-验证-1"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">3.验证</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#四、EX0501"><span class="post-toc-number">4.</span> <span class="post-toc-text">四、EX0501</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-原apk"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">1.原apk</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-反编译-1"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">2.反编译</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-验证-2"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">3.验证</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Android逆向实例笔记—续力破解三个Android程序"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Android逆向实例笔记—续力破解三个Android程序</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-11-16 17:03:08" datetime="2016-11-16T09:03:08.000Z"  itemprop="datePublished">2016-11-16</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android逆向实例/">Android逆向实例</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>这个首先感谢鱼C论坛的cbs大神，我是看了他的视频。自己再动手破解他给出这三个小程序。真心这样无私把技术分享给大家的人真的不多。再次感谢他。<br>这里我就我自己破解的三个小程序自己做做笔记吧，方便自己以后查看，也方便刚刚入门的童鞋。这些都是些没啥技术含量的东西，大神请飘过。</p>
+</blockquote>
+<h1 id="一、认识新工具"><a href="#一、认识新工具" class="headerlink" title="一、认识新工具"></a>一、认识新工具</h1><p>这里我先给出一个新的工具。jeb。给个我找的。分别有32和64的。<a href="https://yunpan.cn/cMuBpvug7qjc2" target="_blank" rel="external">https://yunpan.cn/cMuBpvug7qjc2</a>  访问密码 da4a<br>还是照例给个样图</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824212829108?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h1 id="二、Crackme03"><a href="#二、Crackme03" class="headerlink" title="二、Crackme03"></a>二、Crackme03</h1><h2 id="1-查看原apk"><a href="#1-查看原apk" class="headerlink" title="1.查看原apk"></a>1.查看原apk</h2><p>还是拖拽到蓝叠里面看看吧。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824213332273?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824213337273?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>我们看到错误的提示是Bad boy。<br>那就让我们开心的打开apkIDE吧</p>
+<h2 id="2-反编译"><a href="#2-反编译" class="headerlink" title="2.反编译"></a>2.反编译</h2><p>反编译之后打开strings.xml。发现，没有Bad boy。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;  </div><div class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"app_name"</span>&gt;</span>Android Crackme03 - [by deurus]<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"app_name2"</span>&gt;</span>About Crackme03<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"textoPrueba2"</span>&gt;</span>This is the third crackme of the Android collection crackmes, in this, the crackme take another phone values and with our name make something. For this reason, the crackme dont run in the emulator, only in the phone. Good luck for all!.<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"textodeurus"</span>&gt;</span>by deurus [29-10-10] [Made in Basque Country]<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"imei"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"temp"</span>&gt;</span>Enter Name<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"labelserial"</span>&gt;</span>Enter Serial<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"line"</span>&gt;</span>--------------------------------------<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>那我们就只能看看smali里面的东西了。<br>搜索结果只有一处，还好。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824213837637?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>双击过去，并往上找跳转。结果发现，这代码有混淆。没有办法了？<br>这个时候就该我们的jeb上了。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824214200901?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>点击File-Open，然后选择我们的Crackme03。<br>然后点到Decompiled Java选项卡。双击左边的HelloAndroid。我们惊喜的发现这不是源码么？</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824214807872?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>其实不是哈。只是很类似了。而已。<br>其实，这里的话，我们也可以不用jeb哈。直接用apkIDE带一个东西。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824214554506?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>点击打开，选择打开。也是一样的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824214640085?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>让我们来看看代码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.example.helloandroid;  </div><div class="line">  </div><div class="line"><span class="keyword">import</span> android.app.Activity;  </div><div class="line"><span class="keyword">import</span> android.content.Context;  </div><div class="line"><span class="keyword">import</span> android.content.Intent;  </div><div class="line"><span class="keyword">import</span> android.os.Bundle;  </div><div class="line"><span class="keyword">import</span> android.telephony.TelephonyManager;  </div><div class="line"><span class="keyword">import</span> android.view.View;  </div><div class="line"><span class="keyword">import</span> android.view.View$OnClickListener;  </div><div class="line"><span class="keyword">import</span> android.widget.TextView;  </div><div class="line"><span class="keyword">import</span> android.widget.Toast;  </div><div class="line">  </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloAndroid</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;  </div><div class="line">    <span class="keyword">private</span> View$OnClickListener pulsarBoton;  </div><div class="line">    <span class="keyword">private</span> View$OnClickListener pulsarBotonabout;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HelloAndroid</span><span class="params">()</span> </span>&#123;  </div><div class="line">        <span class="keyword">super</span>();  </div><div class="line">        <span class="keyword">this</span>.pulsarBotonabout = <span class="keyword">new</span> View$OnClickListener() &#123;  </div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;  </div><div class="line">                HelloAndroid.<span class="keyword">this</span>.setContentView(<span class="number">2130903041</span>);  </div><div class="line">                Intent v0 = <span class="keyword">new</span> Intent();  </div><div class="line">                v0.setClass(HelloAndroid.<span class="keyword">this</span>, prueba2.class);  </div><div class="line">                HelloAndroid.<span class="keyword">this</span>.startActivity(v0);  </div><div class="line">                HelloAndroid.<span class="keyword">this</span>.finish();  </div><div class="line">            &#125;  </div><div class="line">        &#125;;  </div><div class="line">        <span class="keyword">this</span>.pulsarBoton = <span class="keyword">new</span> View$OnClickListener() &#123;  </div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;  </div><div class="line">                String v10 = HelloAndroid.<span class="keyword">this</span>.findViewById(<span class="number">2131034116</span>).getText().toString();  </div><div class="line">                <span class="keyword">int</span> v11 = v10.length();  </div><div class="line">                String v12 = <span class="string">""</span>;  </div><div class="line">                String v15 = HelloAndroid.<span class="keyword">this</span>.findViewById(<span class="number">2131034118</span>).getText().toString();  </div><div class="line">                <span class="keyword">if</span>(v11 &gt;= <span class="number">4</span>) &#123;  </div><div class="line">                    goto label_29;  </div><div class="line">                &#125;  </div><div class="line">  </div><div class="line">                <span class="keyword">try</span> &#123;  </div><div class="line">                    Toast.makeText(HelloAndroid.<span class="keyword">this</span>.getApplicationContext(), <span class="string">"Min 4 chars"</span>, <span class="number">1</span>).show  </div><div class="line">                            ();  </div><div class="line">                    <span class="keyword">return</span>;  </div><div class="line">                label_29:  </div><div class="line">                    <span class="keyword">int</span> v5;  </div><div class="line">                    <span class="keyword">for</span>(v5 = <span class="number">0</span>; v5 &lt; v10.length(); ++v5) &#123;  </div><div class="line">                        v12 = String.valueOf(v12) + v10.charAt(v5);  </div><div class="line">                    &#125;  </div><div class="line">  </div><div class="line">                    v12 = String.valueOf(Integer.parseInt(v12.substring(<span class="number">0</span>, <span class="number">5</span>)) ^ <span class="number">438294</span>);  </div><div class="line">                    Object v8 = HelloAndroid.<span class="keyword">this</span>.getSystemService(<span class="string">"phone"</span>);  </div><div class="line">                    String v6 = ((TelephonyManager)v8).getDeviceId();  </div><div class="line">                    String v16 = ((TelephonyManager)v8).getSimSerialNumber();  </div><div class="line">                    String v19 = v6.substring(<span class="number">0</span>, <span class="number">6</span>);  </div><div class="line">                    <span class="keyword">if</span>(!String.valueOf(v12) + <span class="string">"-"</span> + String.valueOf(((<span class="keyword">long</span>)(Integer.parseInt(v19) ^ Integer  </div><div class="line">                            .parseInt(v16.substring(<span class="number">0</span>, <span class="number">6</span>))))) + <span class="string">"-"</span> + v19.equals(v15)) &#123;  </div><div class="line">                        goto label_114;  </div><div class="line">                    &#125;  </div><div class="line">  </div><div class="line">                    Toast.makeText(HelloAndroid.<span class="keyword">this</span>.getApplicationContext(), <span class="string">"God boy"</span>, <span class="number">1</span>).show();  </div><div class="line">                    <span class="keyword">return</span>;  </div><div class="line">                label_114:  </div><div class="line">                    Toast.makeText(HelloAndroid.<span class="keyword">this</span>.getApplicationContext(), <span class="string">"Bad boy "</span>, <span class="number">1</span>).show();  </div><div class="line">                    <span class="keyword">return</span>;  </div><div class="line">                &#125;  </div><div class="line">                <span class="keyword">catch</span>(Exception v22) &#123;  </div><div class="line">                    Toast.makeText(HelloAndroid.<span class="keyword">this</span>.getApplicationContext(), <span class="string">"Another Error Ocurred :("</span>  </div><div class="line">                            , <span class="number">1</span>).show();  </div><div class="line">                    <span class="keyword">return</span>;  </div><div class="line">                &#125;  </div><div class="line">            &#125;  </div><div class="line">        &#125;;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;  </div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);  </div><div class="line">        <span class="keyword">this</span>.setContentView(<span class="number">2130903040</span>);  </div><div class="line">        Object v3 = <span class="keyword">this</span>.getSystemService(<span class="string">"phone"</span>);  </div><div class="line">        String v2 = ((TelephonyManager)v3).getDeviceId();  </div><div class="line">        <span class="keyword">new</span> TextView(((Context)<span class="keyword">this</span>));  </div><div class="line">        <span class="keyword">this</span>.findViewById(<span class="number">2131034112</span>).setText(<span class="string">"HardwareID 01: "</span> + v2);  </div><div class="line">        String v5 = ((TelephonyManager)v3).getSimSerialNumber();  </div><div class="line">        <span class="keyword">new</span> TextView(((Context)<span class="keyword">this</span>));  </div><div class="line">        <span class="keyword">this</span>.findViewById(<span class="number">2131034113</span>).setText(<span class="string">"HardwareID 02: "</span> + v5);  </div><div class="line">        String v8 = v2.substring(<span class="number">0</span>, <span class="number">6</span>);  </div><div class="line">        String v9 = v5.substring(<span class="number">0</span>, <span class="number">6</span>);  </div><div class="line">        Integer.parseInt(v8);  </div><div class="line">        Integer.parseInt(v9);  </div><div class="line">        <span class="keyword">new</span> TextView(((Context)<span class="keyword">this</span>));  </div><div class="line">        <span class="keyword">this</span>.findViewById(<span class="number">2131034116</span>).setText(<span class="string">""</span>);  </div><div class="line">        <span class="keyword">this</span>.findViewById(<span class="number">2131034120</span>).setOnClickListener(<span class="keyword">this</span>.pulsarBotonabout);  </div><div class="line">        <span class="keyword">this</span>.findViewById(<span class="number">2131034119</span>).setOnClickListener(<span class="keyword">this</span>.pulsarBoton);  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们很容易的发现Bad boy，上面有God boy。猜测就知道这就是正确信息。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824215101747?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>那就让我们看看这代码。我们发现上面有个<br>goto label_114; </p>
+<p>就从这个就跳转到Bad boy。那么我们就得让它不跳转，对吧。大致知道那里之后回到apkIDE。<br>我们往上找语句块，发现了 ：cond_2<br>那我们搜索这个。到了这里就是我们之前看到的那个跳转。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824223358518?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>OK,我们果断改为nez，保存，生成。</p>
+<h2 id="3-验证"><a href="#3-验证" class="headerlink" title="3.验证"></a>3.验证</h2><p>拖拽到蓝叠，打开。不错，God boy和我们见面</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824223651191?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>这个我们就是KO了。</p>
+<h1 id="三、CrackMe-F1F2"><a href="#三、CrackMe-F1F2" class="headerlink" title="三、CrackMe-F1F2"></a>三、CrackMe-F1F2</h1><h2 id="1-查看原apk-1"><a href="#1-查看原apk-1" class="headerlink" title="1.查看原apk"></a>1.查看原apk</h2><p>无需多说，进蓝叠</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824224046441?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>这不是是写的EditView，居然不是hint属性，表示无语。懂的就懂，不懂也不重要。这里扯远了，我们继续。<br>既然有东西，我就懒得输了。直接验证</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824224312256?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>我们知道了错误代码就是Lisence Uncorrect.。</p>
+<h2 id="2-反汇编"><a href="#2-反汇编" class="headerlink" title="2.反汇编"></a>2.反汇编</h2><p>apkIDE，常规操作。照样，string.xml没有信息。<br>只有smali里面搜索一波。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824224504851?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>双击过去。找找跳转。<br>这里给出代码</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div></pre></td><td class="code"><pre><div class="line">.class Lcom/mstar/test/LisenceCheck$1;  </div><div class="line">.super Ljava/lang/Object;  </div><div class="line">.source "LisenceCheck.java"  </div><div class="line">  </div><div class="line"># interfaces  </div><div class="line">.implements Landroid/view/View$OnClickListener;  </div><div class="line">  </div><div class="line">  </div><div class="line"># annotations  </div><div class="line">.annotation system Ldalvik/annotation/EnclosingClass;  </div><div class="line">    value = Lcom/mstar/test/LisenceCheck;  </div><div class="line">.end annotation  </div><div class="line">  </div><div class="line">.annotation system Ldalvik/annotation/InnerClass;  </div><div class="line">    accessFlags = 0x0  </div><div class="line">    name = null  </div><div class="line">.end annotation  </div><div class="line">  </div><div class="line">  </div><div class="line"># instance fields  </div><div class="line">.field final synthetic this$0:Lcom/mstar/test/LisenceCheck;  </div><div class="line">  </div><div class="line">  </div><div class="line"># direct methods  </div><div class="line">.method constructor &lt;init&gt;(Lcom/mstar/test/LisenceCheck;)V  </div><div class="line">    .locals 0  </div><div class="line">  </div><div class="line">    .prologue  </div><div class="line">    .line 1  </div><div class="line">    iput-object p1, p0, Lcom/mstar/test/LisenceCheck$1;-&gt;this$0:Lcom/mstar/test/LisenceCheck;  </div><div class="line">  </div><div class="line">    .line 51  </div><div class="line">    invoke-direct &#123;p0&#125;, Ljava/lang/Object;-&gt;&lt;init&gt;()V  </div><div class="line">  </div><div class="line">    return-void  </div><div class="line">.end method  </div><div class="line">  </div><div class="line">  </div><div class="line"># virtual methods  </div><div class="line">.method public onClick(Landroid/view/View;)V  </div><div class="line">    .locals 10  </div><div class="line">    .param p1, "v"    # Landroid/view/View;  </div><div class="line">  </div><div class="line">    .prologue  </div><div class="line">    const/4 v9, 0x0  </div><div class="line">  </div><div class="line">    const-string v8, ""  </div><div class="line">  </div><div class="line">    .line 53  </div><div class="line">    check-cast p1, Landroid/widget/Button;  </div><div class="line">  </div><div class="line">    .end local p1    # "v":Landroid/view/View;  </div><div class="line">    iget-object v6, p0, Lcom/mstar/test/LisenceCheck$1;-&gt;this$0:Lcom/mstar/test/LisenceCheck;  </div><div class="line">  </div><div class="line">    iget-object v6, v6, Lcom/mstar/test/LisenceCheck;-&gt;mbutton:Landroid/widget/Button;  </div><div class="line">  </div><div class="line">    if-ne p1, v6, :cond_5  </div><div class="line">  </div><div class="line">    .line 55  </div><div class="line">    new-instance v4, Ljava/lang/String;  </div><div class="line">  </div><div class="line">    const-string v6, ""  </div><div class="line">  </div><div class="line">    invoke-direct &#123;v4, v8&#125;, Ljava/lang/String;-&gt;&lt;init&gt;(Ljava/lang/String;)V  </div><div class="line">  </div><div class="line">    .line 56  </div><div class="line">    .local v4, "s1":Ljava/lang/String;  </div><div class="line">    iget-object v6, p0, Lcom/mstar/test/LisenceCheck$1;-&gt;this$0:Lcom/mstar/test/LisenceCheck;  </div><div class="line">  </div><div class="line">    iget-object v6, v6, Lcom/mstar/test/LisenceCheck;-&gt;meditun:Landroid/widget/EditText;  </div><div class="line">  </div><div class="line">    invoke-virtual &#123;v6&#125;, Landroid/widget/EditText;-&gt;getText()Landroid/text/Editable;  </div><div class="line">  </div><div class="line">    move-result-object v6  </div><div class="line">  </div><div class="line">    invoke-interface &#123;v6&#125;, Landroid/text/Editable;-&gt;toString()Ljava/lang/String;  </div><div class="line">  </div><div class="line">    move-result-object v4  </div><div class="line">  </div><div class="line">    .line 57  </div><div class="line">    new-instance v5, Ljava/lang/String;  </div><div class="line">  </div><div class="line">    const-string v6, ""  </div><div class="line">  </div><div class="line">    invoke-direct &#123;v5, v8&#125;, Ljava/lang/String;-&gt;&lt;init&gt;(Ljava/lang/String;)V  </div><div class="line">  </div><div class="line">    .line 58  </div><div class="line">    .local v5, "s2":Ljava/lang/String;  </div><div class="line">    iget-object v6, p0, Lcom/mstar/test/LisenceCheck$1;-&gt;this$0:Lcom/mstar/test/LisenceCheck;  </div><div class="line">  </div><div class="line">    iget-object v6, v6, Lcom/mstar/test/LisenceCheck;-&gt;meditsn:Landroid/widget/EditText;  </div><div class="line">  </div><div class="line">    invoke-virtual &#123;v6&#125;, Landroid/widget/EditText;-&gt;getText()Landroid/text/Editable;  </div><div class="line">  </div><div class="line">    move-result-object v6  </div><div class="line">  </div><div class="line">    invoke-interface &#123;v6&#125;, Landroid/text/Editable;-&gt;toString()Ljava/lang/String;  </div><div class="line">  </div><div class="line">    move-result-object v5  </div><div class="line">  </div><div class="line">    .line 60  </div><div class="line">    const/4 v1, 0x0  </div><div class="line">  </div><div class="line">    .local v1, "i":I  </div><div class="line">    const/4 v2, 0x0  </div><div class="line">  </div><div class="line">    .line 62  </div><div class="line">    .local v2, "k1":I  </div><div class="line">    const/4 v1, 0x0  </div><div class="line">  </div><div class="line">    :goto_0  </div><div class="line">    invoke-virtual &#123;v4&#125;, Ljava/lang/String;-&gt;length()I  </div><div class="line">  </div><div class="line">    move-result v6  </div><div class="line">  </div><div class="line">    if-lt v1, v6, :cond_1  </div><div class="line">  </div><div class="line">    .line 69  </div><div class="line">    :cond_0  </div><div class="line">    xor-int/lit16 v2, v2, 0x5678  </div><div class="line">  </div><div class="line">    .line 72  </div><div class="line">    const/4 v3, 0x0  </div><div class="line">  </div><div class="line">    .line 73  </div><div class="line">    .local v3, "k2":I  </div><div class="line">    const/4 v1, 0x0  </div><div class="line">  </div><div class="line">    :goto_1  </div><div class="line">    invoke-virtual &#123;v5&#125;, Ljava/lang/String;-&gt;length()I  </div><div class="line">  </div><div class="line">    move-result v6  </div><div class="line">  </div><div class="line">    if-lt v1, v6, :cond_3  </div><div class="line">  </div><div class="line">    .line 78  </div><div class="line">    xor-int/lit16 v3, v3, 0x1234  </div><div class="line">  </div><div class="line">    .line 80  </div><div class="line">    if-ne v2, v3, :cond_4  </div><div class="line">  </div><div class="line">    .line 81  </div><div class="line">    iget-object v6, p0, Lcom/mstar/test/LisenceCheck$1;-&gt;this$0:Lcom/mstar/test/LisenceCheck;  </div><div class="line">  </div><div class="line">    invoke-virtual &#123;v6&#125;, Lcom/mstar/test/LisenceCheck;-&gt;getApplicationContext()Landroid/content/Context;  </div><div class="line">  </div><div class="line">    move-result-object v6  </div><div class="line">  </div><div class="line">    const-string v7, "Lisence Correct\uff01"  </div><div class="line">  </div><div class="line">    invoke-static &#123;v6, v7, v9&#125;, Landroid/widget/Toast;-&gt;makeText(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;  </div><div class="line">  </div><div class="line">    move-result-object v6  </div><div class="line">  </div><div class="line">    invoke-virtual &#123;v6&#125;, Landroid/widget/Toast;-&gt;show()V  </div><div class="line">  </div><div class="line">    .line 92  </div><div class="line">    .end local v1    # "i":I  </div><div class="line">    .end local v2    # "k1":I  </div><div class="line">    .end local v3    # "k2":I  </div><div class="line">    .end local v4    # "s1":Ljava/lang/String;  </div><div class="line">    .end local v5    # "s2":Ljava/lang/String;  </div><div class="line">    :goto_2  </div><div class="line">    return-void  </div><div class="line">  </div><div class="line">    .line 64  </div><div class="line">    .restart local v1    # "i":I  </div><div class="line">    .restart local v2    # "k1":I  </div><div class="line">    .restart local v4    # "s1":Ljava/lang/String;  </div><div class="line">    .restart local v5    # "s2":Ljava/lang/String;  </div><div class="line">    :cond_1  </div><div class="line">    invoke-virtual &#123;v4, v1&#125;, Ljava/lang/String;-&gt;charAt(I)C  </div><div class="line">  </div><div class="line">    move-result v0  </div><div class="line">  </div><div class="line">    .line 65  </div><div class="line">    .local v0, "ch":C  </div><div class="line">    const/16 v6, 0x41  </div><div class="line">  </div><div class="line">    if-lt v0, v6, :cond_0  </div><div class="line">  </div><div class="line">    .line 66  </div><div class="line">    const/16 v6, 0x5a  </div><div class="line">  </div><div class="line">    if-le v0, v6, :cond_2  </div><div class="line">  </div><div class="line">    const/16 v6, 0x20  </div><div class="line">  </div><div class="line">    sub-int v6, v0, v6  </div><div class="line">  </div><div class="line">    int-to-char v0, v6  </div><div class="line">  </div><div class="line">    .line 67  </div><div class="line">    :cond_2  </div><div class="line">    add-int/2addr v2, v0  </div><div class="line">  </div><div class="line">    .line 62  </div><div class="line">    add-int/lit8 v1, v1, 0x1  </div><div class="line">  </div><div class="line">    goto :goto_0  </div><div class="line">  </div><div class="line">    .line 74  </div><div class="line">    .end local v0    # "ch":C  </div><div class="line">    .restart local v3    # "k2":I  </div><div class="line">    :cond_3  </div><div class="line">    invoke-virtual &#123;v5, v1&#125;, Ljava/lang/String;-&gt;charAt(I)C  </div><div class="line">  </div><div class="line">    move-result v0  </div><div class="line">  </div><div class="line">    .line 75  </div><div class="line">    .restart local v0    # "ch":C  </div><div class="line">    const/16 v6, 0x30  </div><div class="line">  </div><div class="line">    sub-int v6, v0, v6  </div><div class="line">  </div><div class="line">    int-to-char v0, v6  </div><div class="line">  </div><div class="line">    .line 76  </div><div class="line">    mul-int/lit8 v6, v3, 0xa  </div><div class="line">  </div><div class="line">    add-int v3, v6, v0  </div><div class="line">  </div><div class="line">    .line 73  </div><div class="line">    add-int/lit8 v1, v1, 0x1  </div><div class="line">  </div><div class="line">    goto :goto_1  </div><div class="line">  </div><div class="line">    .line 83  </div><div class="line">    .end local v0    # "ch":C  </div><div class="line">    :cond_4  </div><div class="line">    iget-object v6, p0, Lcom/mstar/test/LisenceCheck$1;-&gt;this$0:Lcom/mstar/test/LisenceCheck;  </div><div class="line">  </div><div class="line">    invoke-virtual &#123;v6&#125;, Lcom/mstar/test/LisenceCheck;-&gt;getApplicationContext()Landroid/content/Context;  </div><div class="line">  </div><div class="line">    move-result-object v6  </div><div class="line">  </div><div class="line">    const-string v7, "Lisence Uncorrect\uff01"  </div><div class="line">  </div><div class="line">    invoke-static &#123;v6, v7, v9&#125;, Landroid/widget/Toast;-&gt;makeText(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;  </div><div class="line">  </div><div class="line">    move-result-object v6  </div><div class="line">  </div><div class="line">    invoke-virtual &#123;v6&#125;, Landroid/widget/Toast;-&gt;show()V  </div><div class="line">  </div><div class="line">    goto :goto_2  </div><div class="line">  </div><div class="line">    .line 88  </div><div class="line">    .end local v1    # "i":I  </div><div class="line">    .end local v2    # "k1":I  </div><div class="line">    .end local v3    # "k2":I  </div><div class="line">    .end local v4    # "s1":Ljava/lang/String;  </div><div class="line">    .end local v5    # "s2":Ljava/lang/String;  </div><div class="line">    :cond_5  </div><div class="line">    iget-object v6, p0, Lcom/mstar/test/LisenceCheck$1;-&gt;this$0:Lcom/mstar/test/LisenceCheck;  </div><div class="line">  </div><div class="line">    iget-object v6, v6, Lcom/mstar/test/LisenceCheck;-&gt;meditun:Landroid/widget/EditText;  </div><div class="line">  </div><div class="line">    const-string v7, ""  </div><div class="line">  </div><div class="line">    invoke-virtual &#123;v6, v8&#125;, Landroid/widget/EditText;-&gt;setText(Ljava/lang/CharSequence;)V  </div><div class="line">  </div><div class="line">    .line 89  </div><div class="line">    iget-object v6, p0, Lcom/mstar/test/LisenceCheck$1;-&gt;this$0:Lcom/mstar/test/LisenceCheck;  </div><div class="line">  </div><div class="line">    iget-object v6, v6, Lcom/mstar/test/LisenceCheck;-&gt;meditsn:Landroid/widget/EditText;  </div><div class="line">  </div><div class="line">    const-string v7, ""  </div><div class="line">  </div><div class="line">    invoke-virtual &#123;v6, v8&#125;, Landroid/widget/EditText;-&gt;setText(Ljava/lang/CharSequence;)V  </div><div class="line">  </div><div class="line">    goto :goto_2  </div><div class="line">.end method</div></pre></td></tr></table></figure>
+<p>还是一片大乱，还是用jeb。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824230444926?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>看我框出来的地方。很显然，如果前面不等于后面这一段，那么就跳转到下面去，Toast出来错误。<br>OK，我们回到smali里面，去找这个跳转。<br>其实大胆一点，我们直接可以在错误的上面看到:cond_4。然后搜素这个，但是我们还是稳一点，看看类似的源码，找找思路。<br>搜索:cond_4，双击过去</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824231333453?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>ne就是等于，那我们改成等于就OK了。eq改上。</p>
+<h2 id="3-验证-1"><a href="#3-验证-1" class="headerlink" title="3.验证"></a>3.验证</h2><p>保存，生成apk。拖蓝叠。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824231600723?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>又是我们熟悉又激动的正确Toast。</p>
+<h1 id="四、EX0501"><a href="#四、EX0501" class="headerlink" title="四、EX0501"></a>四、EX05<em>01</em></h1><h2 id="1-原apk"><a href="#1-原apk" class="headerlink" title="1.原apk"></a>1.原apk</h2><p>不废话，上蓝叠。看看错误提示</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825104817903?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>这里是直接不用输什么，直接来error–</p>
+<h2 id="2-反编译-1"><a href="#2-反编译-1" class="headerlink" title="2.反编译"></a>2.反编译</h2><p>来看看我们的apkIDE怎么说。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825105036534?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>不用多想。依然那个问题。string没信息。那我们就搜索error–看看</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825105209611?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>只有一处结果就是极好的，双击过去找跳转。<br>显然没有什么可用信息。还是看看类源码吧。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> irdc.ex05_01;  </div><div class="line">  </div><div class="line"><span class="keyword">import</span> android.text.util.Linkify;  </div><div class="line"><span class="keyword">import</span> android.view.KeyEvent;  </div><div class="line"><span class="keyword">import</span> android.view.View;  </div><div class="line"><span class="keyword">import</span> android.view.View.OnKeyListener;  </div><div class="line"><span class="keyword">import</span> android.widget.TextView;  </div><div class="line"><span class="keyword">import</span> android.widget.Toast;  </div><div class="line">  </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">EX05_01</span>$1  </span></div><div class="line">  <span class="keyword">implements</span> <span class="title">View</span>.<span class="title">OnKeyListener</span>  </div><div class="line">&#123;  </div><div class="line">  EX05_01$<span class="number">1</span>(EX05_01 paramEX05_01) &#123;&#125;  </div><div class="line">    </div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onKey</span><span class="params">(View paramView, <span class="keyword">int</span> paramInt, KeyEvent paramKeyEvent)</span>  </span></div><div class="line">  &#123;  </div><div class="line">    <span class="keyword">if</span> (<span class="string">"gogo"</span>.equals(<span class="string">"11"</span>))  </div><div class="line">    &#123;  </div><div class="line">      EX05_01.access$<span class="number">0</span>(<span class="keyword">this</span>.<span class="keyword">this</span>$<span class="number">0</span>).setText(<span class="string">"gogo"</span>);  </div><div class="line">      Toast.makeText(<span class="keyword">this</span>.<span class="keyword">this</span>$<span class="number">0</span>, <span class="string">"right++"</span>, <span class="number">1</span>).show();  </div><div class="line">    &#125;  </div><div class="line">    <span class="keyword">for</span> (;;)  </div><div class="line">    &#123;  </div><div class="line">      Linkify.addLinks(EX05_01.access$<span class="number">0</span>(<span class="keyword">this</span>.<span class="keyword">this</span>$<span class="number">0</span>), <span class="number">7</span>);  </div><div class="line">      <span class="keyword">return</span> <span class="keyword">false</span>;  </div><div class="line">      EX05_01.access$<span class="number">0</span>(<span class="keyword">this</span>.<span class="keyword">this</span>$<span class="number">0</span>).setText(<span class="string">"gogo"</span>);  </div><div class="line">      Toast.makeText(<span class="keyword">this</span>.<span class="keyword">this</span>$<span class="number">0</span>, <span class="string">"error--"</span>, <span class="number">1</span>).show();  </div><div class="line">    &#125;  </div><div class="line">  &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个很清晰明了。代码很少，而且可以看到思路的地方。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825105501145?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>我们知道，意思就是“gogo”等于“11”才会跳转到正确的地方。但是怎么可能“gogo”等于“11”呢。这里我们就直接修改为不等于就OK了。<br>回到apkIDE，找到跳转到错误的地方。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825105713884?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>那么就直接把eqz改为nez。让它不等于</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825105810505?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h2 id="3-验证-2"><a href="#3-验证-2" class="headerlink" title="3.验证"></a>3.验证</h2><p>保存，生成，拖蓝叠。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825110048435?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>打完收工！！！</p>
+<p>这三个app都不是很难。但是主要的目的就是练练手，然后去理理思路。各位看官，看的开心就给个五星好评。</p>
+<p>还是最后给出三个apk下载地址吧  <a href="https://yunpan.cn/cMu6crr4vXq5t" target="_blank" rel="external">https://yunpan.cn/cMu6crr4vXq5t</a>  访问密码 21bc</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://pic.sorgs.cn/af77339d0c8558cb2d7a5b369c3e326b.jpeg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.853Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android逆向实例/">Android逆向实例</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/50997/&title=《Android逆向实例笔记—续力破解三个Android程序》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/50997/&title=《Android逆向实例笔记—续力破解三个Android程序》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/50997/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android逆向实例笔记—续力破解三个Android程序》 — Sorgs&url=http://sorgs.cn/post/50997/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/50997/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/10311/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">A ndroid逆向基础笔记—Dalvik字节码小记_const/4 v2, 0x1</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/24104/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Android逆向实例笔记—破解第一个Android程序_crackme02</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/50997/&title=《Android逆向实例笔记—续力破解三个Android程序》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/50997/&title=《Android逆向实例笔记—续力破解三个Android程序》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/50997/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android逆向实例笔记—续力破解三个Android程序》 — Sorgs&url=http://sorgs.cn/post/50997/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/50997/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAAB0ElEQVR42u3aS47CQAwFwNz/0ow0mgXSQHh2dwxIlVUEgVRvLP+OI75uv9f9/bNP7j9Pnj+uuHBxcZe5t9PrPzc50vkhkwM/PRIuLu4gtxq8kmMkAS434OLifiY3T1yq/4mLi/u93CQBitIUXFzcL+FWi5MkMFVTnM21Gi4u7gK31zDde395fxcXF3fTVCJvnial0cp7//4HFxd3hJu/vhqSzg+QjF2fhjlcXNwRbnVJYm+rNCmEcHFx38VdX6XKESuHwcXFneEmqUZh1LFcAr34LS4u7gi3EOGC0qgasKpLHri4uJPcfORZDU/VFKocwnBxcbdy82Kmmsr0iqWjF0FxcXEv5uYpSDWJqRZUD96Fi4s7yK0uR+YJysoyBy4u7nu50aPFrCNfsMjHuri4uDPc/KFeQ6SaMEUNU1xc3Iu554jqeDVPlXorX7i4uJPcPEHJX9mc55wfDBcXd5DbG6n2hiXVtCnKoXBxcbdyd803e42VJFBeMo7FxcUNvq0OPHorWckAJjowLi7uIDdfpOi1O7elMri4uB/GzZ9ZD2Qvhqy4uLgfxq02SrYlN7i4uOPcfHmiGoyidas8LOLi4o5w1xumvbFKr9DCxcW9mPsDibZ2nTH5ImcAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

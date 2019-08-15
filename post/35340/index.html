@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/35340/">
+    
+    
+    <title>Android每日一问笔记-对于事件分发，嵌套滚动的了解 | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="每日一问笔记,面试,笔记">
+    <meta name="description" content="基于https://www.wanandroid.com每日一问的笔记，做一些整理，方便自己进行查看和记忆。 原文链接：https://www.wanandroid.com/wenda/show/8463以及nanchen的文章   事件分发原理 事件分发，其实就是一个责任链的变种，这个责任链，是一个设计模式。  在Android中，当最顶层的View收到事件之后，会一级一级地往下传，在每一级V">
+<meta name="keywords" content="每日一问笔记,面试,笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android每日一问笔记-对于事件分发，嵌套滚动的了解">
+<meta property="og:url" content="http://sorgs.cn/post/35340/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="基于https://www.wanandroid.com每日一问的笔记，做一些整理，方便自己进行查看和记忆。 原文链接：https://www.wanandroid.com/wenda/show/8463以及nanchen的文章   事件分发原理 事件分发，其实就是一个责任链的变种，这个责任链，是一个设计模式。  在Android中，当最顶层的View收到事件之后，会一级一级地往下传，在每一级V">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.846Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android每日一问笔记-对于事件分发，嵌套滚动的了解">
+<meta name="twitter:description" content="基于https://www.wanandroid.com每日一问的笔记，做一些整理，方便自己进行查看和记忆。 原文链接：https://www.wanandroid.com/wenda/show/8463以及nanchen的文章   事件分发原理 事件分发，其实就是一个责任链的变种，这个责任链，是一个设计模式。  在Android中，当最顶层的View收到事件之后，会一级一级地往下传，在每一级V">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Android每日一问笔记-对于事件分发，嵌套滚动的了解</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Android每日一问笔记-对于事件分发，嵌套滚动的了解</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-07-16T09:31:01.000Z" itemprop="datePublished" class="page-time">
+  2019-07-16
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android面试/">Android面试</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#事件分发原理"><span class="post-toc-number">1.</span> <span class="post-toc-text">事件分发原理</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#嵌套滚动"><span class="post-toc-number">2.</span> <span class="post-toc-text">嵌套滚动</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#嵌套滚动原理"><span class="post-toc-number">3.</span> <span class="post-toc-text">嵌套滚动原理</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#至于为什么嵌套滚动有必要存在，我觉得有以下几个原因："><span class="post-toc-number">4.</span> <span class="post-toc-text">至于为什么嵌套滚动有必要存在，我觉得有以下几个原因：</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#简单介绍-View-的时间分发机制"><span class="post-toc-number">5.</span> <span class="post-toc-text">简单介绍 View 的时间分发机制</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#既然都提了这么一点，也就突然想给出一些结论，参考自-Android-开发艺术探索："><span class="post-toc-number">6.</span> <span class="post-toc-text">既然都提了这么一点，也就突然想给出一些结论，参考自 Android 开发艺术探索：</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#处理自定义-View-中的滑动冲突"><span class="post-toc-number">7.</span> <span class="post-toc-text">处理自定义 View 中的滑动冲突</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#外部拦截法"><span class="post-toc-number">7.1.</span> <span class="post-toc-text">外部拦截法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#内部拦截法"><span class="post-toc-number">7.2.</span> <span class="post-toc-text">内部拦截法</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Android每日一问笔记-对于事件分发，嵌套滚动的了解"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Android每日一问笔记-对于事件分发，嵌套滚动的了解</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-07-16 17:31:01" datetime="2019-07-16T09:31:01.000Z"  itemprop="datePublished">2019-07-16</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android面试/">Android面试</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>基于<a href="https://www.wanandroid.com/article/list/0?cid=440" target="_blank" rel="external">https://www.wanandroid.com</a>每日一问的笔记，做一些整理，方便自己进行查看和记忆。</p>
+<p>原文链接：<a href="https://www.wanandroid.com/wenda/show/8463" title="https://www.wanandroid.com/wenda/show/8463" target="_blank" rel="external">https://www.wanandroid.com/wenda/show/8463</a><br>以及<br><a href="https://mp.weixin.qq.com/s/te6_xAEPnz69ZQs1d51aYw" target="_blank" rel="external">nanchen的文章</a></p>
+</blockquote>
+<hr>
+<h1 id="事件分发原理"><a href="#事件分发原理" class="headerlink" title="事件分发原理"></a>事件分发原理</h1><ul>
+<li>事件分发，其实就是一个责任链的变种，这个责任链，是一个设计模式。 </li>
+<li>在Android中，当最顶层的View收到事件之后，会一级一级地往下传，在每一级View中，它们各自都有权利去处理(也就是拦截)这个事件，如果这次的事件传到了最底层的View，也没能处理的话，就会从这个最底层的View一级一级地向上传回去。<h1 id="嵌套滚动"><a href="#嵌套滚动" class="headerlink" title="嵌套滚动"></a>嵌套滚动</h1></li>
+<li>这个嵌套滚动，说的应该不是普通的嵌套滚动(比如ScrollView套ListView)，而是说NestedScrollingParent和NestedScrollingChild，这两个东西，出来挺久了，可能好多同学还是觉得有点陌生，但我们在很多场景下，已经在不识不觉中使用它了，比如说CoordinatorLayout，它是一个NestedScrollingParent，还有RecycleView，它是一个NestedScrollingChild。<br>一个最常见的效果：列表向上滚动，ToolBar收起，反之，当列表向下滚动时，ToolBar随着列表的滚动出现。这个效果，用NestedScrolling来实现，可以非常简单。<h1 id="嵌套滚动原理"><a href="#嵌套滚动原理" class="headerlink" title="嵌套滚动原理"></a>嵌套滚动原理</h1></li>
+<li>它的原理，很简单：在NestedScrollingChild滚动过程中，它和NestedScrollingParent会一直”保持通讯”，比如： <ul>
+<li>当Child滚动之前，会通知Parent:”我要开始滚动啦，你看你要不要做点什么”。</li>
+<li>当Child在滚动的时候，也会每次通知Parent:”我这次消费了xxx，你看你还要做什么”。</li>
+<li>当Child滚动完成，Parent也会收到通知：”我滚动完成了”。</li>
+</ul>
+</li>
+<li>除了手指触摸滚动的，还有惯性滚动，但原理和流程是一样的。</li>
+</ul>
+<h1 id="至于为什么嵌套滚动有必要存在，我觉得有以下几个原因："><a href="#至于为什么嵌套滚动有必要存在，我觉得有以下几个原因：" class="headerlink" title="至于为什么嵌套滚动有必要存在，我觉得有以下几个原因："></a>至于为什么嵌套滚动有必要存在，我觉得有以下几个原因：</h1><ul>
+<li>减少工作量，比如说一些看似很复杂滚动效果，在使用NestedScrolling机制之后，就变得简单起来了。</li>
+<li>降低耦合度，在NestedScrolling机制出现之前，很多与子View有滚动交互的ViewGroup，大部分处理滚动的代码，都堆积这个ViewGroup中。而推出了NestedScrolling之后，这个滚动的子View，由被动方，变成了主动方(滚动的状态都是由这个子View去决定，不再需要ViewGroup去主动判断)。 </li>
+<li>增加灵活性，CoordinatorLayout的强大，相信同学们都体会到了，它可以通过设置各种不同的Behavior，来定制它的交互效果。</li>
+</ul>
+<hr>
+<h1 id="简单介绍-View-的时间分发机制"><a href="#简单介绍-View-的时间分发机制" class="headerlink" title="简单介绍 View 的时间分发机制"></a>简单介绍 View 的时间分发机制</h1><ul>
+<li><p>当然，这里也可以简单地提一下，基本的流程就是下面的伪代码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dispatchTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</div><div class="line">    <span class="keyword">boolean</span> consume = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">if</span> (onInterceptTouchEvent(ev)) &#123;</div><div class="line">        consume = onTouchEvent(ev);</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        consume = child.dispatchTouchEvent(ev);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> consume;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>当一个 ViewGroup 接收到一个事件的时候，首先会调用 dispatchTouchEvent() 方法进行事件分发，如果 onInterceptTouchEvent() 返回 true，则代表当前 View 会拦截事件，则直接回调 onTouchEvent() 方法进行事件处理。如果不拦截，则直接回调子 View 的 dispatchTouchEvent() 方法，如此反复，一直到最里面的子 View。</p>
+</li>
+<li><p>当一个点击事件产生后，它的传递过程遵循以下顺序：Activity =&gt; Window =&gt; View，即事件总是先传递给 Activity，Activity 再传递给 Window，最后 Window 再传递给顶层 DocorView，然后遵循上面的方式一直在最里层 View。</p>
+</li>
+<li>而处理事件则从最里层 View 不断回传给自己的外层 View，如果一直没有 View 进行处理，则直接会回传到 Activity 中。<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">onTouchEvent() 返回 <span class="keyword">true</span> 代表自己要处理。</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="既然都提了这么一点，也就突然想给出一些结论，参考自-Android-开发艺术探索："><a href="#既然都提了这么一点，也就突然想给出一些结论，参考自-Android-开发艺术探索：" class="headerlink" title="既然都提了这么一点，也就突然想给出一些结论，参考自 Android 开发艺术探索："></a>既然都提了这么一点，也就突然想给出一些结论，参考自 Android 开发艺术探索：</h1><ol>
+<li>同一个事件序列是指从手指接触屏幕（ACTION_DOWN）的那一刻起，到手指离开屏幕（ACTION_UP）的那一刻结束，中间含不定数量的 ACTION_MOVE 事件。</li>
+<li>某个 View 一旦决定拦截事件，那么这一个事件序列都只能由它处理，并且它的 onInterceptTouchEvent() 方法也不会再调用。换句话说，比如一个 ViewGroup 里面有数个子 View，一旦 ACTION_DOWN 事件从 Activity 传到这个 ViewGroup 被其拦截，则后续的 MOVE 和 UP 等事件也不会传递到里面的子 View 中。</li>
+<li>如果一个 View 一旦开始处理事件，如果它不消耗 ACTION_DOWN 事件，即 onTouchEvent() 返回为 false，那么同一事件序列中的其他事件也不会再交给它处理，直接会调用其父 View 的 onTouchEvent()。</li>
+<li>如果 View 不消耗除 ACTION_DOWN 以外的其他事件，那么这个点击事件会消失，此时父元素的 onTouchEvent() 并不会被调用，并且当然 View 可以持续收到后续的事件，最终这些消失的点击事件会传递给 Activity 处理。</li>
+<li>ViewGroup 默认不拦截事件，View 没有 onInterceptTouchEvent() 方法，一旦有事件传递给它，则直接会调用 onTouchEvent()，并且起默认都会消耗掉事件。除非它是不可点击的（即 clickable 和 longClickable 均为 false）。View 的 longClickable 默认都为 false，而 clickable 分情况，比如 Button 默认为 true，TextView 默认为 false。</li>
+<li>View 的 enable 属性不会影响 onTouchEvent() 的默认返回值，哪怕一个 View 是 disable 状态的，只要它的 clickable 或者 longClickable 有一个为 true，那么它的 onTouchEvent() 就会返回 true。</li>
+<li>requestDisallowInterceptTouchEvent() 可以在子元素中干预父元素的事件分发过程，但是无法干预 ACTION_DOWN 事件。</li>
+<li>事件优先顺序：setOnTouchListener() =&gt; onTouchEvent() =&gt; onClickListener()<h1 id="处理自定义-View-中的滑动冲突"><a href="#处理自定义-View-中的滑动冲突" class="headerlink" title="处理自定义 View 中的滑动冲突"></a>处理自定义 View 中的滑动冲突</h1>— 对于大多数 Android 开发来说，处理滑动冲突好像很难，但实战一下又发现，好像也挺简单，因为这个实际上是有套路可循的。基本就两种方案：外部拦截法 &amp;&amp; 内部拦截法<h2 id="外部拦截法"><a href="#外部拦截法" class="headerlink" title="外部拦截法"></a>外部拦截法</h2></li>
+</ol>
+<ul>
+<li><p>所谓外部拦截法，顾名思义，就是直接在父容器中直接拦截掉我们的滑动事件，让其不能进入到子元素中，这似乎和我们 RecyclerView 嵌套 RecyclerView 时禁用内部 RecyclerView 滑动有那么一丝相似之处，就是内部不处理就完事儿了。但细细品来又完全不一样，这里的外部拦截法会让内部元素根本就收不到滑动事件。</p>
+</li>
+<li><p>这种方法明显非常适合我们上面讲的事件分发机制。我们在接收 ACTION_MOVE 事件的时候，直接通过使 onInterceptTouchEvent() 方法返回 true 来直接拦截掉事件就可以了，伪代码想必大家也知道了：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onInterceptTouchEvent</span><span class="params">(ev: <span class="type">MotionEvent</span>?)</span></span>: <span class="built_in">Boolean</span> &#123;</div><div class="line">    ev?.run &#123;</div><div class="line">        <span class="keyword">if</span> (action == MotionEvent.ACTION_MOVE &amp;&amp; 父容器需要点击事件)&#123;</div><div class="line">            <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.onInterceptTouchEvent(ev)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>代码很简单，我们仅仅需要在事件ACTION_MOVE时去处理我们的逻辑就好了，当满足我们的逻辑的时候，就拦截掉 ACTION_MOVE 事件给自己处理。</p>
+</li>
+<li>至于为什么不去拦截 ACTION_DOWN 和 ACTION_UP，想必大家也清楚了。上面说了，如果拦截了 ACTION_DOWN 事件，那后续的 ACTION_MOVE、ACTION_UP 等其它事件均不会在调用 onInterceptTouchEvent() 方法，会直接交给当前容器处理。而如果我们拦截掉 ACTION_UP 的话，肯定会导致子元素的点击事件无法被处理，因为大家肯定都知道一个点击事件从 ACTION_DOWN 开始，从 ACTION_UP 结束，二者缺一不可。<h2 id="内部拦截法"><a href="#内部拦截法" class="headerlink" title="内部拦截法"></a>内部拦截法</h2></li>
+<li>内部拦截法相对外部拦截法会复杂一些，所以我们通常来说，都更加推荐用外部拦截法进行处理。不过，内部拦截法依然有着它非常重要的地位，具体情况有可能会遇到。</li>
+<li>内部拦截法的话，需要 requestDisallowInterceptTouchEvent() 方法的支持，这个方法是干什么的呢？顾名思义，请求是否不允许拦截事件，其接收一个 boolean 参数，表示是否不允许拦截。</li>
+<li><p>我们直接重写子元素的 dispatchTouchEvent() 方法，得到伪代码如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">dispatchTouchEvent</span><span class="params">(ev: <span class="type">MotionEvent</span>?)</span></span>: <span class="built_in">Boolean</span> &#123;</div><div class="line">    ev?.run &#123;</div><div class="line">        <span class="keyword">when</span>(action)&#123;</div><div class="line">            MotionEvent.ACTION_DOWN -&gt; parent.requestDisallowInterceptTouchEvent(<span class="literal">true</span>)</div><div class="line">            MotionEvent.ACTION_MOVE -&gt;&#123;</div><div class="line">                <span class="keyword">if</span>(满足需要让外部容器拦截事件)&#123;</div><div class="line">                    parent.requestDisallowInterceptTouchEvent(<span class="literal">false</span>)</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.dispatchTouchEvent(ev)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>我们给父容器的 requestDisallowInterceptTouchEvent() 传递的参数代表是否不允许其拦截事件，当参数为 true 的时候代表不允许拦截，为 false 的时候代表拦截。所以看起来和外部拦截法也就如出一辙了。</p>
+</li>
+<li>不过仅仅有这点修改还不够，我们通过前面的理论基础知道，当我们的父容器拦截掉 ACTION_DOWN 事件的时候，所有的事件都无法再传递到子元素中，自然也就不会调用上面我们写的 dispatchTouchEvent() 方法了。所以我们在内部拦截法的时候还需要重写父容器的 onInterceptTouchEvent() 方法。<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"> <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onInterceptTouchEvent</span><span class="params">(ev: <span class="type">MotionEvent</span>?)</span></span>: <span class="built_in">Boolean</span> &#123;</div><div class="line">    ev?.run &#123;</div><div class="line">        <span class="keyword">if</span> (action == MotionEvent.ACTION_DOWN)&#123;</div><div class="line">            <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.onInterceptTouchEvent(ev)</div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.846Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/每日一问笔记/">每日一问笔记</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔记/">笔记</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/面试/">面试</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/35340/&title=《Android每日一问笔记-对于事件分发，嵌套滚动的了解》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/35340/&title=《Android每日一问笔记-对于事件分发，嵌套滚动的了解》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/35340/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android每日一问笔记-对于事件分发，嵌套滚动的了解》 — Sorgs&url=http://sorgs.cn/post/35340/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/35340/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/39723/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Android每日一问笔记-View中的getContext一定返回的是Activity对象吗？</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/7510/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Android中JNI调用第三方so以及头文件方式</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/35340/&title=《Android每日一问笔记-对于事件分发，嵌套滚动的了解》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/35340/&title=《Android每日一问笔记-对于事件分发，嵌套滚动的了解》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/35340/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android每日一问笔记-对于事件分发，嵌套滚动的了解》 — Sorgs&url=http://sorgs.cn/post/35340/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/35340/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAAByElEQVR42u3aQWoDMQwF0Nz/0imULgKNp1+W7UzheTVMQvyUhbAkPx7xen6v38+vb17X6NPRm8ULFxe3zX1erhExhybfTwy4uLjnuUnyGgWQBJNwrw24uLj35CZJ5/r4MhcwLi7unbnJZgkaFxf3v3CT4meumLkuhDbWari4uA1up2G66vlQfxcXF7c9lag2N68bIp19f34HFxf3CDc5fCTbJEVL9Qg1THO4uLjHudXypnP9Ii+EcHFxP8VNSpG5yxadsc2bN7i4uJu5yagjb57OhVfYBRcX9yC3OjJZVRTlR583XRxcXNwj3Cp9LnklGak8DcbFxV3KTbasTjyr45ZlE2BcXNwN3LwZmkBXHZiGgeHi4m7jdpoda+9N4eLi3pOb9yTnBq5zb3Bxcc9z8yKkOg7pBPnHvri4uJu5nbZmtUlaDR4XF/ez3E7ammupTLZucXFxD3L7LdG8gZKUSYV7Xri4uBu4a2eahblNEHb+p+Di4u7gzg088qsY+WWsKGBcXNyD3CTRVAubfvFTnvHi4uIe5849zyWy8pAVFxf3Bty5QUvrcIOLi3uc27k80QmjmjpxcXHPcDsVR/VqV96QxcXF/RD3C6X5/DNFm3a+AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

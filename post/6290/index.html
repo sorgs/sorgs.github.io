@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/6290/">
+    
+    
+    <title>Windows网络编程-简单的多线程聊天室 | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Windows网络编程,聊天室,多线程">
+    <meta name="description" content="实验室系统：Windows10实验室IDE：VS2012 创建MFC文件项目文件-&amp;gt;新建-&amp;gt;项目                                                                                                            然后根据图片进行操作">
+<meta name="keywords" content="Windows网络编程,聊天室,多线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows网络编程-简单的多线程聊天室">
+<meta property="og:url" content="http://sorgs.cn/post/6290/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="实验室系统：Windows10实验室IDE：VS2012 创建MFC文件项目文件-&amp;gt;新建-&amp;gt;项目                                                                                                            然后根据图片进行操作">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125124944150">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125125500692">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125125508873">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125125549529">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125125559271">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125125606014">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125125835477">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125130144141">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125130414157">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125130529361">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125180252352">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125181118261">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125183505959">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125183549960">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125184101295">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125184423073">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125185505045">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125185849819">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125191638297">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125204202203">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125204533783">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125204712572">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125205034629">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125205338235">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125205535113">
+<meta property="og:image" content="http://img.blog.csdn.net/20161125205716444">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.856Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Windows网络编程-简单的多线程聊天室">
+<meta name="twitter:description" content="实验室系统：Windows10实验室IDE：VS2012 创建MFC文件项目文件-&amp;gt;新建-&amp;gt;项目                                                                                                            然后根据图片进行操作">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20161125124944150">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Windows网络编程-简单的多线程聊天室</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Windows网络编程-简单的多线程聊天室</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-11-25T13:05:20.000Z" itemprop="datePublished" class="page-time">
+  2016-11-25
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Windows网络编程/">Windows网络编程</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#创建MFC文件项目"><span class="post-toc-number">1.</span> <span class="post-toc-text">创建MFC文件项目</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#添加控件"><span class="post-toc-number">2.</span> <span class="post-toc-text">添加控件</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#编写代码"><span class="post-toc-number">3.</span> <span class="post-toc-text">编写代码</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#加载套接字数据库"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">加载套接字数据库</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#然后我们去写初始化的函数体"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">然后我们去写初始化的函数体</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#接收端"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">接收端</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#定义套接字的指针"><span class="post-toc-number">3.3.1.</span> <span class="post-toc-text">定义套接字的指针</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Threadpro"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">Threadpro</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#发送消息的函数"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">发送消息的函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#消息响应"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">消息响应</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#消息映射"><span class="post-toc-number">3.7.</span> <span class="post-toc-text">消息映射</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#优化控件"><span class="post-toc-number">4.</span> <span class="post-toc-text">优化控件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使显示框分行"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">使显示框分行</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#按钮回车发送和不显示按钮"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">按钮回车发送和不显示按钮</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#测试"><span class="post-toc-number">5.</span> <span class="post-toc-text">测试</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Windows网络编程-简单的多线程聊天室"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Windows网络编程-简单的多线程聊天室</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-11-25 21:05:20" datetime="2016-11-25T13:05:20.000Z"  itemprop="datePublished">2016-11-25</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Windows网络编程/">Windows网络编程</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>实验室系统：Windows10<br>实验室IDE：VS2012</p>
+<h1 id="创建MFC文件项目"><a href="#创建MFC文件项目" class="headerlink" title="创建MFC文件项目"></a>创建MFC文件项目</h1><p>文件-&gt;新建-&gt;项目</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125124944150" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>然后根据图片进行操作</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125125500692" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125125508873" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125125549529" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125125559271" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125125606014" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>注意的地方：<br>1.取消union库<br>2.勾选上Windows套接字，让系统自动帮我们生成<br>3.选择Dlog</p>
+<h1 id="添加控件"><a href="#添加控件" class="headerlink" title="添加控件"></a>添加控件</h1><p>点开工具箱</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125125835477" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>建立两个主框，一个用来接收数据，一个用来发送数据</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125130144141" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>再在主框里面建立3个edit，一个用来显示发送来的数据，一个用来显示自己发送的数据，下面那个用来显示要发送的数据</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125130414157" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>最后删掉原有，并加一个按钮为发送，添加一个ip控制</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125130529361" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h1 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h1><h2 id="加载套接字数据库"><a href="#加载套接字数据库" class="headerlink" title="加载套接字数据库"></a>加载套接字数据库</h2><p>先手到我们的cpp中，因为我们之前选择了Windows套接字库，所以会给我们生成好</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125180252352" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>我们也可以让系统提示我们是否加载失败</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">CWinApp::InitInstance();  <span class="comment">//去加载套接字库，需要包含一个Afxsock.h的头文件，就不需要去链接套接字库  </span></div><div class="line">  </div><div class="line">    <span class="keyword">if</span> (!AfxSocketInit())  </div><div class="line">    &#123;  </div><div class="line">        AfxMessageBox(<span class="string">"Load socket"</span>); <span class="comment">//利用AfxMessageBox弹出提示  </span></div><div class="line">        <span class="keyword">return</span> FALSE;  </div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>接着我们去查看是包含了头文件</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125181118261" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>看到这个说明没有问题<br>然后我们去头文件中去定义。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125183505959" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h2 id="然后我们去写初始化的函数体"><a href="#然后我们去写初始化的函数体" class="headerlink" title="然后我们去写初始化的函数体"></a>然后我们去写初始化的函数体</h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125183549960" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">BOOL CSorgsDlg::InitSocket()&#123;  <span class="comment">//套接字本身的初始化  </span></div><div class="line">    <span class="comment">//指定地址族，类型（给予UDT的数据包套接字），0(系统自己选择合适的协议)  </span></div><div class="line">    msocket = socket(AF_INET,SOCK_DGRAM,<span class="number">0</span>);<span class="comment">//msocket：私有权限的套接字描述符  </span></div><div class="line">  </div><div class="line">    <span class="keyword">if</span> (INVALID_SOCKET == msocket) <span class="comment">//判断套接字是否创建失败  </span></div><div class="line">    &#123;  </div><div class="line">        MessageBox(<span class="string">"create socket false"</span>);  </div><div class="line">        <span class="keyword">return</span> FALSE;  </div><div class="line">    &#125;  </div><div class="line">    <span class="comment">//作为接收端，需要绑定端口和地址上  </span></div><div class="line">    SOCKADDR_IN acceptSock; <span class="comment">//定义地址结构体的变量  </span></div><div class="line">    acceptSock.sin_family = AF_INET;  <span class="comment">//地址族  </span></div><div class="line">    acceptSock.sin_port = htons(<span class="number">6000</span>);<span class="comment">//设定端口 用htons转换  </span></div><div class="line">    acceptSock.sin_addr.S_un.S_addr = htonl(INADDR_ANY); <span class="comment">//接受发送到本地任何IP地址的数据 htonl转换  </span></div><div class="line">  </div><div class="line">    <span class="comment">//进行绑定  </span></div><div class="line">    <span class="keyword">int</span> retval = <span class="number">0</span>; <span class="comment">//定义整理变量用来判断  </span></div><div class="line">    bind(msocket,(SOCKADDR *)&amp;acceptSock,<span class="keyword">sizeof</span>(SOCKADDR));  </div><div class="line">    <span class="keyword">if</span> (SOCKET_ERROR == retval)  </div><div class="line">    &#123;  </div><div class="line">        closesocket(msocket); <span class="comment">//关闭套接字  </span></div><div class="line">        MessageBox(<span class="string">"bind false"</span>);  </div><div class="line">        <span class="keyword">return</span> FALSE;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="keyword">return</span> TRUE;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>写完了我们的函数，我们需要去设置加载它的地方。</p>
+<p>在这个函数中去调用我么的初始化套接字函数<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">BOOL CSorgsChatDlg::OnInitDialog()</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125184101295" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h2 id="接收端"><a href="#接收端" class="headerlink" title="接收端"></a>接收端</h2><p>现在开始接收端的程序，为解决CreateThread中的LPVOID只能传递一个参数值的问题，我们首先去头文件穿件一个一个结构体</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125184423073" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//定义结构体,解决CreateThread中的LPVOID只能传递一个参数值的问题  </span></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">RECVPARAM</span>  </span></div><div class="line">&#123;  </div><div class="line">    SOCKET sock;<span class="comment">//定义一个套接字类型的变量  </span></div><div class="line">    HWND hwnd;<span class="comment">//定义一个窗口类型的变量  </span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h3 id="定义套接字的指针"><a href="#定义套接字的指针" class="headerlink" title="定义套接字的指针"></a>定义套接字的指针</h3><p>接下来去定义套接字的指针和串口句柄（现在刚刚调用初始化套接字函数的下面）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125185505045" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">RECVPARAM *mRecvParam = <span class="keyword">new</span> RECVPARAM; <span class="comment">//定义一个指针  </span></div><div class="line">mRecvParam-&gt;sock = msocket; <span class="comment">//初始化我们创建的套接字  </span></div><div class="line">mRecvParam-&gt;hwnd = m_hWnd; <span class="comment">//初始化我们窗口 mhWnd里面保存了和这个类相关的窗口的句柄  </span></div><div class="line">  </div><div class="line"><span class="comment">//调用CteateThread常见线程  </span></div><div class="line"><span class="comment">//NULL,0：和调用线程使用一样的大小,线程函数的地址，（强转）参数，创建的标记（一旦创建立即运行），线程ID  </span></div><div class="line">HANDLE mThread = CreateThread(<span class="literal">NULL</span>,<span class="number">0</span>,Threadpro,(LPVOID)mRecvParam,<span class="number">0</span>,<span class="literal">NULL</span>);  </div><div class="line">CloseHandle(mThread); <span class="comment">//将线程句柄关闭 同时递减线程类和对象的使用基数</span></div></pre></td></tr></table></figure>
+<p>为了使用完全使用面向对象的方式，我们去头文件进行定义</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125185849819" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//当创建线程的时候。运行时代码需要去调用这个线程函数从而启动线程  </span></div><div class="line"><span class="comment">//而我们为了不设置为全局函数设置为CSorgsChatDlg类的成员函数（完全面向对象的思想编程）  </span></div><div class="line"><span class="comment">//而要想调用这个成员函数，必须去定义一个CSorgsChatDlg的对象  </span></div><div class="line"><span class="comment">//对于运行时代码来说，并不知道要定义那个对象或者说不知道怎么去定义  </span></div><div class="line"><span class="comment">//所以我们就像这个成员函数设置为静态  </span></div><div class="line"><span class="function"><span class="keyword">static</span> DWORD WINAPI <span class="title">Threadpro</span><span class="params">(LPVOID mlpvpid)</span></span>; <span class="comment">//定义为静态，不属于那一个对象，只属于这个类本身</span></div></pre></td></tr></table></figure>
+<h2 id="Threadpro"><a href="#Threadpro" class="headerlink" title="Threadpro"></a>Threadpro</h2><p>然后开始编写Threadpro函数体</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125191638297" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h2 id="发送消息的函数"><a href="#发送消息的函数" class="headerlink" title="发送消息的函数"></a>发送消息的函数</h2><p>然后就是去编写发送消息的函数<br>先去我们的MFC界面双击发送按钮，生成点击事件按钮<br>并右键属性，去知道我们的显示发送和显示接收数据的ID号</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125204202203" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> CSorgsDlg::OnBnClickedButton1()  </div><div class="line">&#123;  </div><div class="line">    DWORD dwIP;  </div><div class="line">    ((CIPAddressCtrl*)GetDlgItem(IDC_IPADDRESS1))-&gt;GetAddress(dwIP);<span class="comment">//IP控件的ID  </span></div><div class="line">  </div><div class="line">    SOCKADDR_IN ToSock;<span class="comment">//定义地址结构体变量  </span></div><div class="line">    ToSock.sin_family = AF_INET;  <span class="comment">//地址族  </span></div><div class="line">    ToSock.sin_port = htons(<span class="number">6000</span>);<span class="comment">//设定端口 用htons转换  </span></div><div class="line">    ToSock.sin_addr.S_un.S_addr= htonl(dwIP);  </div><div class="line">  </div><div class="line">    CString strSend;  </div><div class="line">  </div><div class="line">    GetDlgItemText(IDC_EDIT4,strSend);<span class="comment">//发送框里面ID，获取里面的内容  </span></div><div class="line">  </div><div class="line">    <span class="comment">//套接字，发送的buffer,长度（多发送一个字节），标记，地址结构体的指针，地址结构体的长度  </span></div><div class="line">    sendto(msocket,strSend,strSend.GetLength()+<span class="number">1</span>,<span class="number">0</span>,(SOCKADDR*)&amp;ToSock,<span class="keyword">sizeof</span>(SOCKADDR));<span class="comment">//发送  </span></div><div class="line">  </div><div class="line">    SetDlgItemText(IDC_EDIT4,<span class="string">""</span>);<span class="comment">//发送之后将发送框的内容置空  </span></div><div class="line">  </div><div class="line">    <span class="comment">//显示自己发送框的数据设置  </span></div><div class="line">    CString strto;  </div><div class="line">    GetDlgItemText(IDC_EDIT3,strto);<span class="comment">//获取文本，ID号，存放数据的地方  </span></div><div class="line">    strto +=<span class="string">"\r\n"</span>; <span class="comment">//增加换行  </span></div><div class="line">    strto +=<span class="string">"帅帅的自己说:"</span>;  </div><div class="line">    strto += strSend;  </div><div class="line">    SetDlgItemText(IDC_EDIT3,strto);<span class="comment">//将数据放回编辑框  </span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="消息响应"><a href="#消息响应" class="headerlink" title="消息响应"></a>消息响应</h2><p>然后我们在去编写消息响应函数<br>在头文件中写入函数声明</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125204533783" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h2 id="消息映射"><a href="#消息映射" class="headerlink" title="消息映射"></a>消息映射</h2><p>然后去编写消息映射</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125204712572" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>然后去写函数体</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125205034629" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//消息响应函数  </span></div><div class="line"><span class="comment">//LRESULT，32位整形数，常常用于回调函数  </span></div><div class="line">LRESULT CSorgsDlg::MRecvData(WPARAM wParam,LPARAM lParam)&#123;  </div><div class="line">    CString str = (<span class="keyword">char</span>*)lParam;  </div><div class="line">    CString strTemp;<span class="comment">//接收久的数据   </span></div><div class="line">  </div><div class="line">    GetDlgItemText(IDC_EDIT2,strTemp);<span class="comment">//获取显示发送框ID号，存放数据的地方  </span></div><div class="line">  </div><div class="line">    str += <span class="string">"\r\n"</span>; <span class="comment">//增加换行  </span></div><div class="line">    str +=strTemp;  </div><div class="line">  </div><div class="line">    SetDlgItemText(IDC_EDIT2,str);<span class="comment">//将数据放回编辑框  </span></div><div class="line">  </div><div class="line">  </div><div class="line">    <span class="keyword">return</span> TRUE;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>自此，我们代码编写完毕</p>
+<h1 id="优化控件"><a href="#优化控件" class="headerlink" title="优化控件"></a>优化控件</h1><h2 id="使显示框分行"><a href="#使显示框分行" class="headerlink" title="使显示框分行"></a>使显示框分行</h2><p>右键属性把Multiline设置为true</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125205338235" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h2 id="按钮回车发送和不显示按钮"><a href="#按钮回车发送和不显示按钮" class="headerlink" title="按钮回车发送和不显示按钮"></a>按钮回车发送和不显示按钮</h2><p>右键按钮属性</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125205535113" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>这里我们使用127.0.0.1回环地址进行测试</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161125205716444" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>这样就说明没有问题了</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.856Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Windows网络编程/">Windows网络编程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/多线程/">多线程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/聊天室/">聊天室</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/6290/&title=《Windows网络编程-简单的多线程聊天室》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/6290/&title=《Windows网络编程-简单的多线程聊天室》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/6290/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Windows网络编程-简单的多线程聊天室》 — Sorgs&url=http://sorgs.cn/post/6290/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/6290/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/36822/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Android studio 报错 error opening trace file: Permission denied (13)</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/6825/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Android两个android两个activity之间相互传递数据之装备选择（书上案例）</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/6290/&title=《Windows网络编程-简单的多线程聊天室》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/6290/&title=《Windows网络编程-简单的多线程聊天室》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/6290/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Windows网络编程-简单的多线程聊天室》 — Sorgs&url=http://sorgs.cn/post/6290/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/6290/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAAAAAAZai4+AAABT0lEQVR42u3aMRLDIAxEUe5/adKmgexKUIT9VB6PxzwXloRgDHnM7Vg9+X1n3BiwYD3EUqacwti/2f08WLAyWauXKtf9YAELFiyX5SZgWLBg3QsQe6hyDQsWrFrR7CKU1H6glocF6wlWJ912gsKx/hYsWH/OmuY4tcT9MQssWGEs/Qd202rneViw0lhKe0gvpvdLXKURDAtWJmvfGOpwO2+GBSuNpRwUqB0+0FvARu0AC1YAq3Y4wJhMbzDBghXG0sOEO7FbQC+LZliwgll6mdvapNSjFyxYwax+CNCbR9IiFhasAFYtuRo/vBtoYMGKYdWOAihLU3fLExasZJZb2urlci24FCtuWLCeYOlBQS9/lfvSFgssWGGs2k+ub8m4AQgWLFi1FOuCWtucsGDFs/qLWymswIIVyboxmd4ChgULVi2tukd5Dne2YMF6h/UBQFk1/QhCCRMAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

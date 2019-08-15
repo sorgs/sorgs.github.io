@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/388/">
+    
+    
+    <title>自定义签到的步骤View | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android开发,自定义View,动画">
+    <meta name="description" content="*本篇文章已授权微信公众号 guolin_blog （郭霖）独家发布  引言涉及到一个签到的步骤view 需求：以七天为周天，执行当天签到需要一个动画效果；签到前灰色，签到后变为绿色；每天加的分数不一定，第三天和第七天加的比较多，分数签到完成为橙色，有up标签。  效果图：">
+<meta name="keywords" content="Android开发,自定义View,动画">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义签到的步骤View">
+<meta property="og:url" content="http://sorgs.cn/post/388/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="*本篇文章已授权微信公众号 guolin_blog （郭霖）独家发布  引言涉及到一个签到的步骤view 需求：以七天为周天，执行当天签到需要一个动画效果；签到前灰色，签到后变为绿色；每天加的分数不一定，第三天和第七天加的比较多，分数签到完成为橙色，有up标签。  效果图：">
+<meta property="og:image" content="http://pic.sorgs.cn/stepView.gif">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.861Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自定义签到的步骤View">
+<meta name="twitter:description" content="*本篇文章已授权微信公众号 guolin_blog （郭霖）独家发布  引言涉及到一个签到的步骤view 需求：以七天为周天，执行当天签到需要一个动画效果；签到前灰色，签到后变为绿色；每天加的分数不一定，第三天和第七天加的比较多，分数签到完成为橙色，有up标签。  效果图：">
+<meta name="twitter:image" content="http://pic.sorgs.cn/stepView.gif">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">自定义签到的步骤View</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">自定义签到的步骤View</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-08-19T07:46:52.000Z" itemprop="datePublished" class="page-time">
+  2018-08-19
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android开发/">Android开发</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#引言"><span class="post-toc-number">1.</span> <span class="post-toc-text">引言</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#分析"><span class="post-toc-number">2.</span> <span class="post-toc-text">分析</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#封装状态bean"><span class="post-toc-number">3.</span> <span class="post-toc-text">封装状态bean</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#初始化"><span class="post-toc-number">4.</span> <span class="post-toc-text">初始化</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#测量"><span class="post-toc-number">5.</span> <span class="post-toc-text">测量</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#传值"><span class="post-toc-number">6.</span> <span class="post-toc-text">传值</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#绘制"><span class="post-toc-number">7.</span> <span class="post-toc-text">绘制</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#调用"><span class="post-toc-number">8.</span> <span class="post-toc-text">调用</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#结语"><span class="post-toc-number">9.</span> <span class="post-toc-text">结语</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-自定义签到的步骤View"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">自定义签到的步骤View</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-08-19 15:46:52" datetime="2018-08-19T07:46:52.000Z"  itemprop="datePublished">2018-08-19</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android开发/">Android开发</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>*本篇文章已授权微信公众号 guolin_blog （郭霖）独家发布</p>
+</blockquote>
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>涉及到一个签到的步骤view</p>
+<p>需求：以七天为周天，执行当天签到需要一个动画效果；签到前灰色，签到后变为绿色；每天加的分数不一定，第三天和第七天加的比较多，分数签到完成为橙色，有up标签。</p>
+<ul>
+<li>效果图：<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://pic.sorgs.cn/stepView.gif" alt="-" title="">
+                </div>
+                <div class="image-caption">-</div>
+            </figure>
+</li>
+</ul>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><ul>
+<li>首先是把该绘制的东西绘制到画布上，这点没什么好说，上一遍博客差不多说了怎么去绘制。</li>
+<li>先根据数据绘制出静态的东西。把未签到的东西全部绘制完毕。</li>
+<li>然后开始绘制动画。处理动画的方式，利用postInvalidate()引起重绘，每次画一点点的橙色进度，后面部分绘制为未签到的灰色。每次更新增加一点点橙色的进度，这样在快速的情况下，就是一个连续的动画效果</li>
+</ul>
+<h1 id="封装状态bean"><a href="#封装状态bean" class="headerlink" title="封装状态bean"></a>封装状态bean</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">StepBean</span><span class="params">(<span class="keyword">int</span> state, <span class="keyword">int</span> number)</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>.state = state;</div><div class="line">    <span class="keyword">this</span>.number = number;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>state：封装了3个状态，代表已完成签到，当前进行的签到，和未签到</li>
+<li>number：封装添加的分数</li>
+</ul>
+<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><ul>
+<li>把一些具体的画笔，资源文件等初始化出来<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//已经完成的icon</span></div><div class="line">mCompleteIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_sign_finish);</div><div class="line"><span class="comment">//正在进行的icon</span></div><div class="line">mAttentionIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_sign_unfinish);</div><div class="line"><span class="comment">//未完成的icon</span></div><div class="line">mDefaultIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_sign_unfinish);</div><div class="line"><span class="comment">//UP的icon</span></div><div class="line">mUpIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_sign_up);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>初始化一些paint就不再介绍，这里就说下初始化Drawable文件，利用ContextCompat.getDrawable()把资源文件引入。因为未签到和当前签到都是属于还没有签到，所以都是展示没有签到的图标。</p>
+<h1 id="测量"><a href="#测量" class="headerlink" title="测量"></a>测量</h1><ul>
+<li><p>onMeasure():这里没有太多操作，仅仅把值设置下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.getSize(heightMeasureSpec));</div></pre></td></tr></table></figure>
+</li>
+<li><p>onSizeChanged（）:这里操作就多了一些，主要是需要确定下来图标绘制的位置，已经线段的位置。（这里的说是线段，其实就是当矩形来绘制），注释已经写了很清楚，这里不多做说明了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//图标的中中心Y点</span></div><div class="line">mCenterY = CalcUtils.dp2px(getContext(), <span class="number">28f</span>) + mIconHeight / <span class="number">2</span>;</div><div class="line"><span class="comment">//获取左上方Y的位置，获取该点的意义是为了方便画矩形左上的Y位置</span></div><div class="line">mLeftY = mCenterY - (mCompletedLineHeight / <span class="number">2</span>);</div><div class="line"><span class="comment">//获取右下方Y的位置，获取该点的意义是为了方便画矩形右下的Y位置</span></div><div class="line">mRightY = mCenterY + mCompletedLineHeight / <span class="number">2</span>;</div><div class="line"><span class="comment">//计算图标中心点</span></div><div class="line">mCircleCenterPointPositionList.clear();</div><div class="line"><span class="comment">//第一个点距离父控件左边14.5dp</span></div><div class="line"><span class="keyword">float</span> size = mIconWeight / <span class="number">2</span> + CalcUtils.dp2px(getContext(), <span class="number">14.5f</span>);</div><div class="line">mCircleCenterPointPositionList.add(size);</div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; mStepNum; i++) &#123;</div><div class="line">    <span class="comment">//从第二个点开始，每个点距离上一个点为图标的宽度加上线段的23dp的长度</span></div><div class="line">    size = size + mIconWeight + mLineWeight;</div><div class="line">    mCircleCenterPointPositionList.add(size);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="传值"><a href="#传值" class="headerlink" title="传值"></a>传值</h1><p>这里对外界暴露了一个方法，传入封装好的bean的List<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 设置流程步数</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> stepsBeanList 流程步数</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setStepNum</span><span class="params">(List&lt;StepBean&gt; stepsBeanList)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (stepsBeanList == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    mStepBeanList = stepsBeanList;</div><div class="line">    mStepNum = mStepBeanList.size();</div><div class="line">    <span class="comment">//找出最大的两个值的位置</span></div><div class="line">    mMax = CalcUtils.findMax(stepsBeanList);</div><div class="line">    <span class="comment">//引起重绘</span></div><div class="line">    postInvalidate();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>值传递进来之后调用postInvalidate()方法,引起重绘，调用draw()方法，进行再次绘制。并且把List里面的最大两个值的位置找出来，在后面方便设置UP标志。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 寻到最大两个值的位置</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] findMax(List&lt;StepBean&gt; steps) &#123;</div><div class="line">    <span class="keyword">int</span>[] value = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</div><div class="line">    <span class="keyword">int</span>[] position = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</div><div class="line">    <span class="keyword">int</span> temValue;</div><div class="line">    <span class="keyword">int</span> temPosition;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; steps.size(); i++) &#123;</div><div class="line">        <span class="keyword">if</span> (steps.get(i).getNumber() &gt; value[<span class="number">1</span>]) &#123;</div><div class="line">            <span class="comment">//比较出大的放到value[0]中</span></div><div class="line">            value[<span class="number">1</span>] = steps.get(i).getNumber();</div><div class="line">            position[<span class="number">1</span>] = i;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (value[<span class="number">1</span>] &gt; value[<span class="number">0</span>]) &#123;</div><div class="line">            <span class="comment">//把最大的放到value[0]中,交换位置</span></div><div class="line">            temValue = value[<span class="number">0</span>];</div><div class="line">            value[<span class="number">0</span>] = value[<span class="number">1</span>];</div><div class="line">            value[<span class="number">1</span>] = temValue;</div><div class="line">            temPosition = position[<span class="number">0</span>];</div><div class="line">            position[<span class="number">0</span>] = position[<span class="number">1</span>];</div><div class="line">            position[<span class="number">1</span>] = temPosition;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> position;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>寻找最大值，我的想法是通过一次循环找出来，采用一个数组存储的方式，时间复杂度为O(n)。可能方法并非最优，如果有更好的方式的欢迎指教~！</p>
+<h1 id="绘制"><a href="#绘制" class="headerlink" title="绘制"></a>绘制</h1><blockquote>
+<p>绘制我这里分为了两步，第一步，是传入值之后，便绘制出签到之前的View，也就是静态的。然后提供一个方法暴露出去，待调用的时候开始执行签到动画，完成动态的绘制</p>
+</blockquote>
+<ul>
+<li>绘制签到之前的View<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (isAnimation) &#123;</div><div class="line">    drawSign(canvas);</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    drawUnSign(canvas);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在onDraw()方法里面，我使用isAnimation，默认为false，调用绘制未签到状态的View，待调用执行动画方法时候为true，执行另一个方法。</p>
+<ul>
+<li>绘制线段<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//绘制线段</span></div><div class="line"><span class="keyword">float</span> preComplectedXPosition = mCircleCenterPointPositionList.get(i) + mIconWeight / <span class="number">2</span>;</div><div class="line"><span class="keyword">if</span> (i != mCircleCenterPointPositionList.size() - <span class="number">1</span>) &#123;</div><div class="line">    <span class="comment">//最后一条不需要绘制</span></div><div class="line">    <span class="keyword">if</span> (mStepBeanList.get(i + <span class="number">1</span>).getState() == StepBean.STEP_COMPLETED) &#123;</div><div class="line">        <span class="comment">//下一个是已完成，当前才需要绘制绿色</span></div><div class="line">        canvas.drawRect(preComplectedXPosition, mLeftY, preComplectedXPosition + mLineWeight,</div><div class="line">                mRightY, mCompletedPaint);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">//其余绘制灰色</span></div><div class="line">        canvas.drawRect(preComplectedXPosition, mLeftY, preComplectedXPosition + mLineWeight,</div><div class="line">                mRightY, mUnCompletedPaint);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">``` </div><div class="line">我们在mCircleCenterPointPositionList里面存储了签到每个步骤的图标中心点X坐标。那么就拿出来，进行绘制。</div><div class="line">     - 线段是比图标少一个的，那么可以少画第一条或者少画最后一条(相对图标)。我采取的是最后一条不绘制。那么每条线段就在每个步骤图标的后面，获取到图标的中线点X坐标，加上图标宽度的一般，就是该线段的X坐标。其余的根据已经固定的Y坐标和线段长度绘制便可。这里主要是根据当前状态，不是已经签到了，则绘制为灰色，已经签到才绘制为绿色。</div><div class="line"> - 绘制图标</div><div class="line">``` Java</div><div class="line"><span class="comment">//绘制图标</span></div><div class="line"><span class="keyword">float</span> currentComplectedXPosition = mCircleCenterPointPositionList.get(i);</div><div class="line">Rect rect = <span class="keyword">new</span> Rect((<span class="keyword">int</span>) (currentComplectedXPosition - mIconWeight / <span class="number">2</span>),</div><div class="line">        (<span class="keyword">int</span>) (mCenterY - mIconHeight / <span class="number">2</span>),</div><div class="line">        (<span class="keyword">int</span>) (currentComplectedXPosition + mIconWeight / <span class="number">2</span>),</div><div class="line">        (<span class="keyword">int</span>) (mCenterY + mIconHeight / <span class="number">2</span>));</div><div class="line">StepBean stepsBean = mStepBeanList.get(i);</div><div class="line"><span class="keyword">if</span> (stepsBean.getState() == StepBean.STEP_UNDO) &#123;</div><div class="line">    mDefaultIcon.setBounds(rect);</div><div class="line">    mDefaultIcon.draw(canvas);</div><div class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (stepsBean.getState() == StepBean.STEP_CURRENT) &#123;</div><div class="line">    mAttentionIcon.setBounds(rect);</div><div class="line">    mAttentionIcon.draw(canvas);</div><div class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (stepsBean.getState() == StepBean.STEP_COMPLETED) &#123;</div><div class="line">    mCompleteIcon.setBounds(rect);</div><div class="line">    mCompleteIcon.draw(canvas);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>对于图标的绘制，也是非常简单的计算，既然已经获取到了每个图标的中心X坐标，那么根据图标的大小计算出左上角和右下角，然后根据state绘制即可。</p>
+<ul>
+<li>绘制分数<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//绘制增加的分数数目</span></div><div class="line"><span class="keyword">if</span> (stepsBean.getState() == StepBean.STEP_COMPLETED) &#123;</div><div class="line">    <span class="comment">//已经完成了</span></div><div class="line">    <span class="keyword">if</span> (i == mMax[<span class="number">0</span>] || i == mMax[<span class="number">1</span>]) &#123;</div><div class="line">        <span class="comment">//是up的需要橙色</span></div><div class="line">        mTextNumberPaint.setColor(mCurrentTextColor);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">//普通完成的颜色</span></div><div class="line">        mTextNumberPaint.setColor(mCompletedLineColor);</div><div class="line">    &#125;</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">//还没签到的，颜色均为灰色</span></div><div class="line">    mTextNumberPaint.setColor(mUnCompletedLineColor);</div><div class="line">&#125;</div><div class="line">canvas.drawText(<span class="string">"+"</span> + stepsBean.getNumber(),</div><div class="line">        currentComplectedXPosition + CalcUtils.dp2px(getContext(), <span class="number">2f</span>),</div><div class="line">        mCenterY - mIconHeight / <span class="number">2</span> - CalcUtils.dp2px(getContext(), <span class="number">0.5f</span>),</div><div class="line">        mTextNumberPaint);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>对于分数，就依附在每个图标的上方，根据设计师给的标注，找出文本的左下角坐标(默认文本绘制是文本的左下角坐标)绘制。注意的是，要根据找出最大两个值的位置，如果是较大的两个，最需要为橙色</p>
+<ul>
+<li>绘制UP图标<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//绘制UP</span></div><div class="line"><span class="keyword">if</span> (i == mMax[<span class="number">0</span>] || i == mMax[<span class="number">1</span>]) &#123;</div><div class="line">    <span class="comment">//需要UP才进行绘制</span></div><div class="line">    Rect rectUp =</div><div class="line">            <span class="keyword">new</span> Rect((<span class="keyword">int</span>) (currentComplectedXPosition - mUpWeight / <span class="number">2</span>),</div><div class="line">                    (<span class="keyword">int</span>) (mCenterY - mIconHeight / <span class="number">2</span> - CalcUtils.dp2px(getContext(), <span class="number">8f</span>) - mUpHeight),</div><div class="line">                    (<span class="keyword">int</span>) (currentComplectedXPosition + mUpWeight / <span class="number">2</span>),</div><div class="line">                    (<span class="keyword">int</span>) (mCenterY - mIconHeight / <span class="number">2</span> - CalcUtils.dp2px(getContext(), <span class="number">8f</span>)));</div><div class="line">    mUpIcon.setBounds(rectUp);</div><div class="line">    mUpIcon.draw(canvas);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Up图标的绘制依附在增加的分数上面，也是根据较大两个值的位置绘制，计算出左上角和右下角进行绘制。</p>
+<ul>
+<li>静态绘制完毕，就已经展示出来了未签到状态的View。<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 执行签到动画</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> position 执行的位置</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startSignAnimation</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">    <span class="comment">//线条从灰色变为绿色</span></div><div class="line">    isAnimation = <span class="keyword">true</span>;</div><div class="line">    mPosition = position;</div><div class="line">    <span class="comment">//引起重绘</span></div><div class="line">    postInvalidate();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>我这里暴露出执行动画的方法，将要执行动画的位置传入。（这里要传位置是因为后台数据所致，也是可以根据state位置自行找出）。将isAnimation赋值true,调用postInvalidate()，再次调用Drwa()方法进行绘制。</p>
+<ul>
+<li><p>绘制线段动画</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//绘制线段</span></div><div class="line"><span class="keyword">float</span> preComplectedXPosition = mCircleCenterPointPositionList.get(i) + mIconWeight / <span class="number">2</span>;</div><div class="line"><span class="keyword">if</span> (i != mCircleCenterPointPositionList.size() - <span class="number">1</span>) &#123;</div><div class="line">    <span class="comment">//最后一条不需要绘制</span></div><div class="line">    <span class="keyword">if</span> (mStepBeanList.get(i + <span class="number">1</span>).getState() == StepBean.STEP_COMPLETED) &#123;</div><div class="line">        <span class="comment">//下一个是已完成，当前才需要绘制绿色</span></div><div class="line">        canvas.drawRect(preComplectedXPosition, mLeftY, preComplectedXPosition + mLineWeight,</div><div class="line">                mRightY, mCompletedPaint);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">//其余绘制灰色</span></div><div class="line">        <span class="comment">//当前位置执行动画</span></div><div class="line">        <span class="keyword">if</span> (i == mPosition - <span class="number">1</span>) &#123;</div><div class="line">            <span class="comment">//绿色开始绘制的地方,</span></div><div class="line">            <span class="keyword">float</span> endX = preComplectedXPosition + mAnimationWeight * (mCount / ANIMATION_INTERVAL);</div><div class="line">            <span class="comment">//绘制绿色</span></div><div class="line">            canvas.drawRect(preComplectedXPosition, mLeftY, endX, mRightY, mCompletedPaint);</div><div class="line">            <span class="comment">//绘制灰色</span></div><div class="line">            canvas.drawRect(endX, mLeftY, preComplectedXPosition + mLineWeight,</div><div class="line">                    mRightY, mUnCompletedPaint);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            canvas.drawRect(preComplectedXPosition, mLeftY, preComplectedXPosition + mLineWeight,</div><div class="line">                    mRightY, mUnCompletedPaint);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>对于未签到和已经签到的和上面的绘制没有太多变，仅仅在当前签到位置执行动画效果</li>
+<li>定义mCount为整个动画执行分段的次数记录；ANIMATION_INTERVAL为每次动画执行的时间间隔，暂定10ms；mAnimationWeight为每次间隔中增加的长度。然后每次用根据是分度绘制的第几次算出绘制橙色的长度，然后根据线段长度减去这段长度算出灰色的长度，进行绘制。</li>
+</ul>
+</li>
+<li><p>绘制图标，文字，up动画</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (i == mPosition &amp;&amp; mCount == ANIMATION_TIME) &#123;</div><div class="line">    <span class="comment">//当前需要绘制成绿色了</span></div><div class="line">    mCompleteIcon.setBounds(rect);</div><div class="line">    mCompleteIcon.draw(canvas);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>对于这部分的绘制，变化不太多，因为需求是线段动画执行完毕，就把文本、图标变为绿色，如果是较大两个值的地方，则变为橙色(这部分代码没有太多粘贴，详情请见demo项目)</p>
+<ul>
+<li>计算动画执行的次数<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//记录重绘次数</span></div><div class="line">mCount = mCount + ANIMATION_INTERVAL;</div><div class="line"><span class="keyword">if</span> (mCount &lt;= ANIMATION_TIME) &#123;</div><div class="line">    <span class="comment">//引起重绘</span></div><div class="line">    postInvalidate();</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">//重绘完成</span></div><div class="line">    isAnimation = <span class="keyword">false</span>;</div><div class="line">    mCount = <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>维护了一个mCount，记录动画分段执行的次数，当值达到了要求的动画执行时间，变停止重绘，否则，调用postInvalidate()进行重绘，增加mCount的值。</p>
+<h1 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h1><ul>
+<li>在activity或者dialog等里面封装List，调用<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initData</span><span class="params">()</span> </span>&#123;</div><div class="line">    mStepBeans.add(<span class="keyword">new</span> StepBean(StepBean.STEP_COMPLETED, <span class="number">2</span>));</div><div class="line">    mStepBeans.add(<span class="keyword">new</span> StepBean(StepBean.STEP_COMPLETED, <span class="number">4</span>));</div><div class="line">    mStepBeans.add(<span class="keyword">new</span> StepBean(StepBean.STEP_CURRENT, <span class="number">10</span>));</div><div class="line">    mStepBeans.add(<span class="keyword">new</span> StepBean(StepBean.STEP_UNDO, <span class="number">2</span>));</div><div class="line">    mStepBeans.add(<span class="keyword">new</span> StepBean(StepBean.STEP_UNDO, <span class="number">4</span>));</div><div class="line">    mStepBeans.add(<span class="keyword">new</span> StepBean(StepBean.STEP_UNDO, <span class="number">4</span>));</div><div class="line">    mStepBeans.add(<span class="keyword">new</span> StepBean(StepBean.STEP_UNDO, <span class="number">30</span>));</div><div class="line">    mStepView.setStepNum(mStepBeans);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initListener</span><span class="params">()</span> </span>&#123;</div><div class="line">    mTvSign.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">            mStepView.startSignAnimation(<span class="number">2</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><ul>
+<li>这部分的自定义还是很简单，主要是对待动画处理上。之前拿到这个需求，完全不知道怎么去完成动画效果，请教之后才明白，就是不停的引起重绘完成。在原理上是每次多绘制一部分，但在视觉上因为快速（低于16ms）形成了动画(或许还有其他方式)。比如歌词同步也是差不多是这个原理。</li>
+<li>该部分自定义View很简单，但是我感觉到自己通过不断的学习慢慢在了解到更多的方式，欢迎各位尝试！</li>
+<li>代码已经放在GitHub，如果有帮助到您，希望不要忘记点颗小星星。<a href="https://github.com/sorgs/StepView" title="https://github.com/sorgs/StepView" target="_blank" rel="external">https://github.com/sorgs/StepView</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.861Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android开发/">Android开发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/动画/">动画</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自定义View/">自定义View</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/388/&title=《自定义签到的步骤View》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/388/&title=《自定义签到的步骤View》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/388/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《自定义签到的步骤View》 — Sorgs&url=http://sorgs.cn/post/388/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/388/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/2500/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">kotlin配合dagger2出现的问题</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/45123/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">一步步自定义一个封面选择框</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/388/&title=《自定义签到的步骤View》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/388/&title=《自定义签到的步骤View》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/388/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《自定义签到的步骤View》 — Sorgs&url=http://sorgs.cn/post/388/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/388/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAAAAAAZai4+AAABYUlEQVR42u3aQQ7DIAxE0dz/0lTqqlWFMx5DpeDPKkoj8lgUHNvXJY/xHp/Xv3eUXxcPWLAOYo1wKFPPWLN54mdgwerM8jaF2aTx9hG/CxYsWMrU0qTJeWDBguVtEPFhDwsWLI+lB7t6oPynWB4WrCNYXiLJu96e34IF64GskRzxsa3cl94CC1Yz1uwPrATHSrhcKr3AgtWGpbwgi/aC7K9nYMFqz/IaDvQCp/QRCwtWM1b2W1JJ43rxAixYnVnKpNnwul5ogQULlt7usypNPE0hwYLVjFVqC5AXkPgwhgWrGUsJf72yip78TfRBwIJ1KKu+JiU4Lp3hsGA1Y9Ub6bxK5c0GAQtWA5bXhOcd8Fv6BGHBOoilbwrKtbeA9O4FC9ahLL3JINtqkE7pwoIFSyhJriqx3MwACxasZLUxhuoLMI9qWLAOYmWTR3pS2GvXgwWrG6uSSPKut+e3YMF6EusFVtAsI3c1+xYAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

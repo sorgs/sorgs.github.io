@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/37302/">
+    
+    
+    <title>自己第一个Android作品，Android计算器 | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android开发">
+    <meta name="description" content="写此时为了记录自己的开发历程，方便以后的查询。二则运算（能力有限，也没有想往更深处写），菜鸟级别，代码为参考慕课网上，听课代码，并加上自己的理解和参考的一些博客！有问题的地方欢迎指正，感激不尽！开发工具为Android studio。（第一次写博客，可读性估计很差）">
+<meta name="keywords" content="Android开发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自己第一个Android作品，Android计算器">
+<meta property="og:url" content="http://sorgs.cn/post/37302/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="写此时为了记录自己的开发历程，方便以后的查询。二则运算（能力有限，也没有想往更深处写），菜鸟级别，代码为参考慕课网上，听课代码，并加上自己的理解和参考的一些博客！有问题的地方欢迎指正，感激不尽！开发工具为Android studio。（第一次写博客，可读性估计很差）">
+<meta property="og:image" content="http://img.blog.csdn.net/20160717155748879?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160717160159993?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160717160632972?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20160717161054349?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20160717163226751">
+<meta property="og:image" content="http://pic.sorgs.cn/349ebd550d3598f292948b7e70038878.png">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.862Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自己第一个Android作品，Android计算器">
+<meta name="twitter:description" content="写此时为了记录自己的开发历程，方便以后的查询。二则运算（能力有限，也没有想往更深处写），菜鸟级别，代码为参考慕课网上，听课代码，并加上自己的理解和参考的一些博客！有问题的地方欢迎指正，感激不尽！开发工具为Android studio。（第一次写博客，可读性估计很差）">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20160717155748879?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">自己第一个Android作品，Android计算器</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">自己第一个Android作品，Android计算器</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-11-16T00:40:48.000Z" itemprop="datePublished" class="page-time">
+  2016-11-16
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android开发/">Android开发</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#1-先是xml（UI吧）"><span class="post-toc-number">1.</span> <span class="post-toc-text">1.先是xml（UI吧）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-存放颜色"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1.存放颜色</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#建立xml"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">建立xml</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#（2）-orange-select-xml（select也是颜色不一样，内容差不多）"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">（2）.orange_select.xml（select也是颜色不一样，内容差不多）</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#2-然后是我们的Activity-代码都很简单，认真学了java都不会看不懂，而且注释很详细。只有几处需要解释下下的"><span class="post-toc-number">2.</span> <span class="post-toc-text">2.然后是我们的Activity(代码都很简单，认真学了java都不会看不懂，而且注释很详细。只有几处需要解释下下的)</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-自己第一个Android作品，Android计算器"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">自己第一个Android作品，Android计算器</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-11-16 08:40:48" datetime="2016-11-16T00:40:48.000Z"  itemprop="datePublished">2016-11-16</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android开发/">Android开发</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p> 写此时为了记录自己的开发历程，方便以后的查询。二则运算（能力有限，也没有想往更深处写），菜鸟级别，代码为参考慕课网上，听课代码，并加上自己的理解和参考的一些博客！有问题的地方欢迎指正，感激不尽！开发工具为Android studio。（第一次写博客，可读性估计很差）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160717155748879?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<blockquote>
+<p>废话不多说，代码轮上来（顺序按慕课老师讲解顺序）</p>
+</blockquote>
+<h1 id="1-先是xml（UI吧）"><a href="#1-先是xml（UI吧）" class="headerlink" title="1.先是xml（UI吧）"></a>1.先是xml（UI吧）</h1><p>&#160;&#160;效果图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160717160159993?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">EditText</span>  </span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"fill_parent"</span>  </div><div class="line">    <span class="attr">android:layout_marginTop</span>=<span class="string">"20dp"</span>  </div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"70dip"</span>  </div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/et_input"</span>  </div><div class="line">    <span class="attr">android:background</span>=<span class="string">"@color/white"</span>  </div><div class="line">    <span class="attr">android:editable</span>=<span class="string">"false"</span>  </div><div class="line">    <span class="attr">android:gravity</span>=<span class="string">"right|bottom"</span>  </div><div class="line">    /&gt;  </div><div class="line">  </div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span>  </span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"fill_parent"</span>  </div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">    <span class="attr">android:layout_marginTop</span>=<span class="string">"20dp"</span>  </div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span>  </div><div class="line">    <span class="attr">android:gravity</span>=<span class="string">"center_horizontal"</span>  </div><div class="line">    &gt;  </div><div class="line">    <span class="tag">&lt;<span class="name">Button</span>  </span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:text</span>=<span class="string">"C"</span>  </div><div class="line">        <span class="attr">android:paddingRight</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:paddingBottom</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:background</span>=<span class="string">"@drawable/white_select"</span>  </div><div class="line">        <span class="attr">android:textSize</span>=<span class="string">"20sp"</span>  </div><div class="line">        <span class="attr">android:gravity</span>=<span class="string">"right|bottom"</span>  </div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/btn_clear"</span>  </div><div class="line">        /&gt;  </div><div class="line">    <span class="tag">&lt;<span class="name">Button</span>  </span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:text</span>=<span class="string">"DEL"</span>  </div><div class="line">        <span class="attr">android:paddingRight</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:paddingBottom</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:background</span>=<span class="string">"@drawable/white_select"</span>  </div><div class="line">        <span class="attr">android:layout_marginLeft</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:textSize</span>=<span class="string">"20sp"</span>  </div><div class="line">        <span class="attr">android:gravity</span>=<span class="string">"right|bottom"</span>  </div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/btn_del"</span>  </div><div class="line">        /&gt;  </div><div class="line">    <span class="tag">&lt;<span class="name">Button</span>  </span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:text</span>=<span class="string">"÷"</span>  </div><div class="line">        <span class="attr">android:paddingRight</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:paddingBottom</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:background</span>=<span class="string">"@drawable/white_select"</span>  </div><div class="line">        <span class="attr">android:layout_marginLeft</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:textSize</span>=<span class="string">"20sp"</span>  </div><div class="line">        <span class="attr">android:gravity</span>=<span class="string">"right|bottom"</span>  </div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/btn_divide"</span>  </div><div class="line">        /&gt;  </div><div class="line">    <span class="tag">&lt;<span class="name">Button</span>  </span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:text</span>=<span class="string">"×"</span>  </div><div class="line">        <span class="attr">android:paddingRight</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:paddingBottom</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:background</span>=<span class="string">"@drawable/white_select"</span>  </div><div class="line">        <span class="attr">android:layout_marginLeft</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:textSize</span>=<span class="string">"20sp"</span>  </div><div class="line">        <span class="attr">android:gravity</span>=<span class="string">"right|bottom"</span>  </div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/btn_multiply"</span>  </div><div class="line">        /&gt;  </div><div class="line">  </div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span>  </div><div class="line">  </div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span>  </span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"fill_parent"</span>  </div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">    <span class="attr">android:layout_marginTop</span>=<span class="string">"10dp"</span>  </div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span>  </div><div class="line">    <span class="attr">android:gravity</span>=<span class="string">"center_horizontal"</span>  </div><div class="line">    &gt;  </div><div class="line">    <span class="tag">&lt;<span class="name">Button</span>  </span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:text</span>=<span class="string">"7"</span>  </div><div class="line">        <span class="attr">android:paddingRight</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:paddingBottom</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:background</span>=<span class="string">"@drawable/white_select"</span>  </div><div class="line">        <span class="attr">android:textSize</span>=<span class="string">"20sp"</span>  </div><div class="line">        <span class="attr">android:gravity</span>=<span class="string">"right|bottom"</span>  </div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/btn_7"</span>  </div><div class="line">        /&gt;  </div><div class="line">    <span class="tag">&lt;<span class="name">Button</span>  </span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:text</span>=<span class="string">"8"</span>  </div><div class="line">        <span class="attr">android:paddingRight</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:paddingBottom</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:background</span>=<span class="string">"@drawable/white_select"</span>  </div><div class="line">        <span class="attr">android:layout_marginLeft</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:textSize</span>=<span class="string">"20sp"</span>  </div><div class="line">        <span class="attr">android:gravity</span>=<span class="string">"right|bottom"</span>  </div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/btn_8"</span>  </div><div class="line">        /&gt;  </div><div class="line">    <span class="tag">&lt;<span class="name">Button</span>  </span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:text</span>=<span class="string">"9"</span>  </div><div class="line">        <span class="attr">android:paddingRight</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:paddingBottom</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:background</span>=<span class="string">"@drawable/white_select"</span>  </div><div class="line">        <span class="attr">android:layout_marginLeft</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:textSize</span>=<span class="string">"20sp"</span>  </div><div class="line">        <span class="attr">android:gravity</span>=<span class="string">"right|bottom"</span>  </div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/btn_9"</span>  </div><div class="line">        /&gt;  </div><div class="line">    <span class="tag">&lt;<span class="name">Button</span>  </span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:text</span>=<span class="string">"-"</span>  </div><div class="line">        <span class="attr">android:paddingRight</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:paddingBottom</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:background</span>=<span class="string">"@drawable/white_select"</span>  </div><div class="line">        <span class="attr">android:layout_marginLeft</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:textSize</span>=<span class="string">"20sp"</span>  </div><div class="line">        <span class="attr">android:gravity</span>=<span class="string">"right|bottom"</span>  </div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/btn_minus"</span>  </div><div class="line">        /&gt;  </div><div class="line">  </div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span>  </div><div class="line">  </div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span>  </span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"fill_parent"</span>  </div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">    <span class="attr">android:layout_marginTop</span>=<span class="string">"10dp"</span>  </div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span>  </div><div class="line">    <span class="attr">android:gravity</span>=<span class="string">"center_horizontal"</span>  </div><div class="line">    &gt;  </div><div class="line">    <span class="tag">&lt;<span class="name">Button</span>  </span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:text</span>=<span class="string">"4"</span>  </div><div class="line">        <span class="attr">android:paddingRight</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:paddingBottom</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:background</span>=<span class="string">"@drawable/white_select"</span>  </div><div class="line">        <span class="attr">android:textSize</span>=<span class="string">"20sp"</span>  </div><div class="line">        <span class="attr">android:gravity</span>=<span class="string">"right|bottom"</span>  </div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/btn_4"</span>  </div><div class="line">        /&gt;  </div><div class="line">    <span class="tag">&lt;<span class="name">Button</span>  </span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:text</span>=<span class="string">"5"</span>  </div><div class="line">        <span class="attr">android:paddingRight</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:paddingBottom</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:background</span>=<span class="string">"@drawable/white_select"</span>  </div><div class="line">        <span class="attr">android:layout_marginLeft</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:textSize</span>=<span class="string">"20sp"</span>  </div><div class="line">        <span class="attr">android:gravity</span>=<span class="string">"right|bottom"</span>  </div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/btn_5"</span>  </div><div class="line">        /&gt;  </div><div class="line">    <span class="tag">&lt;<span class="name">Button</span>  </span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:text</span>=<span class="string">"6"</span>  </div><div class="line">        <span class="attr">android:paddingRight</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:paddingBottom</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:background</span>=<span class="string">"@drawable/white_select"</span>  </div><div class="line">        <span class="attr">android:layout_marginLeft</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:textSize</span>=<span class="string">"20sp"</span>  </div><div class="line">        <span class="attr">android:gravity</span>=<span class="string">"right|bottom"</span>  </div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/btn_6"</span>  </div><div class="line">        /&gt;  </div><div class="line">    <span class="tag">&lt;<span class="name">Button</span>  </span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:text</span>=<span class="string">"+"</span>  </div><div class="line">        <span class="attr">android:paddingRight</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:paddingBottom</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:background</span>=<span class="string">"@drawable/white_select"</span>  </div><div class="line">        <span class="attr">android:layout_marginLeft</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:textSize</span>=<span class="string">"20sp"</span>  </div><div class="line">        <span class="attr">android:gravity</span>=<span class="string">"right|bottom"</span>  </div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/btn_plus"</span>  </div><div class="line">        /&gt;  </div><div class="line">  </div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span>  </div><div class="line">  </div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span>  </span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>  </div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span>  </div><div class="line">    <span class="attr">android:gravity</span>=<span class="string">"center_horizontal"</span>  </div><div class="line">    <span class="attr">android:layout_marginTop</span>=<span class="string">"10dp"</span>&gt;  </div><div class="line">    <span class="tag">&lt;<span class="name">LinearLayout</span>  </span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span>  </div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;  </div><div class="line">        <span class="tag">&lt;<span class="name">LinearLayout</span>  </span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>  </div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">            <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span>&gt;  </div><div class="line">  </div><div class="line">            <span class="tag">&lt;<span class="name">Button</span>  </span></div><div class="line">                <span class="attr">android:layout_width</span>=<span class="string">"70dp"</span>  </div><div class="line">                <span class="attr">android:layout_height</span>=<span class="string">"70dp"</span>  </div><div class="line">                <span class="attr">android:text</span>=<span class="string">"1"</span>  </div><div class="line">                <span class="attr">android:paddingRight</span>=<span class="string">"10dp"</span>  </div><div class="line">                <span class="attr">android:paddingBottom</span>=<span class="string">"10dp"</span>  </div><div class="line">                <span class="attr">android:background</span>=<span class="string">"@drawable/white_select"</span>  </div><div class="line">                <span class="attr">android:textSize</span>=<span class="string">"20sp"</span>  </div><div class="line">                <span class="attr">android:gravity</span>=<span class="string">"right|bottom"</span>  </div><div class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/btn_1"</span>  </div><div class="line">                /&gt;  </div><div class="line">            <span class="tag">&lt;<span class="name">Button</span>  </span></div><div class="line">                <span class="attr">android:layout_width</span>=<span class="string">"70dp"</span>  </div><div class="line">                <span class="attr">android:layout_height</span>=<span class="string">"70dp"</span>  </div><div class="line">                <span class="attr">android:text</span>=<span class="string">"2"</span>  </div><div class="line">                <span class="attr">android:paddingRight</span>=<span class="string">"10dp"</span>  </div><div class="line">                <span class="attr">android:paddingBottom</span>=<span class="string">"10dp"</span>  </div><div class="line">                <span class="attr">android:background</span>=<span class="string">"@drawable/white_select"</span>  </div><div class="line">                <span class="attr">android:textSize</span>=<span class="string">"20sp"</span>  </div><div class="line">                <span class="attr">android:layout_marginLeft</span>=<span class="string">"10dp"</span>  </div><div class="line">                <span class="attr">android:gravity</span>=<span class="string">"right|bottom"</span>  </div><div class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/btn_2"</span>  </div><div class="line">                /&gt;  </div><div class="line">            <span class="tag">&lt;<span class="name">Button</span>  </span></div><div class="line">                <span class="attr">android:layout_width</span>=<span class="string">"70dp"</span>  </div><div class="line">                <span class="attr">android:layout_height</span>=<span class="string">"70dp"</span>  </div><div class="line">                <span class="attr">android:text</span>=<span class="string">"3"</span>  </div><div class="line">                <span class="attr">android:paddingRight</span>=<span class="string">"10dp"</span>  </div><div class="line">                <span class="attr">android:paddingBottom</span>=<span class="string">"10dp"</span>  </div><div class="line">                <span class="attr">android:background</span>=<span class="string">"@drawable/white_select"</span>  </div><div class="line">                <span class="attr">android:textSize</span>=<span class="string">"20sp"</span>  </div><div class="line">                <span class="attr">android:gravity</span>=<span class="string">"right|bottom"</span>  </div><div class="line">                <span class="attr">android:layout_marginLeft</span>=<span class="string">"10dp"</span>  </div><div class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/btn_3"</span>  </div><div class="line">                /&gt;  </div><div class="line">  </div><div class="line">        <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">LinearLayout</span>  </span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>  </div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">            <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span>  </div><div class="line">            <span class="attr">android:layout_marginTop</span>=<span class="string">"10dp"</span>&gt;  </div><div class="line">  </div><div class="line">            <span class="tag">&lt;<span class="name">Button</span>  </span></div><div class="line">                <span class="attr">android:layout_width</span>=<span class="string">"150dp"</span>  </div><div class="line">                <span class="attr">android:layout_height</span>=<span class="string">"70dp"</span>  </div><div class="line">                <span class="attr">android:text</span>=<span class="string">"0"</span>  </div><div class="line">                <span class="attr">android:paddingRight</span>=<span class="string">"10dp"</span>  </div><div class="line">                <span class="attr">android:paddingBottom</span>=<span class="string">"10dp"</span>  </div><div class="line">                <span class="attr">android:background</span>=<span class="string">"@drawable/white_select"</span>  </div><div class="line">                <span class="attr">android:textSize</span>=<span class="string">"20sp"</span>  </div><div class="line">                <span class="attr">android:gravity</span>=<span class="string">"right|bottom"</span>  </div><div class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/btn_0"</span>  </div><div class="line">                /&gt;  </div><div class="line">            <span class="tag">&lt;<span class="name">Button</span>  </span></div><div class="line">                <span class="attr">android:layout_width</span>=<span class="string">"70dp"</span>  </div><div class="line">                <span class="attr">android:layout_height</span>=<span class="string">"70dp"</span>  </div><div class="line">                <span class="attr">android:text</span>=<span class="string">"."</span>  </div><div class="line">                <span class="attr">android:paddingRight</span>=<span class="string">"10dp"</span>  </div><div class="line">                <span class="attr">android:paddingBottom</span>=<span class="string">"10dp"</span>  </div><div class="line">                <span class="attr">android:background</span>=<span class="string">"@drawable/white_select"</span>  </div><div class="line">                <span class="attr">android:textSize</span>=<span class="string">"20sp"</span>  </div><div class="line">                <span class="attr">android:layout_marginLeft</span>=<span class="string">"10dp"</span>  </div><div class="line">                <span class="attr">android:gravity</span>=<span class="string">"right|bottom"</span>  </div><div class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/btn_point"</span>  </div><div class="line">                /&gt;  </div><div class="line">  </div><div class="line">    <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span>  </div><div class="line">  </div><div class="line">    <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">Button</span>  </span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"70dp"</span>  </div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"150dp"</span>  </div><div class="line">        <span class="attr">android:text</span>=<span class="string">"="</span>  </div><div class="line">        <span class="attr">android:background</span>=<span class="string">"@drawable/orange_select"</span>  </div><div class="line">        <span class="attr">android:layout_marginLeft</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:paddingRight</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:paddingBottom</span>=<span class="string">"10dp"</span>  </div><div class="line">        <span class="attr">android:textSize</span>=<span class="string">"20sp"</span>  </div><div class="line">        <span class="attr">android:gravity</span>=<span class="string">"right|bottom"</span>  </div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/btn_equal"</span>/&gt;  </div><div class="line">  </div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span>  </div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">TextView</span>  </span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span>  </div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">    <span class="attr">android:layout_gravity</span>=<span class="string">"bottom|center"</span>  </div><div class="line">    <span class="attr">android:editable</span>=<span class="string">"false"</span>  </div><div class="line">    <span class="attr">android:text</span>=<span class="string">"能力有限，只能进行二则运算——by sorgs"</span>  </div><div class="line">    <span class="attr">android:textSize</span>=<span class="string">"16dp"</span>  </div><div class="line">    <span class="attr">android:textColor</span>=<span class="string">"@color/black"</span>  </div><div class="line">    <span class="attr">android:layout_marginTop</span>=<span class="string">"30dp"</span>  </div><div class="line">    <span class="attr">android:background</span>=<span class="string">"@color/sandybrown"</span>  </div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/textureView"</span> /&gt;</div></pre></td></tr></table></figure>
+<p>xml里面注释不多，想必也不需太多解释，都是很简单布局和控件。其中有个背景颜色的问题需要详细说明</p>
+<h2 id="1-存放颜色"><a href="#1-存放颜色" class="headerlink" title="1.存放颜色"></a>1.存放颜色</h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160717160632972?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>首先我们需要一个在value/下添加一个colors.xml文件用来存放我们需要的颜色不然你全用#xxxxxx得多累，而且还不还用颜色，这里我们可以百度，有配好的颜色的代码。我们直接复制到我们的代码中，然后引用。</p>
+<h2 id="建立xml"><a href="#建立xml" class="headerlink" title="建立xml"></a>建立xml</h2><p>为了在方便我们布局和颜色的搭配，也是在慕课老师那里学了一招。可以在res/drawable下面建立xml。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160717161054349?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>我们来依次看看这些文件都是怎么做的。</p>
+<p>###（1）.ashend_bg.xml（几个_bg都是颜色不一样，意义差不多）<br>目的是提供背景颜色，其实也可以不要颜色。直接在xml中添加颜色，这个主要是提供圆角</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">shape</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span>  </div><div class="line"> <span class="tag">&lt;<span class="name">corners</span> <span class="attr">android:radius</span>=<span class="string">"5dp"</span>/&gt;</span>  </div><div class="line">   <span class="tag">&lt;<span class="name">solid</span>  </span></div><div class="line">       <span class="attr">android:color</span>=<span class="string">"@color/beige"</span> /&gt;  </div><div class="line"><span class="tag">&lt;/<span class="name">shape</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>此处使用shape。（这里有更加完美的解释 <a href="http://www.cnblogs.com/cyanfei/archive/2012/07/27/2612023.html" target="_blank" rel="external">http://www.cnblogs.com/cyanfei/archive/2012/07/27/2612023.html</a>）</p>
+<h3 id="（2）-orange-select-xml（select也是颜色不一样，内容差不多）"><a href="#（2）-orange-select-xml（select也是颜色不一样，内容差不多）" class="headerlink" title="（2）.orange_select.xml（select也是颜色不一样，内容差不多）"></a>（2）.orange_select.xml（select也是颜色不一样，内容差不多）</h3><p>目的是为了按钮提供颜色和点击时会有另外一种颜色</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"font-size:18px;"</span>&gt;</span></div><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">selector</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:drawable</span>=<span class="string">"@drawable/ashend_bg"</span>  </span></div><div class="line">        <span class="attr">android:state_pressed</span>=<span class="string">"true"</span>/&gt;  </div><div class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:drawable</span>=<span class="string">"@drawable/orange_bg"</span>/&gt;</span>  </div><div class="line"><span class="tag">&lt;/<span class="name">selector</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>此处使用select（详细用法请参考<a href="http://blog.csdn.net/shakespeare001/article/details/7788400/" target="_blank" rel="external">http://blog.csdn.net/shakespeare001/article/details/7788400/</a>）</p>
+<h1 id="2-然后是我们的Activity-代码都很简单，认真学了java都不会看不懂，而且注释很详细。只有几处需要解释下下的"><a href="#2-然后是我们的Activity-代码都很简单，认真学了java都不会看不懂，而且注释很详细。只有几处需要解释下下的" class="headerlink" title="2.然后是我们的Activity(代码都很简单，认真学了java都不会看不懂，而且注释很详细。只有几处需要解释下下的)"></a>2.然后是我们的Activity(代码都很简单，认真学了java都不会看不懂，而且注释很详细。只有几处需要解释下下的)</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.sorgs.administrator.caclulatordemo;   </div><div class="line"><span class="keyword">import</span> android.app.Activity;  </div><div class="line"><span class="keyword">import</span> android.os.Bundle;  </div><div class="line"><span class="keyword">import</span> android.view.View;  </div><div class="line"><span class="keyword">import</span> android.view.View.OnClickListener;  </div><div class="line"><span class="keyword">import</span> android.widget.Button;  </div><div class="line"><span class="keyword">import</span> android.widget.EditText;  </div><div class="line"><span class="keyword">import</span> android.widget.Toast;  </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">OnClickListener</span></span>&#123;  `</div><div class="line">    Button btn_0;<span class="comment">//0数字按钮  </span></div><div class="line">    Button btn_1;<span class="comment">//1数字按钮  </span></div><div class="line">    Button btn_2;<span class="comment">//2数字按钮  </span></div><div class="line">    Button btn_3;<span class="comment">//3数字按钮  </span></div><div class="line">    Button btn_4;<span class="comment">//4数字按钮  </span></div><div class="line">    Button btn_5;<span class="comment">//5数字按钮  </span></div><div class="line">    Button btn_6;<span class="comment">//6数字按钮  </span></div><div class="line">    Button btn_7;<span class="comment">//7数字按钮  </span></div><div class="line">    Button btn_8;<span class="comment">//8数字按钮  </span></div><div class="line">    Button btn_9;<span class="comment">//9数字按钮  </span></div><div class="line">    Button btn_point;<span class="comment">//小数点按钮  </span></div><div class="line">    Button btn_clear;<span class="comment">//清除按钮  </span></div><div class="line">    Button btn_del;<span class="comment">//删除按钮  </span></div><div class="line">    Button btn_plus;<span class="comment">//加好按钮  </span></div><div class="line">    Button btn_minus;<span class="comment">//减号按钮  </span></div><div class="line">    Button btn_divide;<span class="comment">//除号按钮  </span></div><div class="line">    Button btn_multiply;<span class="comment">//乘号按钮  </span></div><div class="line">    Button btn_equle;<span class="comment">//等于按钮  </span></div><div class="line">    <span class="comment">//以上建立按钮  </span></div><div class="line">    EditText et_input;<span class="comment">//显示输出内容的显示屏  </span></div><div class="line">    <span class="keyword">boolean</span> clear_flag;<span class="comment">//清空标识，用于等号之后清空  </span></div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span></span>&#123;  </div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);  </div><div class="line">        setContentView(R.layout.content_main);<span class="comment">//控制xml为content_main  </span></div><div class="line">  </div><div class="line">        btn_0 = (Button) findViewById(R.id.btn_0);  </div><div class="line">        btn_1 = (Button) findViewById(R.id.btn_1);  </div><div class="line">        btn_2 = (Button) findViewById(R.id.btn_2);  </div><div class="line">        btn_3 = (Button) findViewById(R.id.btn_3);  </div><div class="line">        btn_4 = (Button) findViewById(R.id.btn_4);  </div><div class="line">        btn_5 = (Button) findViewById(R.id.btn_5);  </div><div class="line">        btn_6 = (Button) findViewById(R.id.btn_6);  </div><div class="line">        btn_7 = (Button) findViewById(R.id.btn_7);  </div><div class="line">        btn_8 = (Button) findViewById(R.id.btn_8);  </div><div class="line">        btn_9 = (Button) findViewById(R.id.btn_9);  </div><div class="line">        btn_point = (Button) findViewById(R.id.btn_point);  </div><div class="line">        btn_del = (Button) findViewById(R.id.btn_del);  </div><div class="line">        btn_plus = (Button) findViewById(R.id.btn_plus);  </div><div class="line">        btn_clear = (Button) findViewById(R.id.btn_clear);  </div><div class="line">        btn_minus = (Button) findViewById(R.id.btn_minus);  </div><div class="line">        btn_multiply = (Button) findViewById(R.id.btn_multiply);  </div><div class="line">        btn_divide = (Button) findViewById(R.id.btn_divide);  </div><div class="line">        btn_equle = (Button) findViewById(R.id.btn_equal);  </div><div class="line">        <span class="comment">//以上是实例化按钮  </span></div><div class="line">  </div><div class="line">        et_input = (EditText) findViewById(R.id.et_input);<span class="comment">//实例化显示屏  </span></div><div class="line">  </div><div class="line">        btn_0.setOnClickListener(<span class="keyword">this</span>);  </div><div class="line">        btn_1.setOnClickListener(<span class="keyword">this</span>);  </div><div class="line">        btn_2.setOnClickListener(<span class="keyword">this</span>);  </div><div class="line">        btn_3.setOnClickListener(<span class="keyword">this</span>);  </div><div class="line">        btn_4.setOnClickListener(<span class="keyword">this</span>);  </div><div class="line">        btn_5.setOnClickListener(<span class="keyword">this</span>);  </div><div class="line">        btn_6.setOnClickListener(<span class="keyword">this</span>);  </div><div class="line">        btn_7.setOnClickListener(<span class="keyword">this</span>);  </div><div class="line">        btn_8.setOnClickListener(<span class="keyword">this</span>);  </div><div class="line">        btn_9.setOnClickListener(<span class="keyword">this</span>);  </div><div class="line">        btn_point.setOnClickListener(<span class="keyword">this</span>);  </div><div class="line">        btn_del.setOnClickListener(<span class="keyword">this</span>);  </div><div class="line">        btn_plus.setOnClickListener(<span class="keyword">this</span>);  </div><div class="line">        btn_clear.setOnClickListener(<span class="keyword">this</span>);  </div><div class="line">        btn_minus.setOnClickListener(<span class="keyword">this</span>);  </div><div class="line">        btn_multiply.setOnClickListener(<span class="keyword">this</span>);  </div><div class="line">        btn_divide.setOnClickListener(<span class="keyword">this</span>);  </div><div class="line">        btn_equle.setOnClickListener(<span class="keyword">this</span>);  </div><div class="line">        <span class="comment">//以上设置按钮的点击事件  </span></div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;  </div><div class="line">        String str = et_input.getText().toString();  <span class="comment">//取出显示屏内容  </span></div><div class="line">        <span class="keyword">switch</span> (v.getId())&#123;  <span class="comment">//判断点的是那个按钮  </span></div><div class="line">           <span class="keyword">case</span> R.id.btn_0:  <span class="comment">//建立数字0—9和.  </span></div><div class="line">           <span class="keyword">case</span> R.id.btn_1:  </div><div class="line">           <span class="keyword">case</span> R.id.btn_2:  </div><div class="line">           <span class="keyword">case</span> R.id.btn_3:  </div><div class="line">           <span class="keyword">case</span> R.id.btn_4:  </div><div class="line">           <span class="keyword">case</span> R.id.btn_5:  </div><div class="line">           <span class="keyword">case</span> R.id.btn_6:  </div><div class="line">           <span class="keyword">case</span> R.id.btn_7:  </div><div class="line">           <span class="keyword">case</span> R.id.btn_8:  </div><div class="line">           <span class="keyword">case</span> R.id.btn_9:  </div><div class="line">           <span class="keyword">case</span> R.id.btn_point:  </div><div class="line">               <span class="keyword">if</span>(clear_flag)&#123;  <span class="comment">//  </span></div><div class="line">                   clear_flag =<span class="keyword">false</span>;  </div><div class="line">                   str = <span class="string">""</span>;  <span class="comment">//计算下一个时候，应将原来的设置为空  </span></div><div class="line">                   et_input.setText(<span class="string">""</span>);  </div><div class="line">               &#125;  </div><div class="line">               et_input.setText(str+((Button)v).getText());  <span class="comment">//将点击的文字添加到输入框里面（str原来输入框中内容）  </span></div><div class="line">           <span class="keyword">break</span>;  </div><div class="line">           <span class="keyword">case</span> R.id.btn_plus:  <span class="comment">//建立+-×÷  </span></div><div class="line">           <span class="keyword">case</span> R.id.btn_minus:  </div><div class="line">           <span class="keyword">case</span> R.id.btn_multiply:  </div><div class="line">           <span class="keyword">case</span> R.id.btn_divide:  </div><div class="line">               <span class="keyword">if</span>(clear_flag)&#123;  </div><div class="line">                   clear_flag =<span class="keyword">false</span>;  </div><div class="line">                   str = <span class="string">""</span>;  <span class="comment">//计算下一个时候，应将原来的设置为空  </span></div><div class="line">                   et_input.setText(<span class="string">""</span>);  </div><div class="line">               &#125;  </div><div class="line">               et_input.setText(str+<span class="string">" "</span>+((Button)v).getText()+<span class="string">" "</span>);<span class="comment">//将点击的运算符添加到输入框前后有“ ”用于区别  </span></div><div class="line">           <span class="keyword">break</span>;  </div><div class="line">           <span class="keyword">case</span> R.id.btn_del: <span class="comment">//建立删除  </span></div><div class="line">               <span class="keyword">if</span>(clear_flag)&#123;  </div><div class="line">                   clear_flag= <span class="keyword">false</span>;  </div><div class="line">                   str = <span class="string">""</span>;  <span class="comment">//计算下一个时候，应将原来的设置为空  </span></div><div class="line">                   et_input.setText(<span class="string">""</span>);  </div><div class="line">               &#125;<span class="keyword">else</span> <span class="keyword">if</span> (str != <span class="keyword">null</span> &amp;&amp;!str.equals(<span class="string">""</span>)) &#123; <span class="comment">//如果显示屏里面不是NULL也不是空  </span></div><div class="line">                   et_input.setText(str.substring(<span class="number">0</span>,str.length()-<span class="number">1</span>)); <span class="comment">//从后面长度减一  </span></div><div class="line">               &#125;  </div><div class="line">           <span class="keyword">break</span>;  </div><div class="line">           <span class="keyword">case</span> R.id.btn_clear:  <span class="comment">//建立清除  </span></div><div class="line">               clear_flag = <span class="keyword">false</span>;  </div><div class="line">               str = <span class="string">""</span>;  <span class="comment">//计算下一个时候，应将原来的设置为空  </span></div><div class="line">               et_input.setText(<span class="string">""</span>);   <span class="comment">//将显示屏内容置空  </span></div><div class="line">           <span class="keyword">break</span>;  </div><div class="line">           <span class="keyword">case</span> R.id.btn_equal:  <span class="comment">//建立等于  </span></div><div class="line">               getResult();     <span class="comment">//获取结算结果  </span></div><div class="line">           <span class="keyword">break</span>;  </div><div class="line">       &#125;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="comment">//进行计算  </span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">getResult</span><span class="params">()</span></span>&#123;  </div><div class="line">        String exp = et_input.getText().toString(); <span class="comment">//取出显示屏内容并转化为String  </span></div><div class="line">        <span class="keyword">if</span> (exp == <span class="keyword">null</span>||exp.equals(<span class="string">""</span>))&#123;<span class="comment">//如果内容为null和空，直接返回  </span></div><div class="line">            <span class="keyword">return</span>;  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">if</span>(!exp.contains(<span class="string">" "</span>))&#123;<span class="comment">//如果不包含空格（运算符前面有空格），直接返回（比如点了数字，没有运算符）  </span></div><div class="line">            <span class="keyword">return</span>;  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">if</span>(clear_flag)&#123;  </div><div class="line">            clear_flag = <span class="keyword">false</span>;  </div><div class="line">            <span class="keyword">return</span>;  </div><div class="line">        &#125;  </div><div class="line">        clear_flag = <span class="keyword">true</span>;  </div><div class="line">        <span class="keyword">double</span> result = <span class="number">0</span>;  <span class="comment">//定义一个double的result=0  </span></div><div class="line">        String s1 = exp.substring(<span class="number">0</span>,exp.indexOf(<span class="string">' '</span>));<span class="comment">//截取运算符前面的字符  </span></div><div class="line">        String op = exp.substring(exp.indexOf(<span class="string">' '</span>)+<span class="number">1</span>,exp.indexOf(<span class="string">' '</span>)+<span class="number">2</span>);<span class="comment">//截取运算符  </span></div><div class="line">        String s2 = exp.substring(exp.indexOf(<span class="string">' '</span>)+<span class="number">3</span>);<span class="comment">//截取运算符后面的字符  </span></div><div class="line">        <span class="keyword">if</span>(!s1.equals(<span class="string">""</span>)&amp;&amp;!s2.equals(<span class="string">""</span>))&#123; <span class="comment">//如果S1或者S2不为空  </span></div><div class="line">            <span class="keyword">double</span> d1 = Double.parseDouble(s1);  <span class="comment">//强制将S1转换为double类型  </span></div><div class="line">            <span class="keyword">double</span> d2 = Double.parseDouble(s2);  <span class="comment">//强制将S2转换为double类型  </span></div><div class="line">            <span class="keyword">if</span>(op.equals(<span class="string">"+"</span>))&#123;  <span class="comment">//如果op为四中情况的方案  </span></div><div class="line">                result = d1+d2;  </div><div class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(op.equals(<span class="string">"-"</span>))&#123;  </div><div class="line">                result = d1-d2;  </div><div class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(op.equals(<span class="string">"×"</span>))&#123;  </div><div class="line">                result = d1*d2;  </div><div class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(op.equals(<span class="string">"÷"</span>))&#123;  </div><div class="line">                <span class="keyword">if</span>(d2==<span class="number">0</span>)&#123;  </div><div class="line">                    Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"除数不能为0！！！"</span>,Toast.LENGTH_LONG).show();  </div><div class="line">                    et_input.setText(<span class="string">"0"</span>);  </div><div class="line">                &#125;<span class="keyword">else</span>&#123;  </div><div class="line">                    result = d1/d2;  </div><div class="line">                &#125;  </div><div class="line">            &#125;  </div><div class="line">            <span class="keyword">if</span>(!s1.contains(<span class="string">"."</span>)&amp;&amp;!s2.contains(<span class="string">"."</span>)&amp;&amp;!op.equals(<span class="string">"÷"</span>))&#123;  <span class="comment">//如果没有小数点则为int类型且op不为÷  </span></div><div class="line">                <span class="keyword">int</span> r = (<span class="keyword">int</span>)result;  <span class="comment">//强制转换为int类型  </span></div><div class="line">                et_input.setText(r+<span class="string">""</span>);  </div><div class="line">            &#125;<span class="keyword">else</span>&#123;    <span class="comment">//其中含有小数点，则输出double类型  </span></div><div class="line">                et_input.setText(result+<span class="string">""</span>);  </div><div class="line">            &#125;  </div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(!s1.equals(<span class="string">""</span>)&amp;&amp;s2.equals(<span class="string">""</span>))&#123;  <span class="comment">//S1不为空，S2为空  </span></div><div class="line">            <span class="keyword">double</span> d1 = Double.parseDouble(s1);  </div><div class="line">            result = d1;  </div><div class="line">            Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"不具备运算"</span>,Toast.LENGTH_LONG).show();  </div><div class="line">            et_input.setText(result+<span class="string">""</span>);  <span class="comment">//不进行计算,返回S1  </span></div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(s1.equals(<span class="string">""</span>)&amp;&amp;!s2.equals(<span class="string">""</span>))&#123;  <span class="comment">//S1为空，S2不为空  </span></div><div class="line">            <span class="keyword">double</span> d2 = Double.parseDouble(s2);  </div><div class="line">            <span class="keyword">if</span>(op.equals(<span class="string">"+"</span>))&#123;  </div><div class="line">                result = <span class="number">0</span>+d2;  </div><div class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(op.equals(<span class="string">"-"</span>))&#123;  </div><div class="line">                result = <span class="number">0</span>-d2;  </div><div class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(op.equals(<span class="string">"×"</span>))&#123;  </div><div class="line">                result = <span class="number">0</span>;  </div><div class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(op.equals(<span class="string">"÷"</span>))&#123;  </div><div class="line">                result = <span class="number">0</span>;  </div><div class="line">            &#125;  </div><div class="line">            <span class="keyword">if</span>(!s2.contains(<span class="string">"."</span>))&#123;  </div><div class="line">            <span class="keyword">int</span> r = (<span class="keyword">int</span>)result;  </div><div class="line">            et_input.setText(r+<span class="string">""</span>);  </div><div class="line">            &#125;<span class="keyword">else</span>&#123;  </div><div class="line">            et_input.setText(result+<span class="string">""</span>);  </div><div class="line">            &#125;  </div><div class="line">        &#125;<span class="keyword">else</span>&#123;  </div><div class="line">            et_input.setText(<span class="string">""</span>);  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这里采用消息显示的一个方法，个人觉得这样很好看。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"除数不能为0！！！"</span>,Toast.LENGTH_LONG).show();</div></pre></td></tr></table></figure></p>
+<p>效果图：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160717163226751" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure> </p>
+<p>Toast.makeText的方法也不在赘述了，因为很多博客都有写（<a href="http://www.cnblogs.com/ycxyyzw/archive/2013/03/12/2955845.html" target="_blank" rel="external">http://www.cnblogs.com/ycxyyzw/archive/2013/03/12/2955845.html</a>）  </p>
+<p><img src="http://pic.sorgs.cn/349ebd550d3598f292948b7e70038878.png" alt=""></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.862Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android开发/">Android开发</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/37302/&title=《自己第一个Android作品，Android计算器》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/37302/&title=《自己第一个Android作品，Android计算器》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/37302/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《自己第一个Android作品，Android计算器》 — Sorgs&url=http://sorgs.cn/post/37302/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/37302/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/12244/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Android 最最最简单的浏览器代码</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/52407/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">还是来个Hello吧</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/37302/&title=《自己第一个Android作品，Android计算器》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/37302/&title=《自己第一个Android作品，Android计算器》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/37302/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《自己第一个Android作品，Android计算器》 — Sorgs&url=http://sorgs.cn/post/37302/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/37302/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABxUlEQVR42u3aQY4CMQwEQP7/aVZa7WEvE9pxxoBUOaEBQYWD5bTzeMTr+buS1/+fXD2/+uSxhYuL2+Y+lysnVqHr55dbwsXFHeQmxataeqrctQEXF/czudVitNcq4eLifhc3KUAJGhcX91u4yeEneXf9JP87DpzVcHFxG9yzgene67flu7i4uMWpRH6YSaLSzu/+fQ8uLu4IN2k++gebTpNU+GpcXNyj3H6suXf9ohrB4OLiznCrw85qPJqPaaPN4OLijnDzpqRzeSLfauHCBy4u7iC3c+zZu36Rj2xxcXEnudXrFNVxbFKFCuNVXFzcm7l5/FE9/FSjkMPBKC4ubptbPZbkYWh/BPsixcHFxb2B2xmg9lc1jsHFxZ3hVgOOPDzNm5688OHi4s5wCx9qlLPDzRAuLu7N3GrDsfeT/StcuLi489xO2LEuf4V5TrIxXFzcQW61Wdkb1VS3fSCPwcXF3eLOjGPX5TLfGC4u7iS3P/BICl8/WsXFxZ3nJoUmLz2nDj9R34SLi/tW7t44dq+QvRiy4uLifhg3b00ONze4uLjj3Orlib0rXNU4tXVWw8XFbXA7gWk+FEmueVUjV1xc3Bu4P5KoQ/qUFcCuAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

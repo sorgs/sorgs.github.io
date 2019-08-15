@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/33150/">
+    
+    
+    <title>Android逆向基础笔记—Android NDK开发2之Windows下的gcc手动编译（交叉连编译）和利Linux Ubuntu系统下的交叉工具链手动编译 | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android逆向基础,ndk,gcc">
+    <meta name="description" content="一、交叉工具链这些工具都在NDK的路径下：E:\Android\android-ndk-r13\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\bin这些工具的前缀均为arm-linux-androideabi，可以直接使用他们来编写NDK原生程序Windows和Linux平台使用的gcc都是一样的，命令参数也是一样的：ar">
+<meta name="keywords" content="Android逆向基础,ndk,gcc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android逆向基础笔记—Android NDK开发2之Windows下的gcc手动编译（交叉连编译）和利Linux Ubuntu系统下的交叉工具链手动编译">
+<meta property="og:url" content="http://sorgs.cn/post/33150/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="一、交叉工具链这些工具都在NDK的路径下：E:\Android\android-ndk-r13\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\bin这些工具的前缀均为arm-linux-androideabi，可以直接使用他们来编写NDK原生程序Windows和Linux平台使用的gcc都是一样的，命令参数也是一样的：ar">
+<meta property="og:image" content="http://img.blog.csdn.net/20161101153603493">
+<meta property="og:image" content="http://img.blog.csdn.net/20161031225550739">
+<meta property="og:image" content="http://img.blog.csdn.net/20161101181021073">
+<meta property="og:image" content="http://img.blog.csdn.net/20161101215510566">
+<meta property="og:image" content="http://img.blog.csdn.net/20161102203849529">
+<meta property="og:image" content="http://pic.sorgs.cn/5f1604f6f198619170536a950286921e.jpeg">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.847Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android逆向基础笔记—Android NDK开发2之Windows下的gcc手动编译（交叉连编译）和利Linux Ubuntu系统下的交叉工具链手动编译">
+<meta name="twitter:description" content="一、交叉工具链这些工具都在NDK的路径下：E:\Android\android-ndk-r13\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\bin这些工具的前缀均为arm-linux-androideabi，可以直接使用他们来编写NDK原生程序Windows和Linux平台使用的gcc都是一样的，命令参数也是一样的：ar">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20161101153603493">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Android逆向基础笔记—Android NDK开发2之Windows下的gcc手动编译（交叉连编译）和利Linux Ubuntu系统下的交叉工具链手动编译</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Android逆向基础笔记—Android NDK开发2之Windows下的gcc手动编译（交叉连编译）和利Linux Ubuntu系统下的交叉工具链手动编译</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-11-17T08:18:25.000Z" itemprop="datePublished" class="page-time">
+  2016-11-17
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android逆向基础/">Android逆向基础</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一、交叉工具链"><span class="post-toc-number">1.</span> <span class="post-toc-text">一、交叉工具链</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#二、编写C-程序"><span class="post-toc-number">2.</span> <span class="post-toc-text">二、编写C++程序</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#三、编写makefile"><span class="post-toc-number">3.</span> <span class="post-toc-text">三、编写makefile</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#四、编译"><span class="post-toc-number">4.</span> <span class="post-toc-text">四、编译</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#五、Linux"><span class="post-toc-number">5.</span> <span class="post-toc-text">五、Linux</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#六、总结"><span class="post-toc-number">6.</span> <span class="post-toc-text">六、总结</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Android逆向基础笔记—Android-NDK开发2之Windows下的gcc手动编译（交叉连编译）和利Linux-Ubuntu系统下的交叉工具链手动编译"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Android逆向基础笔记—Android NDK开发2之Windows下的gcc手动编译（交叉连编译）和利Linux Ubuntu系统下的交叉工具链手动编译</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-11-17 16:18:25" datetime="2016-11-17T08:18:25.000Z"  itemprop="datePublished">2016-11-17</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android逆向基础/">Android逆向基础</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="一、交叉工具链"><a href="#一、交叉工具链" class="headerlink" title="一、交叉工具链"></a>一、交叉工具链</h1><p>这些工具都在NDK的路径下：E:\Android\android-ndk-r13\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\bin<br>这些工具的前缀均为arm-linux-androideabi，可以直接使用他们来编写NDK原生程序<br>Windows和Linux平台使用的gcc都是一样的，命令参数也是一样的：<br>arm-linux-androideabi-addr2line  //将程序地址转换为文件名和行号<br>arm-linux-androideabi-ar  // 建立、修改、提取归档文件<br>arm-linux-androideabi-as  //gas汇编器<br>arm-linux-androideabi-c++  //工具链中arm-linux-androideabi-g++.exe的一个拷贝<br>arm-linux-androideabi-c++filt  //连接器使用它过滤符号，防止重载函数冲突<br>arm-linux-androideabi-cpp  //C++程序编译工具<br>arm-linux-androideabi-g++  //C++程序编译工具<br>arm-linux-androideabi-gcc-4.9.x //工具链中arm-linux-androideabi-gcc.exe的一个拷贝<br>arm-linux-androideabi-gcc  //C程序编译工具<br>arm-linux-androideabi-gcov  //程序覆盖度测量工具，记录代码的执行路径<br>arm-linux-androideabi-gdb  //调试工具<br>arm-linux-androideabi-gprof  //程序性能测量工具<br>arm-linux-androideabi-ld  //连接器，用于生成可执行程序<br>arm-linux-androideabi-nm  //列出目标文件中的符号<br>arm-linux-androideabi-objcopy  //复制目标文件中的内容到另一种类型的目标文件中<br>arm-linux-androideabi-objdump  //输出目标文件的信息<br>arm-linux-androideabi-ranlib  //产生归档文件索引，并将其保存到这个归档文件中<br>arm-linux-androideabi-readelf  //显示elf格式可执行文件的信息<br>arm-linux-androideabi-run  //ARM程序模拟器<br>arm-linux-androideabi-size  //列出目标文件每一段的大小及总体的大小<br>arm-linux-androideabi-strings  //输出目标文件的可打印字符串<br>arm-linux-androideabi-strip  //去除目标文件中的符号信息<br>以上摘录之《Android软件安全与逆向分析》</p>
+<h1 id="二、编写C-程序"><a href="#二、编写C-程序" class="headerlink" title="二、编写C++程序"></a>二、编写C++程序</h1><p>我这里习惯使用VS2012，大家可以按自己的习惯。记事本都可以。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161101153603493" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;  </span></span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span>&#123;  </div><div class="line">       <span class="built_in">printf</span>(<span class="string">"Hello,you are successful ！"</span>);  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="三、编写makefile"><a href="#三、编写makefile" class="headerlink" title="三、编写makefile"></a>三、编写makefile</h1><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161031225550739" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>注意：1.斜杠的方向（千万不要弄反了，这个很重要！！！）<br>     2.把我makefile中 的//以及后面的内容删除！<br>     3.一定记得先配置环境<br>最后给这个makefile文档</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">NDK_ROOT=E:/Android/android-ndk-r13  </div><div class="line">TOOLCHAINS_ROOT=$(NDK_ROOT)/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64  </div><div class="line">TOOLCHAINS_PREFIX=$(TOOLCHAINS_ROOT)/bin/arm-linux-androideabi  </div><div class="line">TOOLCHAINS_INCLUDE=$(TOOLCHAINS_ROOT)/lib/gcc/arm-linux-androideabi/4.9.x/include-fixed  </div><div class="line">  </div><div class="line">PLATFORM_ROOT=$(NDK_ROOT)/platforms/android-17/arch-arm  </div><div class="line">PLATFORM_INCLUDE=$(PLATFORM_ROOT)/usr/include  </div><div class="line">PLATFORM_LIB=$(PLATFORM_ROOT)/usr/lib  </div><div class="line">  </div><div class="line">MODULE_NAME=HelloNDK  </div><div class="line">RM=del  </div><div class="line">  </div><div class="line">FLAGS=-I$(TOOLCHAINS_INCLUDE) \  </div><div class="line">    -I$(PLATFORM_INCLUDE) \  </div><div class="line">    -L$(PLATFORM_LIB) \  </div><div class="line">    -nostdlib \  </div><div class="line">    -lgcc \  </div><div class="line">    -Bdynamic \  </div><div class="line">    -lc  </div><div class="line">  </div><div class="line">OBJS=$(MODULE_NAME).o \  </div><div class="line">    $(PLATFORM_LIB)/crtbegin_dynamic.o \  </div><div class="line">    $(PLATFORM_LIB)/crtend_android.o  </div><div class="line">  </div><div class="line">all:  </div><div class="line">    $(TOOLCHAINS_PREFIX)-gcc $(FLAGS) -c $(MODULE_NAME).c -o $(MODULE_NAME).o  </div><div class="line">    $(TOOLCHAINS_PREFIX)-gcc $(FLAGS) $(OBJS) -o $(MODULE_NAME)  </div><div class="line">clean:  </div><div class="line">    $(RM) *.o  </div><div class="line">install:  </div><div class="line">    adb push $(MODULE_NAME) /data/local/  </div><div class="line">    adb shell chmod 755 /data/local/$(MODULE_NAME)</div></pre></td></tr></table></figure>
+<h1 id="四、编译"><a href="#四、编译" class="headerlink" title="四、编译"></a>四、编译</h1><p>我们把这些东西弄好了放到桌面上的文件夹gccNDKtest。<br>然后cmd命令打开这个文件夹<br>然后make<br>看到是这个样子，就说明没有问题了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161101181021073" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>接下来，我们需要看效果，就需要一个Android的手机或者模拟器了。<br>依次输入</p>
+<p>make install<br>adb shell /data/local/HelloNDK</p>
+<p>就可以看到效果图了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161101215510566" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h1 id="五、Linux"><a href="#五、Linux" class="headerlink" title="五、Linux"></a>五、Linux</h1><p>和Windows差不多，重点是环境需要配置好<br>我直接把Windows里面的C放进去，再编写makefile<br>makefile如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">NDK_ROOT=/home/tools/android-ndk-r13  </div><div class="line">TOOLCHAINS_ROOT=$(NDK_ROOT)/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64  </div><div class="line">TOOLCHAINS_PREFIX=$(TOOLCHAINS_ROOT)/bin/arm-linux-androideabi  </div><div class="line">TOOLCHAINS_INCLUDE=$(TOOLCHAINS_ROOT)/lib/gcc/arm-linux-androideabi/4.9.x/include-fixed  </div><div class="line">  </div><div class="line">PLATFORM_ROOT=$(NDK_ROOT)/platforms/android-17/arch-arm  </div><div class="line">PLATFORM_INCLUDE=$(PLATFORM_ROOT)/usr/include  </div><div class="line">PLATFORM_LIB=$(PLATFORM_ROOT)/usr/lib  </div><div class="line">  </div><div class="line">MODULE_NAME=HelloNDK  </div><div class="line">RM=rm -rf  </div><div class="line">  </div><div class="line">FLAGS=-I$(TOOLCHAINS_INCLUDE) \  </div><div class="line">    -I$(PLATFORM_INCLUDE) \  </div><div class="line">    -L$(PLATFORM_LIB) \  </div><div class="line">    -nostdlib \  </div><div class="line">    -lgcc \  </div><div class="line">    -Bdynamic \  </div><div class="line">    -lc  </div><div class="line">  </div><div class="line">OBJS=$(MODULE_NAME).o \  </div><div class="line">    $(PLATFORM_LIB)/crtbegin_dynamic.o \  </div><div class="line">    $(PLATFORM_LIB)/crtend_android.o  </div><div class="line">  </div><div class="line">all:  </div><div class="line">    $(TOOLCHAINS_PREFIX)-gcc $(FLAGS) -c $(MODULE_NAME).c -o $(MODULE_NAME).o  </div><div class="line">    $(TOOLCHAINS_PREFIX)-gcc $(FLAGS) $(OBJS) -o $(MODULE_NAME)  </div><div class="line">clean:  </div><div class="line">    $(RM) *.o  </div><div class="line">install:  </div><div class="line">    adb push $(MODULE_NAME) /data/local/  </div><div class="line">    adb shell chmod 755 /data/local/$(MODULE_NAME)</div></pre></td></tr></table></figure>
+<p>然后放到Linux下面去，到这个文件的目录下make就OK的。<br>命令是</p>
+<p>sorgs@sorgs-VirtualBox:/home/tools/gccNDKtest$ sudo make</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161102203849529" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>这个就说明编译成功了。<br>因为我这Linux是虚拟机，所以不好用手机真是去测试<br>所以手续的测试就在Windows上测试的，效果和上面的一样。</p>
+<h1 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h1><p>虽然看起来这很简单，但是实际上自己不去动手，永远不知道这点点东西来的多么艰辛，各种百度查。<br>其实这个还遗留了一个问题。本来说好的NDK用gcc编译，是可以编译C++的，但是我写了一个C++。不管怎么修改makefile都要报错。这个问题我查了很多资料，都没有结果。我在想等下，有空了，去问问我们的老师，看看能不能给出答案。如果可以的话，再回来更新，编写一个C++的代码尝试编译。<br>然后就是Linux，我的天啊。我之前都没有学过这个，然后为了写出来来尝试，才开始研究。各种报错，各种重装。<br>你不去动手，永远不知道这里面的辛酸和晚上连续几天熬夜到12点的汗水以及成功之后的喜悦。<br>所以说，不要看着简单，要实际去做做！<br>链接：<a href="http://pan.baidu.com/s/1boNj4IF" target="_blank" rel="external">http://pan.baidu.com/s/1boNj4IF</a> 密码：w4ec</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://pic.sorgs.cn/5f1604f6f198619170536a950286921e.jpeg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.847Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android逆向基础/">Android逆向基础</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gcc/">gcc</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ndk/">ndk</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/33150/&title=《Android逆向基础笔记—Android NDK开发2之Windows下的gcc手动编译（交叉连编译）和利Linux Ubuntu系统下的交叉工具链手动编译》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/33150/&title=《Android逆向基础笔记—Android NDK开发2之Windows下的gcc手动编译（交叉连编译）和利Linux Ubuntu系统下的交叉工具链手动编译》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/33150/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android逆向基础笔记—Android NDK开发2之Windows下的gcc手动编译（交叉连编译）和利Linux Ubuntu系统下的交叉工具链手动编译》 — Sorgs&url=http://sorgs.cn/post/33150/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/33150/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/3280/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Android逆向基础笔记—Android NDK开发1环境的配置及介绍</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/33593/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Linux ubuntu的vbox和本机Windows文件共享以及Linux中的java环境配置</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/33150/&title=《Android逆向基础笔记—Android NDK开发2之Windows下的gcc手动编译（交叉连编译）和利Linux Ubuntu系统下的交叉工具链手动编译》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/33150/&title=《Android逆向基础笔记—Android NDK开发2之Windows下的gcc手动编译（交叉连编译）和利Linux Ubuntu系统下的交叉工具链手动编译》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/33150/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android逆向基础笔记—Android NDK开发2之Windows下的gcc手动编译（交叉连编译）和利Linux Ubuntu系统下的交叉工具链手动编译》 — Sorgs&url=http://sorgs.cn/post/33150/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/33150/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABzklEQVR42u3aS47CMBAFQO5/6cx2RiiZ99zBgFReIRTsCotWf/x4xOt4Wr+/f37m7LfXT962cHFxx9zjcuVHXu9w9nq5ARcXdz/3LGJcP3NNb1/12oCLi/st3CIABYEMFxf3e7ltGHpzIMPFxR1wk+LnbIskAXpDrYaLizvg5l3K131+SX8XFxd3iXuUazJcSXb453RcXNwt3DygJAlHnvrk6QsuLu5+btvOWLtUkTRBovCHi4u7hZu3NiapySRtqi9h4OLi3sRt26PtcGVt+HpqwMXF3chNyphk3HIbK6/VcHFxb+XmB+eFTVtEFRfCcHFxt3CTUJU3MtaOT0JbcWcEFxd3zJ03Rtvj2/D3Z09cXNzt3Hb82dKTdkkRyHBxcV/GzUugPFnJX7UthHBxcd/LzUudfIyaj1ui/i4uLu4W7tpYZUK5YciKi4u7kZtvvdZsrdOatu+Ci4s74B7lylOitbZI3YPBxcV9AbcNLvPWajumXXwZXFzcMTcPXsVANL6WUQ9icXFxN3KToiiHtsnQbLqCi4v7KdxJKrM2mMHFxf1kbnJ8cdGq/QtwcXE3cidN0jZ4tY0SXFzc/dxJ4pIHu6TlcVfgw8XFHXB/AM5uKfhNIYTDAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

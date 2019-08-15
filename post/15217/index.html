@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/15217/">
+    
+    
+    <title>利用Retrofit+RxJava简单封装网络请求库 | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android开发,网络请求,Retorfit,Rxjava">
+    <meta name="description" content="网络请求在移动端是极为常见和重要，随处可见。为此，为了避免到处使用增加内存和性能，以及方便使用和解耦，进行网络库的简单封装。  特点 解耦：对下面使用的网络请求框架和上层网络进行解耦。方便底层可以根据业务要求换更网络请求网络也不影响到上层业务逻辑。 方便：对使用的场景极为方便，仅仅5行左右代码，即可完成一次网络请求以及数据处理。 解放：解放繁琐的线程切换，错误处理和判断，数据处理，Json的转换">
+<meta name="keywords" content="Android开发,网络请求,Retorfit,Rxjava">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用Retrofit+RxJava简单封装网络请求库">
+<meta property="og:url" content="http://sorgs.cn/post/15217/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="网络请求在移动端是极为常见和重要，随处可见。为此，为了避免到处使用增加内存和性能，以及方便使用和解耦，进行网络库的简单封装。  特点 解耦：对下面使用的网络请求框架和上层网络进行解耦。方便底层可以根据业务要求换更网络请求网络也不影响到上层业务逻辑。 方便：对使用的场景极为方便，仅仅5行左右代码，即可完成一次网络请求以及数据处理。 解放：解放繁琐的线程切换，错误处理和判断，数据处理，Json的转换">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.860Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用Retrofit+RxJava简单封装网络请求库">
+<meta name="twitter:description" content="网络请求在移动端是极为常见和重要，随处可见。为此，为了避免到处使用增加内存和性能，以及方便使用和解耦，进行网络库的简单封装。  特点 解耦：对下面使用的网络请求框架和上层网络进行解耦。方便底层可以根据业务要求换更网络请求网络也不影响到上层业务逻辑。 方便：对使用的场景极为方便，仅仅5行左右代码，即可完成一次网络请求以及数据处理。 解放：解放繁琐的线程切换，错误处理和判断，数据处理，Json的转换">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">利用Retrofit+RxJava简单封装网络请求库</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">利用Retrofit+RxJava简单封装网络请求库</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-08-01T08:13:35.000Z" itemprop="datePublished" class="page-time">
+  2019-08-01
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android开发/">Android开发</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#特点"><span class="post-toc-number">1.</span> <span class="post-toc-text">特点</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Retrofit简介"><span class="post-toc-number">2.</span> <span class="post-toc-text">Retrofit简介</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Retrofit简单使用"><span class="post-toc-number">3.</span> <span class="post-toc-text">Retrofit简单使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#引入依赖"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">引入依赖</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#API的interface接口"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">API的interface接口</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#创建Retrofit实例"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">创建Retrofit实例</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#API接口转换成实例"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">API接口转换成实例</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#进行网络请求"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">进行网络请求</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#封装网络库"><span class="post-toc-number">4.</span> <span class="post-toc-text">封装网络库</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#应用依赖"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">应用依赖</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#单例建立NetWorkManager"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">单例建立NetWorkManager</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#接口返回数据封装"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">接口返回数据封装</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#错误处理"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">错误处理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#线程切换"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">线程切换</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#调用方使用"><span class="post-toc-number">4.6.</span> <span class="post-toc-text">调用方使用</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#结语"><span class="post-toc-number">5.</span> <span class="post-toc-text">结语</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-利用Retrofit-RxJava简单封装网络请求库"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">利用Retrofit+RxJava简单封装网络请求库</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-08-01 16:13:35" datetime="2019-08-01T08:13:35.000Z"  itemprop="datePublished">2019-08-01</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android开发/">Android开发</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>网络请求在移动端是极为常见和重要，随处可见。为此，为了避免到处使用增加内存和性能，以及方便使用和解耦，进行网络库的简单封装。</p>
+</blockquote>
+<h1 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h1><ol>
+<li>解耦：对下面使用的网络请求框架和上层网络进行解耦。方便底层可以根据业务要求换更网络请求网络也不影响到上层业务逻辑。</li>
+<li>方便：对使用的场景极为方便，仅仅5行左右代码，即可完成一次网络请求以及数据处理。</li>
+<li>解放：解放繁琐的线程切换，错误处理和判断，数据处理，Json的转换等，使调用方不必考虑与业务逻辑无关的事情。</li>
+<li>透明：调用方对调用的函数使用起来简单，便于理解</li>
+</ol>
+<h1 id="Retrofit简介"><a href="#Retrofit简介" class="headerlink" title="Retrofit简介"></a>Retrofit简介</h1><ul>
+<li>Retrofit，一个远近闻名的网络框架，它是由Square公司开源的。Square公司，是我们的老熟人了，很多框架都是他开源的，比如OkHttp，picasso，leakcanary等等。他们公司的很多开源库，几乎已经成为现在开发Android APP的标配。</li>
+<li>简单来说，Retrofit其实是底层还是用的OkHttp来进行网络请求的，只不过他包装了一下，使得开发者在使用访问网络的时候更加方便简单高效。</li>
+<li>一句话总结：Retrofit将接口动态生成实现类，该接口定义了请求方式+路径+参数等注解，Retrofit可以方便得从注解中获取这些参数，然后拼接起来，通过OkHttp访问网络。</li>
+</ul>
+<h1 id="Retrofit简单使用"><a href="#Retrofit简单使用" class="headerlink" title="Retrofit简单使用"></a>Retrofit简单使用</h1><h2 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h2><ul>
+<li>引入retrofit2以及需要转化使用的Gson</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">implementation &apos;com.squareup.retrofit2:retrofit:2.3.0&apos;</div><div class="line">implementation &apos;com.squareup.retrofit2:converter-gson:2.3.0&apos;</div></pre></td></tr></table></figure>
+<h2 id="API的interface接口"><a href="#API的interface接口" class="headerlink" title="API的interface接口"></a>API的interface接口</h2><ul>
+<li>需要先定义出注解的接口</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Request</span> </span>&#123;</div><div class="line">    companion object &#123;</div><div class="line">        val HOST = <span class="string">"http://42.157.129.91/"</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@POST</span>(<span class="string">"user/sorgs"</span>)</div><div class="line">    <span class="function">fun <span class="title">getSorgs</span><span class="params">(@Query(<span class="string">"id"</span>)</span> id: String): Observable&lt;ResponseData&lt;JavaBean&gt;&gt;</span></div><div class="line"></div><div class="line">    @<span class="title">POST</span><span class="params">(<span class="string">"user/sorgs"</span>)</span></div><div class="line">    fun <span class="title">getCallTest</span><span class="params">(@Query(<span class="string">"id"</span>)</span> id: String): Call&lt;ResponseData&lt;JavaBean&gt;&gt;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>定义出静态字符串HOST，用来限定请求的服务器，即BaseUrl</li>
+<li>定义出接口方法，<code>@POST</code>用于指定请求的方式，包括POST，GET等。</li>
+<li>方法需要定义出返回值以及接受的参数</li>
+</ul>
+<h2 id="创建Retrofit实例"><a href="#创建Retrofit实例" class="headerlink" title="创建Retrofit实例"></a>创建Retrofit实例</h2><ul>
+<li>通过构造者方式，创建出Retrofit实例</li>
+<li>baseUrl即传入服务器地址</li>
+<li>addConverterFactory为转化工厂，我们需要将获取的Json直接通过Gson转化为Bean对象</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 初始化Retrofit</span></div><div class="line">val request = Retrofit.Builder()</div><div class="line">        .client(client)</div><div class="line">        .baseUrl(Request.HOST)</div><div class="line">        .addConverterFactory(GsonConverterFactory.create())</div><div class="line">        .build()</div></pre></td></tr></table></figure>
+<h2 id="API接口转换成实例"><a href="#API接口转换成实例" class="headerlink" title="API接口转换成实例"></a>API接口转换成实例</h2><ul>
+<li>将刚定义的interface文件引入转化为实例</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">val callApi = request.create(Request::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>)</span></div></pre></td></tr></table></figure>
+<h2 id="进行网络请求"><a href="#进行网络请求" class="headerlink" title="进行网络请求"></a>进行网络请求</h2><ul>
+<li>直接调用interface定义的请求方法，调用enqueue方法进行回调Callback返回请求成功以及失败</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">callApi.getCallTest(<span class="string">"1"</span>).enqueue(object : Callback&lt;ResponseData&lt;JavaBean&gt;&gt; &#123;</div><div class="line">    <span class="function">override fun <span class="title">onFailure</span><span class="params">(call: Call&lt;ResponseData&lt;JavaBean&gt;&gt;, t: Throwable)</span> </span>&#123;</div><div class="line">        Log.e(<span class="string">"sorgs"</span>, <span class="string">"btnTest3 e:$&#123;t.message&#125;"</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="function">override fun <span class="title">onResponse</span><span class="params">(call: Call&lt;ResponseData&lt;JavaBean&gt;&gt;,</span></span></div><div class="line">                            responseData: Response&lt;ResponseData&lt;JavaBean&gt;&gt;) &#123;</div><div class="line">        Log.i(<span class="string">"sorgs"</span>, <span class="string">"btnTest3 JavaBean:$&#123;(responseData.body()?.data as JavaBean).name&#125;"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h1 id="封装网络库"><a href="#封装网络库" class="headerlink" title="封装网络库"></a>封装网络库</h1><blockquote>
+<p>上诉简单使用仅仅是demo如此写，如果放到实际业务中，还需考虑request的创建单例化，日志拦截查看，线程切换，数据处理以及错误处理</p>
+</blockquote>
+<h2 id="应用依赖"><a href="#应用依赖" class="headerlink" title="应用依赖"></a>应用依赖</h2><h2 id="单例建立NetWorkManager"><a href="#单例建立NetWorkManager" class="headerlink" title="单例建立NetWorkManager"></a>单例建立NetWorkManager</h2><ul>
+<li>通过单例构建retrofit等</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> var retrofit: Retrofit? = <span class="keyword">null</span></div><div class="line"><span class="comment">//单例获取NetWorkManager</span></div><div class="line">val instant: <span class="function">NetWorkManager by <span class="title">lazy</span><span class="params">(mode = LazyThreadSafetyMode.SYNCHRONIZED)</span> </span>&#123; NetWorkManager() &#125;</div><div class="line">val request: Request? <span class="function">by <span class="title">lazy</span><span class="params">(mode = LazyThreadSafetyMode.SYNCHRONIZED)</span> </span>&#123;</div><div class="line">    retrofit?.create(Request::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>)</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>进行初始化</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 初始化必要对象和参数</div><div class="line"> * <span class="doctag">@param</span> baseUrl 基础连接</div><div class="line"> */</div><div class="line"><span class="function">fun <span class="title">init</span><span class="params">(baseUrl: String)</span> </span>&#123;</div><div class="line">    val logging = HttpLoggingInterceptor()</div><div class="line">    logging.level = <span class="keyword">if</span> (BuildConfig.DEBUG) &#123;</div><div class="line">        HttpLoggingInterceptor.Level.BODY</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        HttpLoggingInterceptor.Level.NONE</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/* val logging2 = HttpLoggingInterceptor()</span></div><div class="line">     logging2.level = HttpLoggingInterceptor.Level.HEADERS*/</div><div class="line">    <span class="comment">// 初始化okhttp</span></div><div class="line">    val client = OkHttpClient.Builder()</div><div class="line">            <span class="comment">//.addInterceptor(logging2)</span></div><div class="line">            .addInterceptor(logging)</div><div class="line">            .build()</div><div class="line">    <span class="comment">// 初始化Retrofit</span></div><div class="line">    retrofit = Retrofit.Builder()</div><div class="line">            .client(client)</div><div class="line">            .baseUrl(baseUrl)</div><div class="line">            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())</div><div class="line">            .addConverterFactory(GsonConverterFactory.create())</div><div class="line">            .build()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>在初始化时候，构建HttpLoggingInterceptor，用于日志拦截。并利用BuildConfig.DEBUG进行区分，因为不希望在正式包里面也暴露出请求信息</li>
+<li>日志拦截分为NONE、BASIC、HEADERS以及BODY，一般来说使用BASIC以及BODY，为了方便调试和查看，使用BODY更加方便。</li>
+<li>同时addInterceptor是可以添加多个的，可以同时把BASIC和BODY添加上进行打印输出。通过client()构建到retrofit中。</li>
+<li>retrofit的构造，同时加入<code>addCallAdapterFactory(RxJava2CallAdapterFactory.create())</code>,直接把RxJava引入，方便错误处理，数据处理，线程切换等</li>
+</ul>
+<h2 id="接口返回数据封装"><a href="#接口返回数据封装" class="headerlink" title="接口返回数据封装"></a>接口返回数据封装</h2><ul>
+<li>服务器返回的数据，一般都是有严格的格式，分为code、msg和data。真实数据包含在data中，code和msg是用来进行判断这次请求的结果，这些判断我们就需要在底层直接处理好，所以直接封装起来。</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * description: 接口返回数据封装.</div><div class="line"> * &#123;code:0,data:"",msg:""&#125;</div><div class="line"> * code：接口返回的code 一定不能为空</div><div class="line"> * data：接口返回具体的数据结果 可能为空</div><div class="line"> * msg：message 可用来返回接口的说明 可能为空</div><div class="line"> *</div><div class="line"> * @author Sorgs.</div><div class="line"> * Created date: 2019/7/30.</div><div class="line"> */</div><div class="line">data class ResponseData&lt;T&gt;(</div><div class="line">        var code: Int,</div><div class="line">        var data: T?,</div><div class="line">        var msg: String?</div><div class="line">)</div></pre></td></tr></table></figure>
+<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><ul>
+<li>错误处理分为了服务器异常和本地异常<ul>
+<li>服务器异常包括404,500等</li>
+<li>本地异常情况更多，包括网络错误，连接异常等</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * description: 非服务器产生的异常，比如本地无无网络请求，Json数据解析错误等等.</div><div class="line"></div><div class="line"> * @author Sorgs.</div><div class="line"> * Created date: 2019/7/30.</div><div class="line"> */</div><div class="line">class ErrorResumeFunction&lt;T&gt; : Function&lt;Throwable, ObservableSource&lt;out ResponseData&lt;T&gt;&gt;&gt; &#123;</div><div class="line">    override fun apply(throwable: Throwable): ObservableSource&lt;out ResponseData&lt;T&gt;&gt; &#123;</div><div class="line">        return Observable.error(CustomException.handleException(throwable))</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * description: 自定义异常处理，包括解析异常等其他异常.</div><div class="line"> *</div><div class="line"> * @author Sorgs.</div><div class="line"> * Created date: 2019/7/30.</div><div class="line"> */</div><div class="line">object CustomException &#123;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 未知错误</div><div class="line">     */</div><div class="line">    const val UNKNOWN = 1000</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 解析错误</div><div class="line">     */</div><div class="line">    const val PARSE_ERROR = 1001</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 网络错误</div><div class="line">     */</div><div class="line">    const val NETWORK_ERROR = 1002</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 协议错误</div><div class="line">     */</div><div class="line">    const val HTTP_ERROR = 1003</div><div class="line"></div><div class="line">    fun handleException(e: Throwable): LocalException &#123;</div><div class="line">        val ex: LocalException</div><div class="line">        if (e is JsonParseException</div><div class="line">                || e is JSONException</div><div class="line">                || e is ParseException</div><div class="line">        ) &#123;</div><div class="line">            //解析错误</div><div class="line">            ex = LocalException(PARSE_ERROR, e.message)</div><div class="line">            return ex</div><div class="line">        &#125; else if (e is ConnectException) &#123;</div><div class="line">            //网络错误</div><div class="line">            ex = LocalException(NETWORK_ERROR, e.message)</div><div class="line">            return ex</div><div class="line">        &#125; else if (e is UnknownHostException || e is SocketTimeoutException) &#123;</div><div class="line">            //连接错误</div><div class="line">            ex = LocalException(NETWORK_ERROR, e.message)</div><div class="line">            return ex</div><div class="line">        &#125; else &#123;</div><div class="line">            //未知错误</div><div class="line">            ex = LocalException(UNKNOWN, e.message)</div><div class="line">            return ex</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">``` </div><div class="line"></div><div class="line">- 把异常进行封装成自己的异常处理。提前把Json转化出错，网络错误，连接异常处理出来</div><div class="line">- 再利用继承ResponseFunction进行处理服务器异常处理，然后把异常进行封装。正确的数据发送到下游</div><div class="line"></div><div class="line">```java</div><div class="line">/**</div><div class="line"> * description: 服务其返回的数据解析</div><div class="line"> * 正常服务器返回数据和服务器可能返回的exception.</div><div class="line"></div><div class="line"> * @author Sorgs.</div><div class="line"> * Created date: 2019/7/30.</div><div class="line"> */</div><div class="line">class ResponseFunction&lt;T&gt; : Function&lt;ResponseData&lt;T&gt;, ObservableSource&lt;T&gt;&gt; &#123;</div><div class="line">    override fun apply(tResponseData: ResponseData&lt;T&gt;): ObservableSource&lt;T&gt; &#123;</div><div class="line">        val code = tResponseData.code</div><div class="line">        val message = tResponseData.msg</div><div class="line">        return if (code == 200) &#123;</div><div class="line">            Observable.just(tResponseData.data)</div><div class="line">        &#125; else &#123;</div><div class="line">            Observable.error(LocalException(code, message))</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">/**</div><div class="line"> * description: 异常处理.</div><div class="line"> *</div><div class="line"> * @author Sorgs.</div><div class="line"> * Created date: 2019/7/30.</div><div class="line"> */</div><div class="line">class LocalException : Exception &#123;</div><div class="line">    var code: Int = 0</div><div class="line">    var displayMessage: String? = null</div><div class="line"></div><div class="line">    constructor(code: Int, displayMessage: String?) &#123;</div><div class="line">        this.code = code</div><div class="line">        this.displayMessage = displayMessage</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    constructor(code: Int, message: String, displayMessage: String?) : super(message) &#123;</div><div class="line">        this.code = code</div><div class="line">        this.displayMessage = displayMessage</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="线程切换"><a href="#线程切换" class="headerlink" title="线程切换"></a>线程切换</h2><blockquote>
+<p>网络请求是需要进行放到子线程进行处理防止阻塞主线程，等待网络请求结果回来之后，再进行转化到UI线程处理数据</p>
+<ul>
+<li>定义切线接口,然后进行线程切换</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * description: 切换线程的线程定义</div><div class="line"></div><div class="line"> * <span class="doctag">@author</span> Sorgs.</div><div class="line"> * Created date: 2019/7/30.</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">BaseSchedulerProvider</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function">fun <span class="title">computation</span><span class="params">()</span>: Scheduler</span></div><div class="line"></div><div class="line">    fun <span class="title">io</span><span class="params">()</span>: Scheduler</div><div class="line"></div><div class="line">    fun <span class="title">ui</span><span class="params">()</span>: Scheduler</div><div class="line"></div><div class="line">    fun &lt;T&gt; <span class="title">applySchedulers</span><span class="params">()</span>: ObservableTransformer&lt;T, T&gt;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * description: 完成处理线程切换.</div><div class="line"></div><div class="line"> * @author Sorgs.</div><div class="line"> * Created date: 2019/7/30.</div><div class="line"> */</div><div class="line">class SchedulerProvider : BaseSchedulerProvider &#123;</div><div class="line">    <span class="function">override fun <span class="title">computation</span><span class="params">()</span>: Scheduler </span>&#123;</div><div class="line">        <span class="keyword">return</span> Schedulers.computation()</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function">override fun <span class="title">io</span><span class="params">()</span>: Scheduler </span>&#123;</div><div class="line">        <span class="keyword">return</span> Schedulers.io()</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function">override fun <span class="title">ui</span><span class="params">()</span>: Scheduler </span>&#123;</div><div class="line">        <span class="keyword">return</span> AndroidSchedulers.mainThread()</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    override fun &lt;T&gt; applySchedulers(): ObservableTransformer&lt;T, T&gt; &#123;</div><div class="line">        <span class="keyword">return</span> ObservableTransformer &#123; observable -&gt; observable.subscribeOn(io()).observeOn(ui()) &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    companion object &#123;</div><div class="line">        val schedulerProvider: <span class="function">SchedulerProvider by <span class="title">lazy</span><span class="params">(</span></span></div><div class="line">                mode = LazyThreadSafetyMode.SYNCHRONIZED) &#123; SchedulerProvider() &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="调用方使用"><a href="#调用方使用" class="headerlink" title="调用方使用"></a>调用方使用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">NetWorkManager.request</div><div class="line">        ?.getSorgs(<span class="string">"1"</span>)</div><div class="line">        ?.compose(ResponseTransformer.handleResult())</div><div class="line">        ?.compose(SchedulerProvider.schedulerProvider.applySchedulers())</div><div class="line">        ?.subscribe(&#123; javabean -&gt;</div><div class="line">            Log.i(<span class="string">"sorgs"</span>, <span class="string">"btnTest1 name:$&#123;javabean?.name&#125;"</span>)</div><div class="line">        &#125;, &#123; t -&gt;</div><div class="line">            Log.e(<span class="string">"sorgs"</span>, <span class="string">"btnTest1 e:$&#123;(t as LocalException).displayMessage&#125;"</span>)</div><div class="line">        &#125;)</div></pre></td></tr></table></figure>
+<ul>
+<li>直接利用subscribe返回得到处理数据后的结果，拿到数据直接进行业务逻辑代码边写。对于错误，直接将服务器错误和本地异常都抛出来，由调用方选择进行处理</li>
+</ul>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><ul>
+<li>封装成库的好处就是方便调用者，利用最简单的方式进行复杂而常用的操作。</li>
+<li>同时对接口透明，对实现封装，实现对调用者最大的友好</li>
+<li>demo：<a href="https://github.com/sorgs/Network" title="https://github.com/sorgs/Network" target="_blank" rel="external">https://github.com/sorgs/Network</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.860Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android开发/">Android开发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Retorfit/">Retorfit</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Rxjava/">Rxjava</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络请求/">网络请求</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/15217/&title=《利用Retrofit+RxJava简单封装网络请求库》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/15217/&title=《利用Retrofit+RxJava简单封装网络请求库》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/15217/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《利用Retrofit+RxJava简单封装网络请求库》 — Sorgs&url=http://sorgs.cn/post/15217/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/15217/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/3427/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Android每日一问笔记-哪些 Context调用 startActivity 需要设置NEW_TASK</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/35154/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/15217/&title=《利用Retrofit+RxJava简单封装网络请求库》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/15217/&title=《利用Retrofit+RxJava简单封装网络请求库》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/15217/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《利用Retrofit+RxJava简单封装网络请求库》 — Sorgs&url=http://sorgs.cn/post/15217/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/15217/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABxUlEQVR42u3aQY7CMAwF0N7/0p3tSKjwbScRSC8rBCW8sLAc29cVr/vf+v/O6zOvz79+92mHZQsXF3fMvd+uHPe02/vfzQ24uLjnufl21WCX/AWJARcX9xe5CToJhbi4uL/FraY4uLi4v85N0pFq4aPKXXxXw8XFHXDzKuW+11vqu7i4uC3u3Vp5KtMLhY+/i4uLe4RbDTpJEtMroOTHxsXF3c19fy2pBrIkcUmO/fgkLi7uEW5vYKIK7Y1zXT0ELi7uBu4cN6nQRAUUXFzczdycmFyKkiNVU5wr3w4XF3cDN0HMg92kEYuLi3uGO+9v9sqgvaQKFxf3JLc3bpUEo2oKVbir4eLibuP2hid6QarXvCl0WnBxcZdy82GpXql0nhjh4uKe5PZKElHeNLgUfdgNFxd3MzdJcXoDE8lRR01WXFzcbdxe03RVS7VZnMXFxd3MvYur2kDtHT7KxXBxcbdxJ8FlMtqVXJwW94RxcXGL3LxIunbkovo+Li7ueW5epJgctTfM8XhXw8XF/QLufPCiWnLFxcX9fm41hPWgHz7FxcU9yK2mKXnYqrZRP5RUcHFxj3Dzq0ie7uRN1vk1CRcXdyn3D+AFbMPnWJD0AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

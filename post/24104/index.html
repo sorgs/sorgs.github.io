@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/24104/">
+    
+    
+    <title>Android逆向实例笔记—破解第一个Android程序_crackme02 | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android逆向实例">
+    <meta name="description" content="本实例来源于《Android软件安全与逆向分析》这本书，作者是看雪的非虫，感谢提供这么好的书和实例。  一、工具干什么都得一个好工具对吧。 1.apkIDE反编译呢，我这里使用的是apkIDE（apk改之理），工具的话自己百度吧。个人不喜欢留一些不需要的东西在网盘里，难得整理，百度一大堆。我这里就给一个官网吧，免得有些童鞋找错了地方。现在这下下载网站一不小心，什么全家福都来了。好了，扯得有点远了">
+<meta name="keywords" content="Android逆向实例">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android逆向实例笔记—破解第一个Android程序_crackme02">
+<meta property="og:url" content="http://sorgs.cn/post/24104/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="本实例来源于《Android软件安全与逆向分析》这本书，作者是看雪的非虫，感谢提供这么好的书和实例。  一、工具干什么都得一个好工具对吧。 1.apkIDE反编译呢，我这里使用的是apkIDE（apk改之理），工具的话自己百度吧。个人不喜欢留一些不需要的东西在网盘里，难得整理，百度一大堆。我这里就给一个官网吧，免得有些童鞋找错了地方。现在这下下载网站一不小心，什么全家福都来了。好了，扯得有点远了">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824200112039?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824200125352?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824200501403?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824200616092?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825101837703?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825101932272?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825102002298?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825102042445?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825102648234?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825102801818?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825102859097?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825102938363?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825103131647?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825103219773?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825103416775?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825103454102?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160825103542274?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://pic.sorgs.cn/9ba4099a701fc56788c10f1e9289af6c.jpeg">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.853Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android逆向实例笔记—破解第一个Android程序_crackme02">
+<meta name="twitter:description" content="本实例来源于《Android软件安全与逆向分析》这本书，作者是看雪的非虫，感谢提供这么好的书和实例。  一、工具干什么都得一个好工具对吧。 1.apkIDE反编译呢，我这里使用的是apkIDE（apk改之理），工具的话自己百度吧。个人不喜欢留一些不需要的东西在网盘里，难得整理，百度一大堆。我这里就给一个官网吧，免得有些童鞋找错了地方。现在这下下载网站一不小心，什么全家福都来了。好了，扯得有点远了">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20160824200112039?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Android逆向实例笔记—破解第一个Android程序_crackme02</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Android逆向实例笔记—破解第一个Android程序_crackme02</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-11-16T08:46:17.000Z" itemprop="datePublished" class="page-time">
+  2016-11-16
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android逆向实例/">Android逆向实例</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一、工具"><span class="post-toc-number">1.</span> <span class="post-toc-text">一、工具</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-apkIDE"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1.apkIDE</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-蓝叠"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">2.蓝叠</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、查看源程序"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">二、查看源程序</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#三、反编译"><span class="post-toc-number">2.</span> <span class="post-toc-text">三、反编译</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-工具的使用"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">1.工具的使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-strings-xml"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2.strings.xml</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-public-xml"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">3.public.xml</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-smali"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">3.smali</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#四、修改smali"><span class="post-toc-number">3.</span> <span class="post-toc-text">四、修改smali</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#五、验证"><span class="post-toc-number">4.</span> <span class="post-toc-text">五、验证</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Android逆向实例笔记—破解第一个Android程序-crackme02"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Android逆向实例笔记—破解第一个Android程序_crackme02</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-11-16 16:46:17" datetime="2016-11-16T08:46:17.000Z"  itemprop="datePublished">2016-11-16</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android逆向实例/">Android逆向实例</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>本实例来源于《Android软件安全与逆向分析》这本书，作者是看雪的非虫，感谢提供这么好的书和实例。</p>
+</blockquote>
+<h1 id="一、工具"><a href="#一、工具" class="headerlink" title="一、工具"></a>一、工具</h1><p>干什么都得一个好工具对吧。</p>
+<h2 id="1-apkIDE"><a href="#1-apkIDE" class="headerlink" title="1.apkIDE"></a>1.apkIDE</h2><p>反编译呢，我这里使用的是apkIDE（apk改之理），工具的话自己百度吧。个人不喜欢留一些不需要的东西在网盘里，难得整理，百度一大堆。我这里就给一个官网吧，免得有些童鞋找错了地方。现在这下下载网站一不小心，什么全家福都来了。好了，扯得有点远了。我用的就是最新版，我个人就喜欢最新版。（最新版可能有些问题）<a href="http://www.popotu.com/popo/apkide.html" target="_blank" rel="external">http://www.popotu.com/popo/apkide.html</a><br>上个样图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824200112039?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h2 id="2-蓝叠"><a href="#2-蓝叠" class="headerlink" title="2.蓝叠"></a>2.蓝叠</h2><p>只要是模拟器都可以，我个人觉得这个好用。随便找一个都行。官网：<a href="http://www.bluestacks.cn/" target="_blank" rel="external">http://www.bluestacks.cn/</a></p>
+<p>样图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824200125352?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h2 id="二、查看源程序"><a href="#二、查看源程序" class="headerlink" title="二、查看源程序"></a>二、查看源程序</h2><p>这里我们直接拖拽crackme02到蓝叠中，安装。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824200501403?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>然后我们点开看看效果。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824200616092?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>我们可以看到左上角有个程序未注册。我们随便输入字符，点击注册。发现Toast提示我们，无效用户名或注册码。<br>此时，我们就该上我们的工具了</p>
+<h1 id="三、反编译"><a href="#三、反编译" class="headerlink" title="三、反编译"></a>三、反编译</h1><h2 id="1-工具的使用"><a href="#1-工具的使用" class="headerlink" title="1.工具的使用"></a>1.工具的使用</h2><p>这里详细介绍一下apkIDE的使用。<br>打开apkIDE<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825101837703?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<p>点击项目，然后点击打开apk，选择我们的crackme02。<br>看输出框的进度，之后就可以进行我们的操作了。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825101932272?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<p>反编译之后的文件目录</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825102002298?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>其中smali中存放的是反汇编的代码。<br>res是所有的资源文件。<br>都与开发目录一致。</p>
+<h2 id="2-strings-xml"><a href="#2-strings-xml" class="headerlink" title="2.strings.xml"></a>2.strings.xml</h2><p>我们知道在开始的时候，我们一般会一些字符放到strings.xml文件中去。这里我就打开strings.xml文件。<br>文件在：res-values-strings.xml</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825102042445?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>现在我们看看strings.xml中的内容</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;  </div><div class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"app_name"</span>&gt;</span>Crackme0201<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"hello_world"</span>&gt;</span>Hello world!<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"menu_settings"</span>&gt;</span>Settings<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"title_activity_main"</span>&gt;</span>crackme02<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"info"</span>&gt;</span>Android程序破解演示实例<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"username"</span>&gt;</span>用户名：<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"sn"</span>&gt;</span>注册码：<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"register"</span>&gt;</span>注 册<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"hint_username"</span>&gt;</span>请输入用户名<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"hint_sn"</span>&gt;</span>请输入16位的注册码<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"unregister"</span>&gt;</span>程序未注册<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"registered"</span>&gt;</span>程序已注册<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"unsuccessed"</span>&gt;</span>无效用户名或注册码<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"successed"</span>&gt;</span>恭喜您！注册成功<span class="tag">&lt;/<span class="name">string</span>&gt;</span>  </div><div class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>我们可以很容易的看到，Toast提示我们错误的地方</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825102648234?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h2 id="3-public-xml"><a href="#3-public-xml" class="headerlink" title="3.public.xml"></a>3.public.xml</h2><p>我们知道每个字符都有唯一的int类型的索引值。<br>于是我们打开strings.xml上面的public.xml文件。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;  </div><div class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"drawable"</span> <span class="attr">name</span>=<span class="string">"ic_launcher"</span> <span class="attr">id</span>=<span class="string">"0x7f020001"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"drawable"</span> <span class="attr">name</span>=<span class="string">"ic_action_search"</span> <span class="attr">id</span>=<span class="string">"0x7f020000"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"layout"</span> <span class="attr">name</span>=<span class="string">"activity_main"</span> <span class="attr">id</span>=<span class="string">"0x7f030000"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"dimen"</span> <span class="attr">name</span>=<span class="string">"padding_small"</span> <span class="attr">id</span>=<span class="string">"0x7f040000"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"dimen"</span> <span class="attr">name</span>=<span class="string">"padding_medium"</span> <span class="attr">id</span>=<span class="string">"0x7f040001"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"dimen"</span> <span class="attr">name</span>=<span class="string">"padding_large"</span> <span class="attr">id</span>=<span class="string">"0x7f040002"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">name</span>=<span class="string">"app_name"</span> <span class="attr">id</span>=<span class="string">"0x7f050000"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">name</span>=<span class="string">"hello_world"</span> <span class="attr">id</span>=<span class="string">"0x7f050001"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">name</span>=<span class="string">"menu_settings"</span> <span class="attr">id</span>=<span class="string">"0x7f050002"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">name</span>=<span class="string">"title_activity_main"</span> <span class="attr">id</span>=<span class="string">"0x7f050003"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">name</span>=<span class="string">"info"</span> <span class="attr">id</span>=<span class="string">"0x7f050004"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">id</span>=<span class="string">"0x7f050005"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">name</span>=<span class="string">"sn"</span> <span class="attr">id</span>=<span class="string">"0x7f050006"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">name</span>=<span class="string">"register"</span> <span class="attr">id</span>=<span class="string">"0x7f050007"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">name</span>=<span class="string">"hint_username"</span> <span class="attr">id</span>=<span class="string">"0x7f050008"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">name</span>=<span class="string">"hint_sn"</span> <span class="attr">id</span>=<span class="string">"0x7f050009"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">name</span>=<span class="string">"unregister"</span> <span class="attr">id</span>=<span class="string">"0x7f05000a"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">name</span>=<span class="string">"registered"</span> <span class="attr">id</span>=<span class="string">"0x7f05000b"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">name</span>=<span class="string">"unsuccessed"</span> <span class="attr">id</span>=<span class="string">"0x7f05000c"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">name</span>=<span class="string">"successed"</span> <span class="attr">id</span>=<span class="string">"0x7f05000d"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"style"</span> <span class="attr">name</span>=<span class="string">"AppTheme"</span> <span class="attr">id</span>=<span class="string">"0x7f060000"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"menu"</span> <span class="attr">name</span>=<span class="string">"activity_main"</span> <span class="attr">id</span>=<span class="string">"0x7f070000"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"id"</span> <span class="attr">name</span>=<span class="string">"textView1"</span> <span class="attr">id</span>=<span class="string">"0x7f080000"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"id"</span> <span class="attr">name</span>=<span class="string">"edit_username"</span> <span class="attr">id</span>=<span class="string">"0x7f080001"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"id"</span> <span class="attr">name</span>=<span class="string">"edit_sn"</span> <span class="attr">id</span>=<span class="string">"0x7f080002"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"id"</span> <span class="attr">name</span>=<span class="string">"button_register"</span> <span class="attr">id</span>=<span class="string">"0x7f080003"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"id"</span> <span class="attr">name</span>=<span class="string">"menu_settings"</span> <span class="attr">id</span>=<span class="string">"0x7f080004"</span> /&gt;</span>  </div><div class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>找到我们需要的unsuccessed。如果觉得很难找，那么我们搜索功能就来了。<br>在搜索内容里面写上unsuccessed，然后搜索范围选择选中的文件或文件夹，左边我们选择public.xml。然后点击搜索全部。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825102801818?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>我们可以看到下面的搜索结果显示了出来，我们双击这一行，就会跳到我们所需要找的位置。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825102859097?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>然后我们记住id：0x7f05000c。</p>
+<h2 id="3-smali"><a href="#3-smali" class="headerlink" title="3.smali"></a>3.smali</h2><p>这个时候我们还得使用我们的搜索。方法类似，不在赘述。我们要选择搜索smail</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825102938363?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>我们发现有两处。<br>第一处const v1, 0x7f05000c<br>于是我们双击过去。<br>然后往上找跳转的地方。<br>    move-result v0<br>    if-nez v0, :cond_0</p>
+<p>这里第一行代码返回的结果存到v0中去，第二行是对v0进行判断。如果值为0，就往下运行，也就是弹出未注册的地方。如果不为0，就跳转到cond_0处。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825103131647?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>那么也就是这里如果跳转成功就会跳转，那么程序就是成功。</p>
+<h1 id="四、修改smali"><a href="#四、修改smali" class="headerlink" title="四、修改smali"></a>四、修改smali</h1><p>这里是nez，不等于0，那我们就修改为eqz，等于0。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825103219773?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><font color="red">重点中的重点，修改完之后，一定记得保存。不然可能编译错误或者，没有编译修改后的代码</font>。</p>
+<p>然后我们点击编译，编译生成apk<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825103416775?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<p>看输出框的进度和文件路径，我们就去查找我们的apk。一般来说就在原apk旁边。重新编译签名后的apk名字前面会加上ApkIDE_</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825103454102?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h1 id="五、验证"><a href="#五、验证" class="headerlink" title="五、验证"></a>五、验证</h1><p>重新编译好的apk我们需要来验证一下是否成功。<br>我们拖拽到蓝叠中，安装打开。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160825103542274?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<p>这里发现我们已经破解成功了。</p>
+<p>最后给出apk的下载吧。<br><a href="https://yunpan.cn/cMuPerPjatc6S" target="_blank" rel="external">https://yunpan.cn/cMuPerPjatc6S</a>  访问密码 24ce<br>说的有错误或者不对的地方欢迎指正讨论。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://pic.sorgs.cn/9ba4099a701fc56788c10f1e9289af6c.jpeg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.853Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android逆向实例/">Android逆向实例</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/24104/&title=《Android逆向实例笔记—破解第一个Android程序_crackme02》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/24104/&title=《Android逆向实例笔记—破解第一个Android程序_crackme02》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/24104/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android逆向实例笔记—破解第一个Android程序_crackme02》 — Sorgs&url=http://sorgs.cn/post/24104/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/24104/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/50997/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Android逆向实例笔记—续力破解三个Android程序</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/15339/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Android逆向基础笔记—初识逆向</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/24104/&title=《Android逆向实例笔记—破解第一个Android程序_crackme02》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/24104/&title=《Android逆向实例笔记—破解第一个Android程序_crackme02》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/24104/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android逆向实例笔记—破解第一个Android程序_crackme02》 — Sorgs&url=http://sorgs.cn/post/24104/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/24104/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABzUlEQVR42u3aS47EIAwFwNz/0j0ngDxjQBmpWLXS+VSysIzt54nXb7BG/46uHR3ZvHBxcdvc33TNHzBHJys34OLi3ueOIkZyzujxo2vn57/YcHFxP8mdP36evuT3xMXF/V/c5NokzOHi4n6fm2xOqi+TB68jezVcXNwGN69Snvt9pL6Li4u7xO0UN/MAl7RYoqfj4uJe4eYBJUk+kiPVJisuLu597lpwqQ5VrG2lou+Ki4t7gLvW+OzvRNaSHlxc3DvcfHvTGaeotkyGd8PFxb3I7QxaVVsgrQ+Bi4t7hdsvXiS4arv0JfDh4uIe5lbbnGvjEXmZ9aXUgouLe4VbLX90mqxr4a8cznBxcdvcI8WLuO1abtjg4uJe4Va3InmJ5Nm0ynfDxcXdxM0HqvLEJR/XKCdDuLi4F7nVUYm80JkXXgt7NVxc3CvcPBtKXiwf8CpnYbi4uIe5/bHL6gt3AiUuLu4d7lp7da3KkpdX8qYLLi7uOW4evPot2HkYjb4rLi7uRW5e5qg2WTenMri4uJ/kVpOVtYbK8CVxcXE/yc03NhsGrdZaKbi4uJu4eZG0OqyZl1Si0ImLi3uFu6FPGwSvvPy6YQwUFxd3nfsHim4z0imTHl0AAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

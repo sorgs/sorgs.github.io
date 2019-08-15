@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/15339/">
+    
+    
+    <title>Android逆向基础笔记—初识逆向 | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android逆向基础">
+    <meta name="description" content="（本笔记来源于吾爱以及吾爱坛友，加上本人自己的整理）  一.初识 APK、Dalvik字节码以及Smali1. apk是什么？apk实质上是一个zip压缩包，将apk后缀修改为zip，解压之后可以看到其内部结构：">
+<meta name="keywords" content="Android逆向基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android逆向基础笔记—初识逆向">
+<meta property="og:url" content="http://sorgs.cn/post/15339/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="（本笔记来源于吾爱以及吾爱坛友，加上本人自己的整理）  一.初识 APK、Dalvik字节码以及Smali1. apk是什么？apk实质上是一个zip压缩包，将apk后缀修改为zip，解压之后可以看到其内部结构：">
+<meta property="og:image" content="http://img.blog.csdn.net/20160824145048356?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://pic.sorgs.cn/4870cb9773e6bc42f836727f0e177890.jpeg">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.849Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android逆向基础笔记—初识逆向">
+<meta name="twitter:description" content="（本笔记来源于吾爱以及吾爱坛友，加上本人自己的整理）  一.初识 APK、Dalvik字节码以及Smali1. apk是什么？apk实质上是一个zip压缩包，将apk后缀修改为zip，解压之后可以看到其内部结构：">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20160824145048356?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Android逆向基础笔记—初识逆向</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Android逆向基础笔记—初识逆向</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-11-16T08:24:13.000Z" itemprop="datePublished" class="page-time">
+  2016-11-16
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android逆向基础/">Android逆向基础</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一-初识-APK、Dalvik字节码以及Smali"><span class="post-toc-number">1.</span> <span class="post-toc-text">一.初识 APK、Dalvik字节码以及Smali</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-apk是什么？"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1. apk是什么？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-apk-的组成"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">2. apk 的组成</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Dalvik字节码（重点来了）"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">3. Dalvik字节码（重点来了）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Smali（破解的重点。好吧还是重点）"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">4. Smali（破解的重点。好吧还是重点）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1）Smali，Baksmali"><span class="post-toc-number">1.4.1.</span> <span class="post-toc-text">1）Smali，Baksmali</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2）原始类型："><span class="post-toc-number">1.4.2.</span> <span class="post-toc-text">2）原始类型：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3）方法的定义"><span class="post-toc-number">1.4.3.</span> <span class="post-toc-text">3）方法的定义</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4）Smali基本语法"><span class="post-toc-number">1.4.4.</span> <span class="post-toc-text">4）Smali基本语法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5）条件跳转分支"><span class="post-toc-number">1.4.5.</span> <span class="post-toc-text">5）条件跳转分支</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#二-Smali-文件"><span class="post-toc-number">2.</span> <span class="post-toc-text">二.Smali 文件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-Smali中的包信息"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">1. Smali中的包信息</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Smali中的声明"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2. Smali中的声明</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-关于寄存器"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">3.关于寄存器</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-寄存器简单实例分析"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">4. 寄存器简单实例分析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-Smali成员变量指令简析"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">6. Smali成员变量指令简析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-简析一"><span class="post-toc-number">2.5.1.</span> <span class="post-toc-text">1) 简析一</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-简析二"><span class="post-toc-number">2.5.2.</span> <span class="post-toc-text">2) 简析二</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-简析三"><span class="post-toc-number">2.5.3.</span> <span class="post-toc-text">3) 简析三</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-简析四"><span class="post-toc-number">2.5.4.</span> <span class="post-toc-text">4) 简析四</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#三-Smali函数分析"><span class="post-toc-number">3.</span> <span class="post-toc-text">三.Smali函数分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-Smali中函数的调用"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">1. Smali中函数的调用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1）smali中的函数和成员变量一样也分为两种类型，分别为direct和virtual之分。"><span class="post-toc-number">3.1.1.</span> <span class="post-toc-text">1）smali中的函数和成员变量一样也分为两种类型，分别为direct和virtual之分。</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2）invoke-static："><span class="post-toc-number">3.1.2.</span> <span class="post-toc-text">2）invoke-static：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3）invoke-super："><span class="post-toc-number">3.1.3.</span> <span class="post-toc-text">3）invoke-super：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4）invoke-direct："><span class="post-toc-number">3.1.4.</span> <span class="post-toc-text">4）invoke-direct：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5）invoke-virtual："><span class="post-toc-number">3.1.5.</span> <span class="post-toc-text">5）invoke-virtual：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6）invoke-xxxxx-range："><span class="post-toc-number">3.1.6.</span> <span class="post-toc-text">6）invoke-xxxxx/range：</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Smali中函数返回结果操作"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">2. Smali中函数返回结果操作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-Smali中函数实体分析–if函数分析"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">3. Smali中函数实体分析–if函数分析</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Android逆向基础笔记—初识逆向"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Android逆向基础笔记—初识逆向</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-11-16 16:24:13" datetime="2016-11-16T08:24:13.000Z"  itemprop="datePublished">2016-11-16</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android逆向基础/">Android逆向基础</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>（本笔记来源于吾爱以及吾爱坛友，加上本人自己的整理）</p>
+</blockquote>
+<h1 id="一-初识-APK、Dalvik字节码以及Smali"><a href="#一-初识-APK、Dalvik字节码以及Smali" class="headerlink" title="一.初识 APK、Dalvik字节码以及Smali"></a>一.初识 APK、Dalvik字节码以及Smali</h1><h2 id="1-apk是什么？"><a href="#1-apk是什么？" class="headerlink" title="1. apk是什么？"></a>1. apk是什么？</h2><p>apk实质上是一个zip压缩包，将apk后缀修改为zip，解压之后可以看到其内部结构：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160824145048356?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h2 id="2-apk-的组成"><a href="#2-apk-的组成" class="headerlink" title="2. apk 的组成"></a>2. apk 的组成</h2><font color="red">assets： 资源目录1</font>
+
+<p>assets 和 res 都是资源目录但有所区别：</p>
+<p>res 目录下的资源文件在编译时会自动生成索引文件（R.java），在Java代码中用R.xxx.yyy来引用；而asset目录下的资源文件不需要生成索引，在Java 代码中需要用AssetManager来访问；</p>
+<p>一般来说，除了音频和视频资源（需要放在raw或asset下），使用Java开发的Android工程使用到的资源文件都<br>会放在res下；</p>
+<p>使用C++游戏引擎（或使用 Lua Unity3D等）的资源文件均需要放在 assets 下。</p>
+<font color="red">lib： so 库存放位置，一般由NDK编译得到，常见于使用游戏引擎或 JNI native调用的工程中</font>
+
+<font color="red">META-INF： 存放工程一些属性文件，例如 Manifest.MF</font>
+
+<font color="red">res： 资源目录2</font>
+
+<font color="red">AndroidManifest.xml： Android工程的基础配置属性文件</font>
+
+<font color="red">classes.dex： Java代码编译得到的 Dalvik VM 能直接执行的文件</font>
+
+<font color="red">resources.arsc： 对res 目录下的资源的一个索引文件，保存了原工程中 </font>
+
+<font color="red">strings.xml等文件内</font>
+
+<font color="red">apktool.yml - 重新打包必须文件<br></font>
+
+<font color="red">lib - native 动态库 so</font>
+
+<p><font color="red">META-INF -签名</font>   </p>
+<h2 id="3-Dalvik字节码（重点来了）"><a href="#3-Dalvik字节码（重点来了）" class="headerlink" title="3. Dalvik字节码（重点来了）"></a>3. Dalvik字节码（重点来了）</h2><p>Dalvik 是 google 专门为 Android 操作系统设计的一个虚拟机，经过深度优化。虽然 Android 上的程序是使用java 来开发的，但是 Dalvik 和标准的 java 虚拟机 JVM 还是两回事。</p>
+<p>Dalvik VM 是基于寄存器的，而 JVM 是基于栈的；</p>
+<p>Dalvik有专属的文件执行格式 dex （dalvik executable），而 JVM 则执行的是 java 字节码。</p>
+<p>Dalvik VM 比 JVM 速度更快，占用空间更少。</p>
+<p>通过 Dalvik 的字节码我们不能直接看到原来的逻辑代码，这时需要借助如 Apktool 或 dex2jar+jd-gui 工具来帮助查看。但是，我们最终修改 APK 需要操作的文件是 .smali 文件，而不是导出来的 Java 文件重新编译。</p>
+<h2 id="4-Smali（破解的重点。好吧还是重点）"><a href="#4-Smali（破解的重点。好吧还是重点）" class="headerlink" title="4. Smali（破解的重点。好吧还是重点）"></a>4. Smali（破解的重点。好吧还是重点）</h2><h3 id="1）Smali，Baksmali"><a href="#1）Smali，Baksmali" class="headerlink" title="1）Smali，Baksmali"></a>1）Smali，Baksmali</h3><p>分别是指安卓系统里的 Java 虚拟机（Dalvik）所使用的一种 dex 格式文件的汇编器，反汇编器。其语法是一种宽松式的 Jasmin/dedexer 语法，而且它实现了 .dex 格式所有功能（注解，调试信息，线路信息等）</p>
+<p>当我们对 APK 文件进行反编译后，便会生成此类文件。在Davlik字节码中，寄存器都是32位的，能够支持任何类型，64位类（Long/Double）用2个寄存器表示；Dalvik字节码有两种类型：原始类型；引用类型（包括对象和数组）</p>
+<h3 id="2）原始类型："><a href="#2）原始类型：" class="headerlink" title="2）原始类型："></a>2）原始类型：</h3><p>B—byte</p>
+<p>C—char</p>
+<p>D—double</p>
+<p>F—float</p>
+<p>I—int</p>
+<p>J—long</p>
+<p>S—short</p>
+<p>V—void</p>
+<p>Z—boolean</p>
+<p>[XXX—array</p>
+<p>Lxxx/yyy—object</p>
+<p>这里解析下最后两项，数组的表示方式是：在基本类型前加上前中括号“[”，例如 int 数组和 float 数组分别表示为：[I、[F；</p>
+<p>对象的表示则以 L 作为开头，格式是 LpackageName/objectName;（注意必须有个分号跟在最后），例如 String 对象在 smali 中为：Ljava/lang/String;其中 java/lang 对应 java.lang包，String 就是定义在该包中的一个对象。</p>
+<p>内部类又如何在 smali 中：LpackageName/objectName$subObjectName;也就是在内部类前加“$”符号。</p>
+<h3 id="3）方法的定义"><a href="#3）方法的定义" class="headerlink" title="3）方法的定义"></a>3）方法的定义</h3><p>Func-Name (Para-Type1Para-Type2Para-Type3…)Return-Type注意参数与参数之间没有任何分隔符，举例如下：</p>
+<p>A ()V   这就是void A()。</p>
+<p>B (II)Z  这个则是boolean B(int, int)。</p>
+<p>C (Z[I[ILjava/lang/String;J)Ljava/lang/String;    这是String C (boolean, int[], int[], String, long) 。</p>
+<h3 id="4）Smali基本语法"><a href="#4）Smali基本语法" class="headerlink" title="4）Smali基本语法"></a>4）Smali基本语法</h3><p>.field private isFlag:z　　定义变量</p>
+<p>.method　　方法</p>
+<p>.parameter　　方法参数</p>
+<p>.prologue　　方法开始</p>
+<p>.line 123　　此方法位于第123行</p>
+<p>invoke-super　　调用父函数</p>
+<p>const/high16 v0, 0x7fo3　　把0x7fo3赋值给v0</p>
+<p>invoke-direct　　调用函数</p>
+<p>return-void　　函数返回void</p>
+<p>.end method　　函数结束</p>
+<p>new-instance　　创建实例</p>
+<p>iput-object　　对象赋值</p>
+<p>iget-object　　调用对象</p>
+<p>invoke-static　　调用静态函数</p>
+<h3 id="5）条件跳转分支"><a href="#5）条件跳转分支" class="headerlink" title="5）条件跳转分支"></a>5）条件跳转分支</h3><p>“if-eq vA, vB, :cond<em>**” 如果vA等于vB则跳转到:cond</em>**</p>
+<p>“if-ne vA, vB, :cond<em>**” 如果vA不等于vB则跳转到:cond</em>**</p>
+<p>“if-lt vA, vB, :cond<em>**” 如果vA小于vB则跳转到:cond</em>**</p>
+<p>“if-ge vA, vB, :cond<em>**” 如果vA大于等于vB则跳转到:cond</em>**</p>
+<p>“if-gt vA, vB, :cond<em>**” 如果vA大于vB则跳转到:cond</em>**</p>
+<p>“if-le vA, vB, :cond<em>**” 如果vA小于等于vB则跳转到:cond</em>**</p>
+<p>“if-eqz vA, :cond<em>**” 如果vA等于0则跳转到:cond</em>**</p>
+<p>“if-nez vA, :cond<em>**” 如果vA不等于0则跳转到:cond</em>**</p>
+<p>“if-ltz vA, :cond<em>**” 如果vA小于0则跳转到:cond</em>**</p>
+<p>“if-gez vA, :cond<em>**” 如果vA大于等于0则跳转到:cond</em>**</p>
+<p>“if-gtz vA, :cond<em>**” 如果vA大于0则跳转到:cond</em>**</p>
+<p>“if-lez vA, :cond<em>**” 如果vA小于等于0则跳转到:cond</em>**</p>
+<h1 id="二-Smali-文件"><a href="#二-Smali-文件" class="headerlink" title="二.Smali 文件"></a>二.Smali 文件</h1><h2 id="1-Smali中的包信息"><a href="#1-Smali中的包信息" class="headerlink" title="1. Smali中的包信息"></a>1. Smali中的包信息</h2><p>.class public Lcom/aaaaa; （它是com.aaaaa这个package下的一个类）</p>
+<p>.super Lcom/bbbbb; （继承自com.bbbbb这个类）</p>
+<p>.source “ccccc.java” （一个由ccccc.java编译得到的smali文件）</p>
+<h2 id="2-Smali中的声明"><a href="#2-Smali中的声明" class="headerlink" title="2. Smali中的声明"></a>2. Smali中的声明</h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">#annotations</div><div class="line">.annotation system Ldalvik/annotation/MemberClasses;</div><div class="line">value = &#123;</div><div class="line">Lcom/aaa$qqq;,</div><div class="line">Lcom/aaa$www;</div><div class="line">&#125;.</div><div class="line">end annotation</div></pre></td></tr></table></figure>
+<p>//这个声明是内部类的声明：aaa这个类它有两个成员内部类——qqq和www，内部类将在后面小节中会有提及。</p>
+<h2 id="3-关于寄存器"><a href="#3-关于寄存器" class="headerlink" title="3.关于寄存器"></a>3.关于寄存器</h2><p>寄存器是什么意思呢？在 smali 里的所有操作都必须经过寄存器来进行：本地寄存器用 v 开头，数字结尾的符号来表示，如v0、v1、v2、…</p>
+<p>参数寄存器则使用 p 开头，数字结尾的符号来表示，如p0、p1、p2、…</p>
+<p>特别注意的是，p0 不一定是函数中的第一个参数，在非 static 函数中，p0 代指“this”，p1 表示函数的第一个参数，p2 代表函数中的第二个参数。</p>
+<p>而在 static 函数中 p0 才对应第一个参数（因为 Java 的 static 方法中没有 this 方法。</p>
+<h2 id="4-寄存器简单实例分析"><a href="#4-寄存器简单实例分析" class="headerlink" title="4. 寄存器简单实例分析"></a>4. 寄存器简单实例分析</h2><p>const/4 v0, 0x1</p>
+<p>iput-boolean v0, p0, Lcom/aaa;-&gt;IsRegistered:Z</p>
+<p>我们来分析一下上面的两句 smali 代码，首先它使用了 v0 本地寄存器，并把值 0x1 存到 v0 中，然后第二句用 iput-boolean 这个指令把 v0 中的值存放到 com.aaa.IsRegistered 这个成员变量中。</p>
+<p>即相当于：this.IsRegistered= true;（上面说过，在非static函数中p0代表的是“this”，在这里就是com.aaa 实例）。</p>
+<p>##　5. Smali中的成员变量<br>成员变量格式是：.field public/private [static] [final] varName:&lt;类型&gt;。</p>
+<p>对于不同的成员变量也有不同的指令。</p>
+<p>一般来说，获取的指令有：iget、sget、iget-boolean、sget-boolean、iget-object、sget-object等。</p>
+<p>操作的指令有：iput、sput、iput-boolean、sput-boolean、iput-object、sput-object等。</p>
+<p>没有“-object”后缀的表示操作的成员变量对象是基本数据类型，带“-object”表示操作的成员变量是对象类</p>
+<p>型，特别地，boolean 类型则使用带“-boolean”的指令操作。</p>
+<h2 id="6-Smali成员变量指令简析"><a href="#6-Smali成员变量指令简析" class="headerlink" title="6. Smali成员变量指令简析"></a>6. Smali成员变量指令简析</h2><h3 id="1-简析一"><a href="#1-简析一" class="headerlink" title="1) 简析一"></a>1) 简析一</h3><p>sget-object v0, Lcom/aaa;-&gt;ID:Ljava/lang/String;</p>
+<p>sget-object就是用来获取变量值并保存到紧接着的参数的寄存器中，本例中，它获取ID这个String类型的成员变量并放到v0这个寄器中。</p>
+<p>注意：前面需要该变量所属的类的类型，后面需要加一个冒号和该成员变量的类型，中间是“-&gt;”表示所属关系。</p>
+<h3 id="2-简析二"><a href="#2-简析二" class="headerlink" title="2) 简析二"></a>2) 简析二</h3><p>iget-object v0, p0, Lcom/aaa;-&gt;view:Lcom/aaa/view;</p>
+<p>可以看到iget-object指令比sget-object多了一个参数，就是该变量所在类的实例，在这里就是p0即“this”。</p>
+<p>获取array的话我们用aget和aget-object，指令使用和上述一致</p>
+<h3 id="3-简析三"><a href="#3-简析三" class="headerlink" title="3) 简析三"></a>3) 简析三</h3><p>（put指令的使用和get指令是统一的）<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span>/<span class="number">4</span> v3, <span class="number">0x0</span></div><div class="line">sput-object v3, Lcom/aaa;-&gt;timer:Lcom/aaa/timer;</div></pre></td></tr></table></figure></p>
+<p>相当于：this.timer= null;</p>
+<p>注意，这里因为是赋值object 所以是null</p>
+<h3 id="4-简析四"><a href="#4-简析四" class="headerlink" title="4) 简析四"></a>4) 简析四</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">.local v0, args:Landroid/os/Message;</div><div class="line"><span class="keyword">const</span>/<span class="number">4</span> v1, <span class="number">0x12</span></div><div class="line">iput v1, v0, Landroid/os/Message;-&gt;what:I</div></pre></td></tr></table></figure>
+<p>相当于：args.what = 18;（args 是 Message 的实例）</p>
+<h1 id="三-Smali函数分析"><a href="#三-Smali函数分析" class="headerlink" title="三.Smali函数分析"></a>三.Smali函数分析</h1><h2 id="1-Smali中函数的调用"><a href="#1-Smali中函数的调用" class="headerlink" title="1. Smali中函数的调用"></a>1. Smali中函数的调用</h2><h3 id="1）smali中的函数和成员变量一样也分为两种类型，分别为direct和virtual之分。"><a href="#1）smali中的函数和成员变量一样也分为两种类型，分别为direct和virtual之分。" class="headerlink" title="1）smali中的函数和成员变量一样也分为两种类型，分别为direct和virtual之分。"></a>1）smali中的函数和成员变量一样也分为两种类型，分别为direct和virtual之分。</h3><p>direct method和virtualmethod的区别：简单来说，direct method 就是 private 函数，其余的 public 和 protected 函数都属于 virtual method。</p>
+<p>所以在调用函数时，有invoke-direct，invoke-virtual，另外还有invoke-static、invoke-super以及invokeinterface等几种不同的指令。当然其实还有invoke-XXX/range 指令的，这是参数多于4个的时候调用的指令。</p>
+<h3 id="2）invoke-static："><a href="#2）invoke-static：" class="headerlink" title="2）invoke-static："></a>2）invoke-static：</h3><p>用于调用static函数，例如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">invoke-<span class="keyword">static</span> &#123;&#125;, Lcom/aaa;-&gt;CheckSignature()Z</div></pre></td></tr></table></figure></p>
+<p>这里注意到 invoke-static 后面有一对大括号“{}”，其实是调用该方法的实例+参数列表，由于这个方法既不需参数也是static的，所以{}内为空</p>
+<p>再看一个：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span>-string v0, <span class="string">"NDKLIB"</span></div><div class="line">invoke-<span class="keyword">static</span> &#123;v0&#125;, Ljava/lang/System;-&gt;loadLibrary(Ljava/lang/String;)V</div></pre></td></tr></table></figure></p>
+<p>这个是调用 static void System.loadLibrary(String) 来加载 NDK 编译的 so 库用的方法，同样也是这里 v0 就是参数”NDKLIB”了。</p>
+<h3 id="3）invoke-super："><a href="#3）invoke-super：" class="headerlink" title="3）invoke-super："></a>3）invoke-super：</h3><p>调用父类方法用的指令，一般用于调用onCreate、onDestroy等方法。</p>
+<h3 id="4）invoke-direct："><a href="#4）invoke-direct：" class="headerlink" title="4）invoke-direct："></a>4）invoke-direct：</h3><p>调用private函数：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">invoke-direct &#123;p0&#125;, Landroid/app/TabActivity;-&gt;()V</div></pre></td></tr></table></figure></p>
+<p>这里init()就是定义在TabActivity中的一个private函数</p>
+<h3 id="5）invoke-virtual："><a href="#5）invoke-virtual：" class="headerlink" title="5）invoke-virtual："></a>5）invoke-virtual：</h3><p>用于调用 protected 或 public 函数，同样注意修改smali时不要错用 invoke-direct或 invoke-static：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sget-object v0, Lcom/dddd;-&gt;bbb:Lcom/ccc;</div><div class="line">invoke-virtual &#123;v0, v1&#125;, Lcom/ccc;-&gt;Messages(Ljava/lang/Object;)V</div></pre></td></tr></table></figure></p>
+<p>v0是bbb:Lcom/ccc</p>
+<p>v1是传递给Messages方法的Ljava/lang/Object参数。</p>
+<h3 id="6）invoke-xxxxx-range："><a href="#6）invoke-xxxxx-range：" class="headerlink" title="6）invoke-xxxxx/range："></a>6）invoke-xxxxx/range：</h3><p>当方法的参数多于5个时（含5个），不能直接使用以上的指令，而是在后面加上“/range”，range表示范围，使用方法也有所不同：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">invoke-direct/range &#123;v0 .. v5&#125;, Lcmb/pb/ui/PBContainerActivity;-&gt;h(ILjava/lang/CharSequence;Ljava/lang/</div><div class="line">String;Landroid/content/</div></pre></td></tr></table></figure></p>
+<p>需要传递v0到v5一共6个参数，这时候大括号内的参数采用省略形式，且需要连续。</p>
+<h2 id="2-Smali中函数返回结果操作"><a href="#2-Smali中函数返回结果操作" class="headerlink" title="2. Smali中函数返回结果操作"></a>2. Smali中函数返回结果操作</h2><p>在Java代码中调用函数和返回函数结果可以用一条语句完成，而在Smali里则需要分开来完成，在使用上述指令后，如果调用的函数返回非void，那么还需要用到move-result（返回基本数据类型）和move-result-object（返回对象）指令：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span>-string v0, <span class="string">"Eric"</span></div><div class="line">invoke-<span class="keyword">static</span> &#123;v0&#125;, Lcmb/pbi;-&gt;t(Ljava/lang/String;)Ljava/lang/String;</div><div class="line">move-result-object v2</div></pre></td></tr></table></figure></p>
+<p>v2保存的就是调用t方法返回的String字符串。</p>
+<h2 id="3-Smali中函数实体分析–if函数分析"><a href="#3-Smali中函数实体分析–if函数分析" class="headerlink" title="3. Smali中函数实体分析–if函数分析"></a>3. Smali中函数实体分析–if函数分析</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">.<span class="function">method <span class="keyword">private</span> <span class="title">ifRegistered</span><span class="params">()</span>Z</span></div><div class="line">.locals 2 <span class="comment">//在这个函数中本地寄存器的个数</span></div><div class="line">.prologue</div><div class="line"><span class="keyword">const</span>/4 v0, 0x1 <span class="comment">// v0赋值为1</span></div><div class="line">.local v0, tempFlag:Z</div><div class="line"><span class="keyword">if</span>-eqz v0, :cond0 <span class="comment">// 判断v0是否等于0，等于0则跳到cond0执行</span></div><div class="line"><span class="keyword">const</span>/4 v1, 0x1 <span class="comment">// 符合条件分支</span></div><div class="line">:goto_0 <span class="comment">//标签</span></div><div class="line">return v1 <span class="comment">//返回v1的值</span></div><div class="line">:cond_0 <span class="comment">//标签</span></div><div class="line"><span class="keyword">const</span>/4 v1, 0x0 <span class="comment">// cond_0分支</span></div><div class="line">goto :goto0 <span class="comment">//跳到goto0执行 即返回v1的值 这里可以改成return v1 也是一样的</span></div><div class="line">.end method</div></pre></td></tr></table></figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://pic.sorgs.cn/4870cb9773e6bc42f836727f0e177890.jpeg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.849Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android逆向基础/">Android逆向基础</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/15339/&title=《Android逆向基础笔记—初识逆向》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/15339/&title=《Android逆向基础笔记—初识逆向》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/15339/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android逆向基础笔记—初识逆向》 — Sorgs&url=http://sorgs.cn/post/15339/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/15339/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/24104/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Android逆向实例笔记—破解第一个Android程序_crackme02</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/12244/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Android 最最最简单的浏览器代码</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/15339/&title=《Android逆向基础笔记—初识逆向》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/15339/&title=《Android逆向基础笔记—初识逆向》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/15339/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android逆向基础笔记—初识逆向》 — Sorgs&url=http://sorgs.cn/post/15339/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/15339/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABvElEQVR42u3aQY7CQAwEQP7/afa6F5K2PTMEqeaEEEoqHCy7ndcrPu9/J/+m+stlBxcXd8x9X56Eklzn0zVzAy4u7nnup4px/Tn/fU6/seHi4j6Ye13sdvwFuLi4T+ZWcfnghIuL+zTupAXJA46jsxouLu6AO7/N/POWfBcXF7fFfRdPrzFKVizR3XFxcY9w84KSNBzVR2reFxcX90vcvEGZvH7RK3+4uLhnuNXGZRJqTJoeXFzc89z5WrS6lE0efuM7I7i4uJfcpCnpxRnzf7Ew/ODi4i7i5mFHb0vTW5zclDBcXNzN3Hz46ZW8XmOURC24uLgnuZPwIh978haqUM5wcXGXcnshabVI9WLWwk4YFxd3Gze/XHlL0zo3yS4uLu5mbtIBzVuf/GWOm0KGi4t7hFvFJePNJDppDj+4uLgbuNXFajUoabY11U0LLi7ugDsfaXqrl7xQ4uLinudWi8vkotWwdXRfXFzcMTdfaaxCVEOWQvXFxcVdys2Housb5CPTuu0KLi7u97nzVqa31sXFxf0tbhKhToYoXFzcb3Eny5Kc3huccHFxz3NXTRx5EcyjkFG+i4uL2+H+AWxBzRw28rNiAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

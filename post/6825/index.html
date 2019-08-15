@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/6825/">
+    
+    
+    <title>Android两个android两个activity之间相互传递数据之装备选择（书上案例） | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android开发">
+    <meta name="description" content="这个是书上的一个案例，我将其完善了一点而已  xml显示创建一个xml的主界面 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384">
+<meta name="keywords" content="Android开发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android两个android两个activity之间相互传递数据之装备选择（书上案例）">
+<meta property="og:url" content="http://sorgs.cn/post/6825/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="这个是书上的一个案例，我将其完善了一点而已  xml显示创建一个xml的主界面 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384">
+<meta property="og:image" content="http://img.blog.csdn.net/20161121104948757">
+<meta property="og:image" content="http://img.blog.csdn.net/20161121105843457">
+<meta property="og:image" content="http://img.blog.csdn.net/20161121105957397">
+<meta property="og:image" content="http://img.blog.csdn.net/20161121110007241">
+<meta property="og:image" content="http://img.blog.csdn.net/20161121110018538">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.841Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android两个android两个activity之间相互传递数据之装备选择（书上案例）">
+<meta name="twitter:description" content="这个是书上的一个案例，我将其完善了一点而已  xml显示创建一个xml的主界面 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20161121104948757">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Android两个android两个activity之间相互传递数据之装备选择（书上案例）</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Android两个android两个activity之间相互传递数据之装备选择（书上案例）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-11-21T03:00:58.000Z" itemprop="datePublished" class="page-time">
+  2016-11-21
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android开发/">Android开发</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#xml"><span class="post-toc-number">1.</span> <span class="post-toc-text">xml</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#JAVA"><span class="post-toc-number">2.</span> <span class="post-toc-text">JAVA</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#配置"><span class="post-toc-number">3.</span> <span class="post-toc-text">配置</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#效果"><span class="post-toc-number">4.</span> <span class="post-toc-text">效果</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Android两个android两个activity之间相互传递数据之装备选择（书上案例）"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Android两个android两个activity之间相互传递数据之装备选择（书上案例）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-11-21 11:00:58" datetime="2016-11-21T03:00:58.000Z"  itemprop="datePublished">2016-11-21</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android开发/">Android开发</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>这个是书上的一个案例，我将其完善了一点而已</p>
+</blockquote>
+<h1 id="xml"><a href="#xml" class="headerlink" title="xml"></a>xml</h1><p>显示创建一个xml的主界面</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/activity_main"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></div><div class="line">    <span class="attr">android:gravity</span>=<span class="string">"center"</span></div><div class="line">    <span class="attr">tools:context</span>=<span class="string">"sorgs.com.selectequipment.MainActivity"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/pet_imgv"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_centerHorizontal</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:layout_marginBottom</span>=<span class="string">"5dp"</span></div><div class="line">        <span class="attr">android:layout_marginTop</span>=<span class="string">"30dp"</span></div><div class="line">        <span class="attr">android:src</span>=<span class="string">"@drawable/body"</span>/&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/pet_dialog_tv"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_centerHorizontal</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:layout_marginBottom</span>=<span class="string">"25dp"</span></div><div class="line">        <span class="attr">android:gravity</span>=<span class="string">"center"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"主人，快给小宝宝购买装备吧"</span>/&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">TableLayout</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></div><div class="line">        <span class="attr">android:layout_marginBottom</span>=<span class="string">"20dp"</span>&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">TableRow</span></span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</div><div class="line"></div><div class="line">            <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">                <span class="attr">android:layout_width</span>=<span class="string">"0dip"</span></div><div class="line">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">                <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></div><div class="line">                <span class="attr">android:text</span>=<span class="string">"生命值："</span></div><div class="line">                <span class="attr">android:textColor</span>=<span class="string">"@android:color/black"</span></div><div class="line">                <span class="attr">android:textSize</span>=<span class="string">"14sp"</span>/&gt;</div><div class="line"></div><div class="line">            <span class="tag">&lt;<span class="name">ProgressBar</span></span></div><div class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/progressBar1"</span></div><div class="line">                <span class="attr">style</span>=<span class="string">"?android:attr/progressBarStyleHorizontal"</span></div><div class="line">                <span class="attr">android:layout_width</span>=<span class="string">"0dip"</span></div><div class="line">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">                <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></div><div class="line">                <span class="attr">android:layout_weight</span>=<span class="string">"2"</span>/&gt;</div><div class="line"></div><div class="line">            <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/tv_life_progress"</span></div><div class="line">                <span class="attr">android:layout_width</span>=<span class="string">"0dip"</span></div><div class="line">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">                <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></div><div class="line">                <span class="attr">android:text</span>=<span class="string">"0"</span></div><div class="line">                <span class="attr">android:gravity</span>=<span class="string">"center"</span></div><div class="line">                <span class="attr">android:textColor</span>=<span class="string">"#000000"</span> /&gt;</div><div class="line">        <span class="tag">&lt;/<span class="name">TableRow</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">TableRow</span></span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</div><div class="line"></div><div class="line">            <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">                <span class="attr">android:layout_width</span>=<span class="string">"0dip"</span></div><div class="line">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">                <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></div><div class="line">                <span class="attr">android:text</span>=<span class="string">"攻击力："</span></div><div class="line">                <span class="attr">android:textColor</span>=<span class="string">"@android:color/black"</span></div><div class="line">                <span class="attr">android:textSize</span>=<span class="string">"14sp"</span>/&gt;</div><div class="line"></div><div class="line">            <span class="tag">&lt;<span class="name">ProgressBar</span></span></div><div class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/progressBar2"</span></div><div class="line">                <span class="attr">style</span>=<span class="string">"?android:attr/progressBarStyleHorizontal"</span></div><div class="line">                <span class="attr">android:layout_width</span>=<span class="string">"0dip"</span></div><div class="line">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">                <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></div><div class="line">                <span class="attr">android:layout_weight</span>=<span class="string">"2"</span>/&gt;</div><div class="line"></div><div class="line">            <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/tv_attack_progress"</span></div><div class="line">                <span class="attr">android:layout_width</span>=<span class="string">"0dip"</span></div><div class="line">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">                <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></div><div class="line">                <span class="attr">android:text</span>=<span class="string">"0"</span></div><div class="line">                <span class="attr">android:gravity</span>=<span class="string">"center"</span></div><div class="line">                <span class="attr">android:textColor</span>=<span class="string">"#000000"</span> /&gt;</div><div class="line">        <span class="tag">&lt;/<span class="name">TableRow</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">TableRow</span></span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</div><div class="line"></div><div class="line">            <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">                <span class="attr">android:layout_width</span>=<span class="string">"0dip"</span></div><div class="line">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">                <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></div><div class="line">                <span class="attr">android:text</span>=<span class="string">"敏捷："</span></div><div class="line">                <span class="attr">android:textColor</span>=<span class="string">"@android:color/black"</span></div><div class="line">                <span class="attr">android:textSize</span>=<span class="string">"14sp"</span>/&gt;</div><div class="line"></div><div class="line">            <span class="tag">&lt;<span class="name">ProgressBar</span></span></div><div class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/progressBar3"</span></div><div class="line">                <span class="attr">style</span>=<span class="string">"?android:attr/progressBarStyleHorizontal"</span></div><div class="line">                <span class="attr">android:layout_width</span>=<span class="string">"0dip"</span></div><div class="line">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">                <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></div><div class="line">                <span class="attr">android:layout_weight</span>=<span class="string">"2"</span>/&gt;</div><div class="line"></div><div class="line">            <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/tv_speed_progress"</span></div><div class="line">                <span class="attr">android:layout_width</span>=<span class="string">"0dip"</span></div><div class="line">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">                <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></div><div class="line">                <span class="attr">android:text</span>=<span class="string">"0"</span></div><div class="line">                <span class="attr">android:gravity</span>=<span class="string">"center"</span></div><div class="line">                <span class="attr">android:textColor</span>=<span class="string">"#000000"</span> /&gt;</div><div class="line">        <span class="tag">&lt;/<span class="name">TableRow</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">TableLayout</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">RelativeLayout</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/btn_master"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_alignParentLeft</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:layout_alignParentTop</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:onClick</span>=<span class="string">"click1"</span></div><div class="line">        <span class="attr">android:drawablePadding</span>=<span class="string">"3dp"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"主人购买装备"</span></div><div class="line">        <span class="attr">android:textSize</span>=<span class="string">"14sp"</span>/&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/btn_baby"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_alignParentRight</span>=<span class="string">"true"</span></div><div class="line">            <span class="attr">android:layout_alignParentTop</span>=<span class="string">"true"</span></div><div class="line">            <span class="attr">android:onClick</span>=<span class="string">"click2"</span></div><div class="line">            <span class="attr">android:drawablePadding</span>=<span class="string">"3dp"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"小宝宝购买装备"</span></div><div class="line">            <span class="attr">android:textSize</span>=<span class="string">"14sp"</span>/&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>然后在创建一个购买装备购买的页面</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/r1"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">View</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"30dp"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"30dp"</span></div><div class="line">        <span class="attr">android:layout_centerVertical</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:layout_alignParentLeft</span>=<span class="string">"true"</span>/&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/tv_name"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_centerVertical</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:layout_marginLeft</span>=<span class="string">"60dp"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"商品名称"</span>/&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">LinearLayout</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_centerInParent</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/tv_life"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:textSize</span>=<span class="string">"13sp"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"生命值"</span>/&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/tv_attack"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:textSize</span>=<span class="string">"13sp"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"攻击力"</span>/&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/tv_speed"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:textSize</span>=<span class="string">"13sp"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"速度"</span>/&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<h1 id="JAVA"><a href="#JAVA" class="headerlink" title="JAVA"></a>JAVA</h1><p>然后创建一个Itemfnfo类，用来封装装备信息</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161121104948757" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>接着写代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> sorgs.com.domain;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.Serializable;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by Administrator on 2016/11/20.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ItemInfo</span> <span class="keyword">implements</span> <span class="title">Serializable</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> acctack;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> life;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> speed;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ItemInfo</span><span class="params">(String name, <span class="keyword">int</span> acctack, <span class="keyword">int</span> life, <span class="keyword">int</span> speed)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">        <span class="keyword">this</span>.acctack = acctack;</div><div class="line">        <span class="keyword">this</span>.life = life;</div><div class="line">        <span class="keyword">this</span>.speed = speed;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAcctack</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> acctack;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAcctack</span><span class="params">(<span class="keyword">int</span> acctack)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.acctack = acctack;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getLife</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> life;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLife</span><span class="params">(<span class="keyword">int</span> life)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.life = life;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSpeed</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> speed;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSpeed</span><span class="params">(<span class="keyword">int</span> speed)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.speed = speed;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"["</span> + <span class="string">"name='"</span> + name + <span class="string">", acctack="</span> + acctack + <span class="string">", life="</span> + life</div><div class="line">                + <span class="string">", speed="</span> + speed + <span class="string">"]"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后创建一个shopactivity，用来展示主人装备信息的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> sorgs.com.selectequipment.sorgs.com;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.app.Activity;</div><div class="line"><span class="keyword">import</span> android.content.Intent;</div><div class="line"><span class="keyword">import</span> android.os.Bundle;</div><div class="line"><span class="keyword">import</span> android.view.View;</div><div class="line"><span class="keyword">import</span> android.widget.TextView;</div><div class="line"></div><div class="line"><span class="keyword">import</span> sorgs.com.domain.ItemInfo;</div><div class="line"><span class="keyword">import</span> sorgs.com.selectequipment.R;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by Administrator on 2016/11/20.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShopActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">View</span>.<span class="title">OnClickListener</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ItemInfo itemInfo;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_shop);</div><div class="line"></div><div class="line">        itemInfo = <span class="keyword">new</span> ItemInfo(<span class="string">"金剑"</span>,<span class="number">100</span>,<span class="number">20</span>,<span class="number">20</span>);</div><div class="line">        findViewById(R.id.r1).setOnClickListener(<span class="keyword">this</span>);</div><div class="line">        TextView mLifeTV = (TextView) findViewById(R.id.tv_life);</div><div class="line">        TextView mNameTV = (TextView) findViewById(R.id.tv_name);</div><div class="line">        TextView mSpeedTV = (TextView) findViewById(R.id.tv_speed);</div><div class="line">        TextView mAttackTV = (TextView) findViewById(R.id.tv_attack);</div><div class="line">        <span class="comment">//TextView 显示字符串，这里传入int值编译不会报错，运行会出错</span></div><div class="line">        mLifeTV.setText(<span class="string">"生命值+"</span>+itemInfo.getLife());</div><div class="line">        mNameTV.setText(itemInfo.getName());</div><div class="line">        mSpeedTV.setText(<span class="string">"敏捷度+"</span>+itemInfo.getSpeed());</div><div class="line">        mAttackTV.setText(<span class="string">"攻击力+"</span>+itemInfo.getAcctack());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</div><div class="line">        <span class="keyword">switch</span> (view.getId())&#123;</div><div class="line">                <span class="keyword">case</span> R.id.r1:</div><div class="line">                    Intent intent = <span class="keyword">new</span> Intent();</div><div class="line">                    intent.putExtra(<span class="string">"equipment"</span>,itemInfo);</div><div class="line">                    setResult(<span class="number">1</span>,intent);  <span class="comment">//设置请求码</span></div><div class="line">                    finish();</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>再建立一个shopactivity2，用来放宝宝购买装备</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> sorgs.com.selectequipment.sorgs.com;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.app.Activity;</div><div class="line"><span class="keyword">import</span> android.content.Intent;</div><div class="line"><span class="keyword">import</span> android.os.Bundle;</div><div class="line"><span class="keyword">import</span> android.view.View;</div><div class="line"><span class="keyword">import</span> android.widget.TextView;</div><div class="line"></div><div class="line"><span class="keyword">import</span> sorgs.com.domain.ItemInfo;</div><div class="line"><span class="keyword">import</span> sorgs.com.selectequipment.R;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by Administrator on 2016/11/20.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShopActivity2</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">View</span>.<span class="title">OnClickListener</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ItemInfo itemInfo;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_shop);</div><div class="line"></div><div class="line">        itemInfo = <span class="keyword">new</span> ItemInfo(<span class="string">"银剑"</span>,<span class="number">50</span>,<span class="number">10</span>,<span class="number">10</span>);</div><div class="line">        findViewById(R.id.r1).setOnClickListener(<span class="keyword">this</span>);</div><div class="line">        TextView mLifeTV = (TextView) findViewById(R.id.tv_life);</div><div class="line">        TextView mNameTV = (TextView) findViewById(R.id.tv_name);</div><div class="line">        TextView mSpeedTV = (TextView) findViewById(R.id.tv_speed);</div><div class="line">        TextView mAttackTV = (TextView) findViewById(R.id.tv_attack);</div><div class="line">        <span class="comment">//TextView 显示字符串，这里传入int值编译不会报错，运行会出错</span></div><div class="line">        mLifeTV.setText(<span class="string">"生命值+"</span>+itemInfo.getLife());</div><div class="line">        mNameTV.setText(itemInfo.getName());</div><div class="line">        mSpeedTV.setText(<span class="string">"敏捷度+"</span>+itemInfo.getSpeed());</div><div class="line">        mAttackTV.setText(<span class="string">"攻击力+"</span>+itemInfo.getAcctack());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</div><div class="line">        <span class="keyword">switch</span> (view.getId())&#123;</div><div class="line">            <span class="keyword">case</span> R.id.r1:</div><div class="line">                Intent intent = <span class="keyword">new</span> Intent();</div><div class="line">                intent.putExtra(<span class="string">"equipment"</span>,itemInfo);</div><div class="line">                setResult(<span class="number">2</span>,intent);  <span class="comment">//设置请求码</span></div><div class="line">                finish();</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最后编写我们的主函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> sorgs.com.selectequipment;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.content.Intent;</div><div class="line"><span class="keyword">import</span> android.support.v7.app.AppCompatActivity;</div><div class="line"><span class="keyword">import</span> android.os.Bundle;</div><div class="line"><span class="keyword">import</span> android.view.View;</div><div class="line"><span class="keyword">import</span> android.widget.ProgressBar;</div><div class="line"><span class="keyword">import</span> android.widget.TextView;</div><div class="line"></div><div class="line"><span class="keyword">import</span> sorgs.com.domain.ItemInfo;</div><div class="line"><span class="keyword">import</span> sorgs.com.selectequipment.sorgs.com.ShopActivity;</div><div class="line"><span class="keyword">import</span> sorgs.com.selectequipment.sorgs.com.ShopActivity2;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ProgressBar mProgressBar1;</div><div class="line">    <span class="keyword">private</span> ProgressBar mProgressBar2;</div><div class="line">    <span class="keyword">private</span> ProgressBar mProgressBar3;</div><div class="line">    <span class="keyword">private</span> TextView mLifeTV;</div><div class="line">    <span class="keyword">private</span> TextView mAttackTV;</div><div class="line">    <span class="keyword">private</span> TextView mSpeedTV;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">        mLifeTV = (TextView) findViewById(R.id.tv_life_progress);</div><div class="line">        mAttackTV = (TextView) findViewById(R.id.tv_attack_progress);</div><div class="line">        mSpeedTV = (TextView) findViewById(R.id.tv_speed_progress);</div><div class="line"></div><div class="line">        initProgress(); <span class="comment">//初始化进度条</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initProgress</span><span class="params">()</span> </span>&#123;</div><div class="line">        mProgressBar1 = (ProgressBar) findViewById(R.id.progressBar1);</div><div class="line">        mProgressBar2 = (ProgressBar) findViewById(R.id.progressBar2);</div><div class="line">        mProgressBar3 = (ProgressBar) findViewById(R.id.progressBar3);</div><div class="line"></div><div class="line">        mProgressBar1.setMax(<span class="number">1000</span>);  <span class="comment">//设置最大的值1000</span></div><div class="line">        mProgressBar2.setMax(<span class="number">1000</span>);</div><div class="line">        mProgressBar3.setMax(<span class="number">1000</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">click1</span><span class="params">(View view)</span></span>&#123; <span class="comment">//开启新的activity并且想获取他的返回值</span></div><div class="line">        Intent intent = <span class="keyword">new</span> Intent(<span class="keyword">this</span>, ShopActivity.class);</div><div class="line">        startActivityForResult(intent,<span class="number">1</span>); <span class="comment">//返回请求结果，请求码为1</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">click2</span><span class="params">(View view)</span></span>&#123; <span class="comment">//开启新的activity并且想获取他的返回值</span></div><div class="line">        Intent intent = <span class="keyword">new</span> Intent(<span class="keyword">this</span>, ShopActivity2.class);</div><div class="line">        startActivityForResult(intent,<span class="number">2</span>); <span class="comment">//返回请求结果，请求码为2</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, Intent data)</span> </span>&#123;<span class="comment">//获取ShopActivity的装备信息</span></div><div class="line">        <span class="keyword">super</span>.onActivityResult(requestCode, resultCode, data);</div><div class="line">        <span class="keyword">if</span> (data != <span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">if</span> (resultCode==<span class="number">1</span>)&#123; <span class="comment">//判断结果码是否等于1，等于1为主人添加装备</span></div><div class="line">                <span class="keyword">if</span> (requestCode == <span class="number">1</span>)&#123;</div><div class="line">                    ItemInfo info = (ItemInfo) data.getSerializableExtra(<span class="string">"equipment"</span>);</div><div class="line">                    updateProgress(info); <span class="comment">//更新ProgressBar的值</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (requestCode == <span class="number">2</span>)&#123;<span class="comment">//判断结果码是否等于2，等于2为宝宝添加装备，</span></div><div class="line">                <span class="keyword">if</span> (requestCode == <span class="number">2</span>)&#123;</div><div class="line">                    ItemInfo info = (ItemInfo) data.getSerializableExtra(<span class="string">"equipment"</span>);</div><div class="line">                    updateProgress2(info); <span class="comment">//更新ProgressBar的值</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateProgress2</span><span class="params">(ItemInfo info)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> progress1 = mProgressBar1.getProgress();</div><div class="line">        <span class="keyword">int</span> progress2 = mProgressBar2.getProgress();</div><div class="line">        <span class="keyword">int</span> progress3 = mProgressBar3.getProgress();</div><div class="line"></div><div class="line">        mProgressBar1.setProgress(progress1+info.getLife());</div><div class="line">        mProgressBar2.setProgress(progress2+info.getAcctack());</div><div class="line">        mProgressBar3.setProgress(progress3+info.getSpeed());</div><div class="line"></div><div class="line">        mLifeTV.setText(mProgressBar1.getProgress()+<span class="string">""</span>);</div><div class="line">        mAttackTV.setText(mProgressBar2.getProgress()+<span class="string">""</span>);</div><div class="line">        mSpeedTV.setText(mProgressBar3.getProgress()+<span class="string">""</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateProgress</span><span class="params">(ItemInfo info)</span> </span>&#123; <span class="comment">//更新ProgressBar的值</span></div><div class="line">        <span class="keyword">int</span> progress1 = mProgressBar1.getProgress();</div><div class="line">        <span class="keyword">int</span> progress2 = mProgressBar2.getProgress();</div><div class="line">        <span class="keyword">int</span> progress3 = mProgressBar3.getProgress();</div><div class="line"></div><div class="line">        mProgressBar1.setProgress(progress1+info.getLife());</div><div class="line">        mProgressBar2.setProgress(progress2+info.getAcctack());</div><div class="line">        mProgressBar3.setProgress(progress3+info.getSpeed());</div><div class="line"></div><div class="line">        mLifeTV.setText(mProgressBar1.getProgress()+<span class="string">""</span>);</div><div class="line">        mAttackTV.setText(mProgressBar2.getProgress()+<span class="string">""</span>);</div><div class="line">        mSpeedTV.setText(mProgressBar3.getProgress()+<span class="string">""</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>最后一步，去配置清单里面去配置一下</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161121105843457" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h1 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h1><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161121105957397" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161121110007241" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161121110018538" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.841Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android开发/">Android开发</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/6825/&title=《Android两个android两个activity之间相互传递数据之装备选择（书上案例）》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/6825/&title=《Android两个android两个activity之间相互传递数据之装备选择（书上案例）》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/6825/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android两个android两个activity之间相互传递数据之装备选择（书上案例）》 — Sorgs&url=http://sorgs.cn/post/6825/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/6825/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/6290/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Windows网络编程-简单的多线程聊天室</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/50165/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Android两个android两个activity之间相互传递数据</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/6825/&title=《Android两个android两个activity之间相互传递数据之装备选择（书上案例）》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/6825/&title=《Android两个android两个activity之间相互传递数据之装备选择（书上案例）》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/6825/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android两个android两个activity之间相互传递数据之装备选择（书上案例）》 — Sorgs&url=http://sorgs.cn/post/6825/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/6825/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAAAAAAZai4+AAABV0lEQVR42u3aQQ6EMAhAUe9/aWdrMpF8oF1YfpeN0TeTCEi5LrxusP6vfO5cO5YsWQexag+L92Ni/CxZsiaz3m76dg3fIcFClixZq1hxzpUlS9YOFg8EsmTJ4ixSNPNCOf55i2t5WbKOYHXSbScoLOtvyZL1cdadXB164imyZA1j8ReYpHByPS+7Zcmaxuq0fnhhHYcM9AfJkjWARdJz7cOVNKHSBbQsWQexag0jMpTQuY8sWdNYteKVj/uQ9m66tSRL1tGs7GArT+etQ1BZssawsul22SFlHCZkyRrJ6jRneVDgJbUsWZNZtQZuol8FApMsWdNYnYEDslP82bJkDWNlS1t+fJL4bu4sWbIOYpGgUBuq401eVEHIkjWAtWMAqBWAZMmSBdJtvxZAQwayZMkKX/taSk6EFVmyRrI6hS//lE20kGTJGsbqHIS0po1W9bdkyfo26wclPqZ+5OFipwAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/2575/">
+    
+    
+    <title>Android逆向实例笔记—手游中的内购破解（火柴人联盟最新版1.9.2 BB弹 ） | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="破解,Android逆向实例,游戏,支付">
+    <meta name="description" content="最近学到了一些内购的破解方式，就来试试手。然后找个了比较火爆的游戏BB弹，找个个没壳的就来练习。这些东西都是大神写烂了的东西了，我这里只是写出我自己找不到方法的时候的思路。勿笑。                                                                                                             一">
+<meta name="keywords" content="破解,Android逆向实例,游戏,支付">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android逆向实例笔记—手游中的内购破解（火柴人联盟最新版1.9.2 BB弹 ）">
+<meta property="og:url" content="http://sorgs.cn/post/2575/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="最近学到了一些内购的破解方式，就来试试手。然后找个了比较火爆的游戏BB弹，找个个没壳的就来练习。这些东西都是大神写烂了的东西了，我这里只是写出我自己找不到方法的时候的思路。勿笑。                                                                                                             一">
+<meta property="og:image" content="http://pic.sorgs.cn/%E8%B9%AD%E8%B9%AD%E8%B9%AD.jpg">
+<meta property="og:image" content="http://img.blog.csdn.net/20160906213930922?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160906214224462?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160906214403253?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160906214732801?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160906214941909?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160906215959361?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160906220334808?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20160906220522259?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://pic.sorgs.cn/d6d81702746eeb383e5776eeb8acc46e.jpeg">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.851Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android逆向实例笔记—手游中的内购破解（火柴人联盟最新版1.9.2 BB弹 ）">
+<meta name="twitter:description" content="最近学到了一些内购的破解方式，就来试试手。然后找个了比较火爆的游戏BB弹，找个个没壳的就来练习。这些东西都是大神写烂了的东西了，我这里只是写出我自己找不到方法的时候的思路。勿笑。                                                                                                             一">
+<meta name="twitter:image" content="http://pic.sorgs.cn/%E8%B9%AD%E8%B9%AD%E8%B9%AD.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Android逆向实例笔记—手游中的内购破解（火柴人联盟最新版1.9.2 BB弹 ）</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Android逆向实例笔记—手游中的内购破解（火柴人联盟最新版1.9.2 BB弹 ）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-11-16T14:53:25.000Z" itemprop="datePublished" class="page-time">
+  2016-11-16
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android逆向实例/">Android逆向实例</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一、BB弹"><span class="post-toc-number">1.</span> <span class="post-toc-text">一、BB弹</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#二、火柴人联盟"><span class="post-toc-number">2.</span> <span class="post-toc-text">二、火柴人联盟</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Android逆向实例笔记—手游中的内购破解（火柴人联盟最新版1-9-2-BB弹-）"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Android逆向实例笔记—手游中的内购破解（火柴人联盟最新版1.9.2 BB弹 ）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-11-16 22:53:25" datetime="2016-11-16T14:53:25.000Z"  itemprop="datePublished">2016-11-16</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android逆向实例/">Android逆向实例</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>最近学到了一些内购的破解方式，就来试试手。然后找个了比较火爆的游戏BB弹，找个个没壳的就来练习。<br>这些东西都是大神写烂了的东西了，我这里只是写出我自己找不到方法的时候的思路。勿笑。</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://pic.sorgs.cn/%E8%B9%AD%E8%B9%AD%E8%B9%AD.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h1 id="一、BB弹"><a href="#一、BB弹" class="headerlink" title="一、BB弹"></a>一、BB弹</h1><p>BB弹的话比较简单，我们首先弄到模拟器上看看是什么支付。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160906213930922?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>我们发现支付宝和话费都可以。<br>那说明我们有很多种方法去破解内购了。我们的目的就是取消就为购买！</p>
+<p>我们先用支付宝的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160906214224462?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>该图为引用的。</p>
+<p>我们直接搜索0x1771</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160906214403253?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>把它改为0x1771 -&gt; :sswitch_0  就行了。</p>
+<p>然后再来试试话费的，我们直接所搜索paysuccess</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160906214732801?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>分别点进去看看</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">.class public interface abstract Lcn/egame/terminal/paysdk/EgamePayListener;  </div><div class="line">.super Ljava/lang/Object;  </div><div class="line">.source "EgamePayListener.java"  </div><div class="line">  </div><div class="line">  </div><div class="line"># virtual methods  </div><div class="line">.method public abstract payCancel(Ljava/util/Map;)V  </div><div class="line">    .annotation system Ldalvik/annotation/Signature;  </div><div class="line">        value = &#123;  </div><div class="line">            "(",  </div><div class="line">            "Ljava/util/Map",  </div><div class="line">            "&lt;",  </div><div class="line">            "Ljava/lang/String;",  </div><div class="line">            "Ljava/lang/String;",  </div><div class="line">            "&gt;;)V"  </div><div class="line">        &#125;  </div><div class="line">    .end annotation  </div><div class="line">.end method  </div><div class="line">  </div><div class="line">.method public abstract payFailed(Ljava/util/Map;I)V  </div><div class="line">    .annotation system Ldalvik/annotation/Signature;  </div><div class="line">        value = &#123;  </div><div class="line">            "(",  </div><div class="line">            "Ljava/util/Map",  </div><div class="line">            "&lt;",  </div><div class="line">            "Ljava/lang/String;",  </div><div class="line">            "Ljava/lang/String;",  </div><div class="line">            "&gt;;I)V"  </div><div class="line">        &#125;  </div><div class="line">    .end annotation  </div><div class="line">.end method  </div><div class="line">  </div><div class="line">.method public abstract paySuccess(Ljava/util/Map;)V  </div><div class="line">    .annotation system Ldalvik/annotation/Signature;  </div><div class="line">        value = &#123;  </div><div class="line">            "(",  </div><div class="line">            "Ljava/util/Map",  </div><div class="line">            "&lt;",  </div><div class="line">            "Ljava/lang/String;",  </div><div class="line">            "Ljava/lang/String;",  </div><div class="line">            "&gt;;)V"  </div><div class="line">        &#125;  </div><div class="line">    .end annotation  </div><div class="line">.end method</div></pre></td></tr></table></figure>
+<p>显然看不出太多的信息<br>第二处</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div></pre></td><td class="code"><pre><div class="line">.class Lcom/zplay/bbtan/plug/EgamePlug$2$1;  </div><div class="line">.super Ljava/lang/Object;  </div><div class="line">.source "EgamePlug.java"  </div><div class="line">  </div><div class="line"># interfaces  </div><div class="line">.implements Lcn/egame/terminal/paysdk/EgamePayListener;  </div><div class="line">  </div><div class="line">  </div><div class="line"># annotations  </div><div class="line">.annotation system Ldalvik/annotation/EnclosingMethod;  </div><div class="line">    value = Lcom/zplay/bbtan/plug/EgamePlug$2;-&gt;run()V  </div><div class="line">.end annotation  </div><div class="line">  </div><div class="line">.annotation system Ldalvik/annotation/InnerClass;  </div><div class="line">    accessFlags = 0x0  </div><div class="line">    name = null  </div><div class="line">.end annotation  </div><div class="line">  </div><div class="line">  </div><div class="line"># instance fields  </div><div class="line">.field final synthetic this$1:Lcom/zplay/bbtan/plug/EgamePlug$2;  </div><div class="line">  </div><div class="line">  </div><div class="line"># direct methods  </div><div class="line">.method constructor &lt;init&gt;(Lcom/zplay/bbtan/plug/EgamePlug$2;)V  </div><div class="line">    .locals 0  </div><div class="line">  </div><div class="line">    .prologue  </div><div class="line">    .line 1  </div><div class="line">    iput-object p1, p0, Lcom/zplay/bbtan/plug/EgamePlug$2$1;-&gt;this$1:Lcom/zplay/bbtan/plug/EgamePlug$2;  </div><div class="line">  </div><div class="line">    .line 79  </div><div class="line">    invoke-direct &#123;p0&#125;, Ljava/lang/Object;-&gt;&lt;init&gt;()V  </div><div class="line">  </div><div class="line">    return-void  </div><div class="line">.end method  </div><div class="line">  </div><div class="line">  </div><div class="line"># virtual methods  </div><div class="line">.method public paySuccess(Ljava/util/Map;)V  </div><div class="line">    .locals 2  </div><div class="line">    .param p1, "params"    # Ljava/util/Map;  </div><div class="line">  </div><div class="line">    .prologue  </div><div class="line">    .line 90  </div><div class="line">    sget-object v0, Lcom/dubo/android/JniMsgType;-&gt;RechargeFail:Lcom/dubo/android/JniMsgType;  </div><div class="line">  </div><div class="line">    invoke-virtual &#123;v0&#125;, Lcom/dubo/android/JniMsgType;-&gt;ordinal()I  </div><div class="line">  </div><div class="line">    move-result v0  </div><div class="line">  </div><div class="line">    iget-object v1, p0, Lcom/zplay/bbtan/plug/EgamePlug$2$1;-&gt;this$1:Lcom/zplay/bbtan/plug/EgamePlug$2;  </div><div class="line">  </div><div class="line">    # getter for: Lcom/zplay/bbtan/plug/EgamePlug$2;-&gt;this$0:Lcom/zplay/bbtan/plug/EgamePlug;  </div><div class="line">    invoke-static &#123;v1&#125;, Lcom/zplay/bbtan/plug/EgamePlug$2;-&gt;access$0(Lcom/zplay/bbtan/plug/EgamePlug$2;)Lcom/zplay/bbtan/plug/EgamePlug;  </div><div class="line">  </div><div class="line">    move-result-object v1  </div><div class="line">  </div><div class="line">    # getter for: Lcom/zplay/bbtan/plug/EgamePlug;-&gt;_sku:Ljava/lang/String;  </div><div class="line">    invoke-static &#123;v1&#125;, Lcom/zplay/bbtan/plug/EgamePlug;-&gt;access$1(Lcom/zplay/bbtan/plug/EgamePlug;)Ljava/lang/String;  </div><div class="line">  </div><div class="line">    move-result-object v1  </div><div class="line">  </div><div class="line">    invoke-static &#123;v0, v1&#125;, Lcom/dubo/android/PlatformMessage;-&gt;SendPlatformMessage(ILjava/lang/String;)V  </div><div class="line">  </div><div class="line">    .line 91  </div><div class="line">    return-void  </div><div class="line">.end method  </div><div class="line">  </div><div class="line">.method public payFailed(Ljava/util/Map;I)V  </div><div class="line">    .locals 2  </div><div class="line">    .param p1, "params"    # Ljava/util/Map;  </div><div class="line">    .param p2, "errorInt"    # I  </div><div class="line">  </div><div class="line">    .prologue  </div><div class="line">    .line 86  </div><div class="line">    sget-object v0, Lcom/dubo/android/JniMsgType;-&gt;RechargeFail:Lcom/dubo/android/JniMsgType;  </div><div class="line">  </div><div class="line">    invoke-virtual &#123;v0&#125;, Lcom/dubo/android/JniMsgType;-&gt;ordinal()I  </div><div class="line">  </div><div class="line">    move-result v0  </div><div class="line">  </div><div class="line">    iget-object v1, p0, Lcom/zplay/bbtan/plug/EgamePlug$2$1;-&gt;this$1:Lcom/zplay/bbtan/plug/EgamePlug$2;  </div><div class="line">  </div><div class="line">    # getter for: Lcom/zplay/bbtan/plug/EgamePlug$2;-&gt;this$0:Lcom/zplay/bbtan/plug/EgamePlug;  </div><div class="line">    invoke-static &#123;v1&#125;, Lcom/zplay/bbtan/plug/EgamePlug$2;-&gt;access$0(Lcom/zplay/bbtan/plug/EgamePlug$2;)Lcom/zplay/bbtan/plug/EgamePlug;  </div><div class="line">  </div><div class="line">    move-result-object v1  </div><div class="line">  </div><div class="line">    # getter for: Lcom/zplay/bbtan/plug/EgamePlug;-&gt;_sku:Ljava/lang/String;  </div><div class="line">    invoke-static &#123;v1&#125;, Lcom/zplay/bbtan/plug/EgamePlug;-&gt;access$1(Lcom/zplay/bbtan/plug/EgamePlug;)Ljava/lang/String;  </div><div class="line">  </div><div class="line">    move-result-object v1  </div><div class="line">  </div><div class="line">    invoke-static &#123;v0, v1&#125;, Lcom/dubo/android/PlatformMessage;-&gt;SendPlatformMessage(ILjava/lang/String;)V  </div><div class="line">  </div><div class="line">    .line 87  </div><div class="line">    return-void  </div><div class="line">.end method  </div><div class="line">  </div><div class="line">.method public payCancel(Ljava/util/Map;)V  </div><div class="line">    .locals 2  </div><div class="line">    .param p1, "params"    # Ljava/util/Map;  </div><div class="line">  </div><div class="line">    .prologue  </div><div class="line">    .line 82  </div><div class="line">    sget-object v0, Lcom/dubo/android/JniMsgType;-&gt;Recharge:Lcom/dubo/android/JniMsgType;  </div><div class="line">  </div><div class="line">    invoke-virtual &#123;v0&#125;, Lcom/dubo/android/JniMsgType;-&gt;ordinal()I  </div><div class="line">  </div><div class="line">    move-result v0  </div><div class="line">  </div><div class="line">    iget-object v1, p0, Lcom/zplay/bbtan/plug/EgamePlug$2$1;-&gt;this$1:Lcom/zplay/bbtan/plug/EgamePlug$2;  </div><div class="line">  </div><div class="line">    # getter for: Lcom/zplay/bbtan/plug/EgamePlug$2;-&gt;this$0:Lcom/zplay/bbtan/plug/EgamePlug;  </div><div class="line">    invoke-static &#123;v1&#125;, Lcom/zplay/bbtan/plug/EgamePlug$2;-&gt;access$0(Lcom/zplay/bbtan/plug/EgamePlug$2;)Lcom/zplay/bbtan/plug/EgamePlug;  </div><div class="line">  </div><div class="line">    move-result-object v1  </div><div class="line">  </div><div class="line">    # getter for: Lcom/zplay/bbtan/plug/EgamePlug;-&gt;_sku:Ljava/lang/String;  </div><div class="line">    invoke-static &#123;v1&#125;, Lcom/zplay/bbtan/plug/EgamePlug;-&gt;access$1(Lcom/zplay/bbtan/plug/EgamePlug;)Ljava/lang/String;  </div><div class="line">  </div><div class="line">    move-result-object v1  </div><div class="line">  </div><div class="line">    invoke-static &#123;v0, v1&#125;, Lcom/dubo/android/PlatformMessage;-&gt;SendPlatformMessage(ILjava/lang/String;)V  </div><div class="line">  </div><div class="line">    .line 83  </div><div class="line">    return-void  </div><div class="line">.end method</div></pre></td></tr></table></figure>
+<p>这里就很关键了。这个看起来眼花的话，我们看看Java的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160906214941909?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>我们惊奇的发现，这几个成功，取消和失败的代码只有一处不同。</p>
+<p>方法一：<br>那么我们就可以把取消的RechargeFail换成Recharge就OK了。</p>
+<p>方法二：<br>我们可以把paySuccess和payCancel的函数名调换。也就说说，我们点了取消，却调用的是paySuccess里面的代码。OK。BB弹就简单的破解了。</p>
+<h1 id="二、火柴人联盟"><a href="#二、火柴人联盟" class="headerlink" title="二、火柴人联盟"></a>二、火柴人联盟</h1><p>破解BB弹之后，我本以为内购破解起来很简单。也很好玩，然后逛吾爱的时候，看到一篇破解火柴人的帖子。我也就去下了个官方版本去试试破解。（版本比帖子的高，帖子地址：<a href="http://www.52pojie.cn/thread-522841-1-1.html）" target="_blank" rel="external">http://www.52pojie.cn/thread-522841-1-1.html）</a></p>
+<p>这不是重点，重点是。这个游戏在模拟器上打不开。我也不知道为什么，直接反编译。</p>
+<p>发现了这个游戏的购买方式很多，移动，电信，联通，支付宝都有。然后还是按照之前破解BB弹的方式去破解。</p>
+<p>却发现根本不行。把取消的RechargeFail换成Recharge，不行</p>
+<p>把支付宝的代码换掉也不行。</p>
+<p>于是认真参考了刚刚那个帖子，发现很多代码已经被原作者改了。那就只有自己研究了</p>
+<p>这里就是重点了，我来说说我自己的思路。后来发现这个游戏坑爹的只能移动购买。</p>
+<p>首先是住入口去看看<br>然后在这个函数去看看移动购买的函数。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160906215959361?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>然后点过去看看，发现信息不是太多。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">.<span class="function">method <span class="keyword">private</span> <span class="title">payInYidong</span><span class="params">()</span>V  </span></div><div class="line">    .locals 6  </div><div class="line">  </div><div class="line">    .prologue  </div><div class="line">    <span class="keyword">const</span>/4 v1, 0x1  </div><div class="line">  </div><div class="line">    .line 735  </div><div class="line">    sget v0, Lcom/DBGame/DiabloLOL/DiabloLOL;-&gt;sCMCC_OPEN:I  </div><div class="line">  </div><div class="line">    <span class="keyword">if</span>-nez v0, :cond_0  </div><div class="line">  </div><div class="line">    .line <span class="number">736</span>  </div><div class="line">    <span class="keyword">const</span>-string v0, <span class="string">"\u6b63\u5728\u5904\u7406,\u8bf7\u7a0d\u540e....."</span>  </div><div class="line">  </div><div class="line">    invoke-<span class="keyword">static</span> &#123;v0&#125;, Lcom/DBGame/Common/BLHelper;-&gt;showShieldLayer(Ljava/lang/String;)V  </div><div class="line">  </div><div class="line">    .line <span class="number">738</span>  </div><div class="line">    :cond_0  </div><div class="line">    iget-object v0, p0, Lcom/DBGame/DiabloLOL/DiabloLOL;-&gt;PAY_CODE_MM:[Ljava/lang/String;  </div><div class="line">  </div><div class="line">    iget v2, p0, Lcom/DBGame/DiabloLOL/DiabloLOL;-&gt;mPayIndex:I  </div><div class="line">  </div><div class="line">    aget-object v3, v0, v2  </div><div class="line">  </div><div class="line">    <span class="keyword">const</span>/<span class="number">4</span> v4, <span class="number">0x0</span>  </div><div class="line">  </div><div class="line">    iget-object v5, p0, Lcom/DBGame/DiabloLOL/DiabloLOL;-&gt;payCallback:Lcn/cmgame/billing/api/GameInterface$IPayCallback;  </div><div class="line">  </div><div class="line">    move-object v0, p0  </div><div class="line">  </div><div class="line">    move v2, v1  </div><div class="line">  </div><div class="line">    invoke-<span class="keyword">static</span>/range &#123;v0 .. v5&#125;, Lcn/cmgame/billing/api/GameInterface;-&gt;doBilling(Landroid/content/Context;ZZLjava/lang/String;Ljava/lang/String;Lcn/cmgame/billing/api/GameInterface$IPayCallback;)V  </div><div class="line">  </div><div class="line">    .line <span class="number">739</span>  </div><div class="line">    <span class="keyword">return</span>-<span class="keyword">void</span>  </div><div class="line">.end method</div></pre></td></tr></table></figure>
+<p>但是我们好像发现了payCallback这个东西。感觉又价值。我们搜索看看。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160906220334808?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>发现了两处，有用的是第一处的。<br>于是我们过去看看</p>
+<p>这个时候我们就看出来了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.DBGame.DiabloLOL;  </div><div class="line">  </div><div class="line"><span class="keyword">import</span> cn.cmgame.billing.api.GameInterface.IPayCallback;  </div><div class="line"><span class="keyword">import</span> com.DBGame.Common.BLHelper;  </div><div class="line">  </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">DiabloLOL</span>$4  </span></div><div class="line">  <span class="keyword">implements</span> <span class="title">GameInterface</span>.<span class="title">IPayCallback</span>  </div><div class="line">&#123;  </div><div class="line">  DiabloLOL$<span class="number">4</span>(DiabloLOL paramDiabloLOL) &#123;&#125;  </div><div class="line">    </div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResult</span><span class="params">(<span class="keyword">int</span> paramInt, String paramString, Object paramObject)</span>  </span></div><div class="line">  &#123;  </div><div class="line">    <span class="keyword">switch</span> (paramInt)  </div><div class="line">    &#123;  </div><div class="line">    <span class="keyword">default</span>:   </div><div class="line">      <span class="keyword">new</span> StringBuilder().append(<span class="string">"购买道具：["</span>).append(<span class="keyword">this</span>.<span class="keyword">this</span>$<span class="number">0</span>.PAY_NAME[DiabloLOL.access$<span class="number">800</span>(<span class="keyword">this</span>.<span class="keyword">this</span>$<span class="number">0</span>)]).append(<span class="string">"] 取消！"</span>).toString();  </div><div class="line">    &#125;  </div><div class="line">    <span class="keyword">for</span> (;;)  </div><div class="line">    &#123;  </div><div class="line">      BLHelper.closeShieldLayer();  </div><div class="line">      <span class="keyword">return</span>;  </div><div class="line">      <span class="keyword">if</span> (!<span class="string">"10"</span>.equals(paramObject.toString()))  </div><div class="line">      &#123;  </div><div class="line">        <span class="keyword">new</span> StringBuilder().append(<span class="string">"购买道具：["</span>).append(<span class="keyword">this</span>.<span class="keyword">this</span>$<span class="number">0</span>.PAY_NAME[DiabloLOL.access$<span class="number">800</span>(<span class="keyword">this</span>.<span class="keyword">this</span>$<span class="number">0</span>)]).append(<span class="string">"] 成功！"</span>).toString();  </div><div class="line">        BLHelper.purchaseComplete(<span class="keyword">this</span>.<span class="keyword">this</span>$<span class="number">0</span>.PRO_ID_Str[DiabloLOL.access$<span class="number">800</span>(<span class="keyword">this</span>.<span class="keyword">this</span>$<span class="number">0</span>)], <span class="number">1</span>);  </div><div class="line">        <span class="keyword">continue</span>;  </div><div class="line">        <span class="keyword">new</span> StringBuilder().append(<span class="string">"购买道具：["</span>).append(<span class="keyword">this</span>.<span class="keyword">this</span>$<span class="number">0</span>.PAY_NAME[DiabloLOL.access$<span class="number">800</span>(<span class="keyword">this</span>.<span class="keyword">this</span>$<span class="number">0</span>)]).append(<span class="string">"] 失败！"</span>).toString();  </div><div class="line">      &#125;  </div><div class="line">    &#125;  </div><div class="line">  &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>也就说packed-switch p1, :pswitch_data_0，然后pswitch_data_0就购买成功。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20160906220522259?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>直接来个goto大发。OK了<br>教程就到这里了，本破解只为学习交流。</p>
+<p>提供样本<br>BB弹：<a href="https://yunpan.cn/cMN8KD5h2IUg2" target="_blank" rel="external">https://yunpan.cn/cMN8KD5h2IUg2</a>  访问密码 9456<br>火柴人去官网下就是了<br>成本：<br>BB弹：<a href="https://yunpan.cn/cM4jkAt4u7m5n" target="_blank" rel="external">https://yunpan.cn/cM4jkAt4u7m5n</a>  访问密码 5c1b<br>火柴人：<a href="https://yunpan.cn/cMN89LIBLqjPq" target="_blank" rel="external">https://yunpan.cn/cMN89LIBLqjPq</a>  访问密码 67a6</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://pic.sorgs.cn/d6d81702746eeb383e5776eeb8acc46e.jpeg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.851Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android逆向实例/">Android逆向实例</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/支付/">支付</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/游戏/">游戏</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/破解/">破解</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/2575/&title=《Android逆向实例笔记—手游中的内购破解（火柴人联盟最新版1.9.2 BB弹 ）》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/2575/&title=《Android逆向实例笔记—手游中的内购破解（火柴人联盟最新版1.9.2 BB弹 ）》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/2575/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android逆向实例笔记—手游中的内购破解（火柴人联盟最新版1.9.2 BB弹 ）》 — Sorgs&url=http://sorgs.cn/post/2575/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/2575/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/64124/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Android逆向实例笔记—初入so并还原分析出代码</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/40324/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Android逆向实例笔记—同步家教王及其升级版的破解</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/2575/&title=《Android逆向实例笔记—手游中的内购破解（火柴人联盟最新版1.9.2 BB弹 ）》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/2575/&title=《Android逆向实例笔记—手游中的内购破解（火柴人联盟最新版1.9.2 BB弹 ）》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/2575/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android逆向实例笔记—手游中的内购破解（火柴人联盟最新版1.9.2 BB弹 ）》 — Sorgs&url=http://sorgs.cn/post/2575/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/2575/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAAAAAAZai4+AAABVUlEQVR42u3aMRLDIAwFUd//0qRNA9kvTBG0VJmMg58LK0LS8+A1vtbsm/WVz4klS9ZFrLFchDW7MfnVdAdZslqyZpvOriFb82AhS5aslEVCA388WbJkvRUgyGPIkiWLsEjSvA4W6wc4mMvLknUFi1d19j8fqW/JkvXnrBGunYAS3EWWrGYs/gIH220ccWXJ6syqtTN3kmkSVmTJ6sniwwQ8EJAA8SN8yJLVgFUrFaUjCPHfuSxZjVm19iRJr+M9ZclqxuItkLSVkibQcdIsS9Z1LP4y19JiHgFQbUmWrKtZ7xZk91NqWbJ6skjZKE21a/mwLFndWMVRgGVYSQ+0smTJSlPbdDBopyAlS1Y31rmhurQVOs0gZMlqw0rHeniRN40GsmTJ2mlJpqBgFkmWLFmlo2naqkGVZlmyGrDSQykvA5ESsCxZsmqNkLRs9HJlS5ase1gfoSE1/ctBqLYAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

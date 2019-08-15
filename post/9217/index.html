@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/9217/">
+    
+    
+    <title>github发布和维护属于自己的基础工程远程库 | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android开发,基础工程,远程库">
+    <meta name="description" content="引言自己动手搭建一个属于自己的远程基础仓库 不管是开发新项目亦或者是自己写demo练练手之类的。都需要建立工程，然后开始拷贝工具类，然后在啪啦啪啦引用必须的三方库，建立Base基类等等。 搞了一段时间之后，觉得实在是太麻烦了，为什么我不建立一个基础工程。然后做成一个远程库，每次建立新的工程之后，直接就引用这个库。一下子自己熟手的工具类，Base基类，甚至常用一些第三方库都OK了。 在平时写代码的时">
+<meta name="keywords" content="Android开发,基础工程,远程库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="github发布和维护属于自己的基础工程远程库">
+<meta property="og:url" content="http://sorgs.cn/post/9217/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="引言自己动手搭建一个属于自己的远程基础仓库 不管是开发新项目亦或者是自己写demo练练手之类的。都需要建立工程，然后开始拷贝工具类，然后在啪啦啪啦引用必须的三方库，建立Base基类等等。 搞了一段时间之后，觉得实在是太麻烦了，为什么我不建立一个基础工程。然后做成一个远程库，每次建立新的工程之后，直接就引用这个库。一下子自己熟手的工具类，Base基类，甚至常用一些第三方库都OK了。 在平时写代码的时">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.857Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="github发布和维护属于自己的基础工程远程库">
+<meta name="twitter:description" content="引言自己动手搭建一个属于自己的远程基础仓库 不管是开发新项目亦或者是自己写demo练练手之类的。都需要建立工程，然后开始拷贝工具类，然后在啪啦啪啦引用必须的三方库，建立Base基类等等。 搞了一段时间之后，觉得实在是太麻烦了，为什么我不建立一个基础工程。然后做成一个远程库，每次建立新的工程之后，直接就引用这个库。一下子自己熟手的工具类，Base基类，甚至常用一些第三方库都OK了。 在平时写代码的时">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">github发布和维护属于自己的基础工程远程库</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">github发布和维护属于自己的基础工程远程库</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-03-24T10:34:24.000Z" itemprop="datePublished" class="page-time">
+  2019-03-24
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android开发/">Android开发</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#引言"><span class="post-toc-number">1.</span> <span class="post-toc-text">引言</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#建立基础库"><span class="post-toc-number">2.</span> <span class="post-toc-text">建立基础库</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题"><span class="post-toc-number">3.</span> <span class="post-toc-text">问题</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#结语"><span class="post-toc-number">4.</span> <span class="post-toc-text">结语</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-github发布和维护属于自己的基础工程远程库"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">github发布和维护属于自己的基础工程远程库</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-03-24 18:34:24" datetime="2019-03-24T10:34:24.000Z"  itemprop="datePublished">2019-03-24</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android开发/">Android开发</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>自己动手搭建一个属于自己的远程基础仓库</p>
+<p>不管是开发新项目亦或者是自己写demo练练手之类的。都需要建立工程，然后开始拷贝工具类，然后在啪啦啪啦引用必须的三方库，建立Base基类等等。</p>
+<p>搞了一段时间之后，觉得实在是太麻烦了，为什么我不建立一个基础工程。然后做成一个远程库，每次建立新的工程之后，直接就引用这个库。一下子自己熟手的工具类，Base基类，甚至常用一些第三方库都OK了。</p>
+<p>在平时写代码的时候，也注意收集，比较顺手的东西，直接放到基础库当中去，以后对新工程简直太方便了。</p>
+<p>这里只说简单说下流程遇到坑，</p>
+<h1 id="建立基础库"><a href="#建立基础库" class="headerlink" title="建立基础库"></a>建立基础库</h1><ol>
+<li>建立工程，再new一个module，选择android Library，然后开始编写和搭建自己想放到基础工程的东西。</li>
+<li>发布到github上面</li>
+<li>在github上面首页点击release-create a new releases(后续发布新版本点击draft a new release),相当于是打一个tag。在Tag version写上版本号，比如 V1.0之类的。下面可以自己随便写点描述。</li>
+<li>上<a href="https://jitpack.io/" title="https://jitpack.io/" target="_blank" rel="external">https://jitpack.io/</a> ,输入自己的git仓库，点击look up即可。选择自己发布的版本，点击get it即可。</li>
+<li>然后在自己新建工程引用就可以开心使用了。</li>
+<li>鉴于网上很多教程，这里不再细说过程，可以直接到<a href="https://www.jianshu.com/p/49ea4fa47037" title="如何发布你的GitHub开源库" target="_blank" rel="external">https://www.jianshu.com/p/49ea4fa47037</a></li>
+</ol>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><blockquote>
+<p>这里想简单说下自己遇到的一些问题</p>
+</blockquote>
+<ol>
+<li>既然是自己建立的基础工程，就不需要app目录等其他module之类的</li>
+<li>一定不要在build.gradle里面配置优化压缩等<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">buildTypes &#123;</div><div class="line">        release &#123;</div><div class="line">            //Zipalign优化</div><div class="line">            zipAlignEnabled true</div><div class="line">            //去除无用资源</div><div class="line">            shrinkResources true</div><div class="line">            //签名</div><div class="line">            signingConfig signingConfigs.release</div><div class="line">            //混淆</div><div class="line">            minifyEnabled true</div><div class="line">            proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;</div><div class="line">        &#125;</div><div class="line">        debug &#123;</div><div class="line">            //签名</div><div class="line">            signingConfig signingConfigs.release</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这些是不需要的。尤其是最优化之类的，很容易造成的问题就是，打aar包没有部分代码打进去，因为在优化之后，没有被调用的函数和类是会被忽略的，而工具类就很容易被优化处理了。混淆的也是不太需要配置，如果一定要配置混淆，则需要注意，把混淆中压缩优化等去除掉。</p>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><ul>
+<li>自己简单的搭建了一个基础工程，目前里面包含了一些常用的第三方库，BaseActivity，BaseFragment等。还有一些常用工具类等，比如Log，Toast等</li>
+<li>欢迎大家一起维护和优化，<a href="https://github.com/sorgs/project" title="https://github.com/sorgs/project" target="_blank" rel="external">https://github.com/sorgs/project</a> 。如果能够任何地方能够帮助到您，希望可以给个start鼓励鼓励。感谢！</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.857Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android开发/">Android开发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/基础工程/">基础工程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/远程库/">远程库</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/9217/&title=《github发布和维护属于自己的基础工程远程库》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/9217/&title=《github发布和维护属于自己的基础工程远程库》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/9217/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《github发布和维护属于自己的基础工程远程库》 — Sorgs&url=http://sorgs.cn/post/9217/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/9217/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/7510/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Android中JNI调用第三方so以及头文件方式</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/60878/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">整理系类-Java基础-Java关键字汇总</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/9217/&title=《github发布和维护属于自己的基础工程远程库》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/9217/&title=《github发布和维护属于自己的基础工程远程库》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/9217/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《github发布和维护属于自己的基础工程远程库》 — Sorgs&url=http://sorgs.cn/post/9217/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/9217/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAAAAAAZai4+AAABV0lEQVR42u3aMRLCMAxEUe5/aTNDRROxu04KvN9VhoD9QqHIsl4veazP+L6eP7n67c0DFqyDWGsc88JLHvpasGA1s9ygcIVT5pGCCCxYsMbpZsTMhQUL1l0sd2FYsGDpLCXZnRdWvv9ILg8L1hGsrJCUXT9e34IF6w9ZyxxZYm2vAgtWGetqiixR1meQilCwYNWwwo3lxgtb2tzCglXJyrap8wJu28FlBgELVg0rS3ndUpQChQWrk+WmtjvHKnqwgAWrmXVXg51SoZUeDBasGlb4HFGRKMzlYcEqZs0BImsy+FFXVgIELFiHsrJCj1vkdXsMYMFqY2WtAHpA0Q9BYcFqZu034bmNC+6BDSxYPawsKLhJs/1/wIJVydpp7tHLu/P80jEnLFj1LLs4a94NAwQsWJWs7MXvptewYHWy9KR5p1RkxARYsMpY+3tJd7sbVrNgwTqT9QZSdCwjTyMO4QAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

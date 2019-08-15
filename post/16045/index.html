@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/16045/">
+    
+    
+    <title>Android逆向基础笔记—Android NDK开发4之Android studio NDK自动编译 | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android逆向基础,ndk,gcc,sdk">
+    <meta name="description" content="这部分就是最后的部分了，为什么要写Android studio呢。大家知道，eclipse 到了现在，已经不被Google支持了，所以现在最好的开发就是利用Android studio。虽然说，网上有很多类似的教程了。但是我都一一试过了，并不是太详细，还有些少许错误。所以，我在这里写出详细的过程，大家笑笑就好。但是新生我这个劝一句，最好做一遍，这个很重要。我们用Android studio创建一个">
+<meta name="keywords" content="Android逆向基础,ndk,gcc,sdk">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android逆向基础笔记—Android NDK开发4之Android studio NDK自动编译">
+<meta property="og:url" content="http://sorgs.cn/post/16045/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="这部分就是最后的部分了，为什么要写Android studio呢。大家知道，eclipse 到了现在，已经不被Google支持了，所以现在最好的开发就是利用Android studio。虽然说，网上有很多类似的教程了。但是我都一一试过了，并不是太详细，还有些少许错误。所以，我在这里写出详细的过程，大家笑笑就好。但是新生我这个劝一句，最好做一遍，这个很重要。我们用Android studio创建一个">
+<meta property="og:image" content="http://img.blog.csdn.net/20161102231512560">
+<meta property="og:image" content="http://img.blog.csdn.net/20161102231737145">
+<meta property="og:image" content="http://img.blog.csdn.net/20161102232008070">
+<meta property="og:image" content="http://img.blog.csdn.net/20161102232139525">
+<meta property="og:image" content="http://img.blog.csdn.net/20161102232255667">
+<meta property="og:image" content="http://img.blog.csdn.net/20161103091946570">
+<meta property="og:image" content="http://img.blog.csdn.net/20161102232639566">
+<meta property="og:image" content="http://img.blog.csdn.net/20161103092018479">
+<meta property="og:image" content="http://img.blog.csdn.net/20161102232904083">
+<meta property="og:image" content="http://img.blog.csdn.net/20161103092133619">
+<meta property="og:image" content="http://img.blog.csdn.net/20161102235254303">
+<meta property="og:image" content="http://img.blog.csdn.net/20161103092531452">
+<meta property="og:image" content="http://img.blog.csdn.net/20161102234249979">
+<meta property="og:image" content="http://img.blog.csdn.net/20161103092657528">
+<meta property="og:image" content="http://img.blog.csdn.net/20161103094552444">
+<meta property="og:image" content="http://img.blog.csdn.net/20161103094939454">
+<meta property="og:image" content="http://pic.sorgs.cn/%E8%B9%AD%E8%B9%AD%E8%B9%AD.jpg">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.848Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android逆向基础笔记—Android NDK开发4之Android studio NDK自动编译">
+<meta name="twitter:description" content="这部分就是最后的部分了，为什么要写Android studio呢。大家知道，eclipse 到了现在，已经不被Google支持了，所以现在最好的开发就是利用Android studio。虽然说，网上有很多类似的教程了。但是我都一一试过了，并不是太详细，还有些少许错误。所以，我在这里写出详细的过程，大家笑笑就好。但是新生我这个劝一句，最好做一遍，这个很重要。我们用Android studio创建一个">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20161102231512560">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Android逆向基础笔记—Android NDK开发4之Android studio NDK自动编译</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Android逆向基础笔记—Android NDK开发4之Android studio NDK自动编译</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-11-17T08:41:09.000Z" itemprop="datePublished" class="page-time">
+  2016-11-17
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android逆向基础/">Android逆向基础</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-Android逆向基础笔记—Android-NDK开发4之Android-studio-NDK自动编译"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Android逆向基础笔记—Android NDK开发4之Android studio NDK自动编译</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-11-17 16:41:09" datetime="2016-11-17T08:41:09.000Z"  itemprop="datePublished">2016-11-17</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android逆向基础/">Android逆向基础</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>这部分就是最后的部分了，为什么要写Android studio呢。大家知道，eclipse 到了现在，已经不被Google支持了，所以现在最好的开发就是利用Android studio。虽然说，网上有很多类似的教程了。但是我都一一试过了，并不是太详细，还有些少许错误。所以，我在这里写出详细的过程，大家笑笑就好。但是新生我这个劝一句，最好做一遍，这个很重要。<br>我们用Android studio创建一个app工程，我这建立的是17。<br>切换到project模式。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161102231512560" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>然后这个工程上右键，选择open module settings<br>然后配置环境</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161102231737145" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>设置好了之后，我们去看看是否设置成功呢</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161102232008070" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>确认之后，就该我们去写代码了。<br>为了方便，我直接把hello world的textview改为动了一下</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161102232139525" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>之后我们在这里创建一个类</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161102232255667" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>之后写下如下代码</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161103091946570" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>之后build一下工程</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161102232639566" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>然后去查看时候生成这个文件</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161103092018479" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>如果有的话Terminal输入指令：<br>cd app/build/intermediates/classes/debug</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161102232904083" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>再输入：<br>javah -jni sorgs.com.hellondk.NDKtest</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161103092133619" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>看到这个文件，就说明OK了。<br>然后在src/main下新建文件夹jni,把生成的.h文件移到jni文件夹下面去，新建一个c类随便取一个名字</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161102235254303" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>一定不要选这个</p>
+<p>写上这些代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"sorgs_com_hellondk_NDKtest.h"</span>  </span></div><div class="line">  </div><div class="line"><span class="function">JNIEXPORT jstring JNICALL <span class="title">Java_sorgs_com_hellondk_NDKtest_getString</span>  </span></div><div class="line">        <span class="params">(JNIEnv *env, jobject obj)</span>&#123;  </div><div class="line">    <span class="keyword">return</span> (*env)-&gt;NewStringUTF(env,<span class="string">"you are successful!"</span>);  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161103092531452" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>然后我们还需要去gradle.properties文件末尾添加android.useDeprecatedNdk=true</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161102234249979" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>再然后</p>
+<p>然后在app文件下得build.gradle -&gt;defaultConfig括号内添加如下代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ndk &#123;      </div><div class="line">   moduleName <span class="string">"test"</span>          <span class="comment">//生成的so名字，一定要和So的名称一致，这里就是test)  </span></div><div class="line">   abiFilters <span class="string">"armeabi"</span>, <span class="string">"armeabi-v7a"</span>, <span class="string">"x86"</span> <span class="comment">//输出指定三种abi体系结构下的so库，随便写一个就行，主要是看模拟器。也可以都写上&#125;</span></div></pre></td></tr></table></figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161103092657528" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>然后再去主函数写代码了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161103094552444" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>然后build一下，去尝试运行看看效果</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161103094939454" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://pic.sorgs.cn/%E8%B9%AD%E8%B9%AD%E8%B9%AD.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.848Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android逆向基础/">Android逆向基础</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gcc/">gcc</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ndk/">ndk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sdk/">sdk</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/16045/&title=《Android逆向基础笔记—Android NDK开发4之Android studio NDK自动编译》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/16045/&title=《Android逆向基础笔记—Android NDK开发4之Android studio NDK自动编译》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/16045/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android逆向基础笔记—Android NDK开发4之Android studio NDK自动编译》 — Sorgs&url=http://sorgs.cn/post/16045/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/16045/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/21426/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">android隐式意图开启系统照相机</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/31148/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Android逆向基础笔记—Android NDK开发3之使用ndk-build工具手动编译</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/16045/&title=《Android逆向基础笔记—Android NDK开发4之Android studio NDK自动编译》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/16045/&title=《Android逆向基础笔记—Android NDK开发4之Android studio NDK自动编译》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/16045/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android逆向基础笔记—Android NDK开发4之Android studio NDK自动编译》 — Sorgs&url=http://sorgs.cn/post/16045/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/16045/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABx0lEQVR42u3aQY7DIAwF0N7/0p3tSKOm/2PCtNJjFVUNPLKwjM3jEY/nr/H3l78jf/dxx8DFxR1zk4Wvf7+e5xrdbh4XF/ck91XEuP5PTsm3/caGi4v7hdzr9CXZEi4u7jdyXx1vkm0kgQ8XF/dzuMnRZVJSaVOfDWc1XFzcAXfvkmvPt9R3cXFxl7jPclwnLtfhacPquLi4R7h5QFlLgxJo29zFxcU9w51cs0jCVrux4vCDi4t7hJtPN0lWko3V3xgXF3cTN7HngWlSColmw8XFPcJdu0KRh7M5q+7/4OLibuImU+Shqt1A3rbBxcU9w03KH8W+42Lr2sfCxcU9w10rebRhKC+tRqkPLi7uzdx2ikmQyrOUOu7i4uJu5U4mmlyqyMebixe4uLi3cfOqansto2231AVTXFzcI9x8ybaxmjdm6rMaLi7uzdy2OJKHsA1ZGC4u7hHusxztgadNkuqeDC4u7g3cNrgU97yW6NtKLbi4uGNum6a0xY7JtYyXBVNcXNwj3KRUkT8nZZTNzSBcXNx/5bagtYbKyzlxcXE/mDspno5KqLi4uAe582XWrla0SRUuLu4Z7tqJIy9nzN/FxcU9yP0BdYPiMdjDX4gAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

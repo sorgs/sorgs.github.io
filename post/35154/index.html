@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/35154/">
+    
+    
+    <title>Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？ | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="每日一问笔记,面试,笔记">
+    <meta name="description" content="基于https://www.wanandroid.com每日一问的笔记，做一些整理，方便自己进行查看和记忆。原文链接：https://www.wanandroid.com/wenda/show/8685   Android中为什么主线程不会因为Looper.loop()里的死循环卡死？ 这里涉及线程，先说说说进程/线程 进程：每个app运行时前首先创建一个进程，该进程是由Zygote fork出">
+<meta name="keywords" content="每日一问笔记,面试,笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？">
+<meta property="og:url" content="http://sorgs.cn/post/35154/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="基于https://www.wanandroid.com每日一问的笔记，做一些整理，方便自己进行查看和记忆。原文链接：https://www.wanandroid.com/wenda/show/8685   Android中为什么主线程不会因为Looper.loop()里的死循环卡死？ 这里涉及线程，先说说说进程/线程 进程：每个app运行时前首先创建一个进程，该进程是由Zygote fork出">
+<meta property="og:image" content="https://pic.sorgs.cn/handler_loop.jpg">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.844Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？">
+<meta name="twitter:description" content="基于https://www.wanandroid.com每日一问的笔记，做一些整理，方便自己进行查看和记忆。原文链接：https://www.wanandroid.com/wenda/show/8685   Android中为什么主线程不会因为Looper.loop()里的死循环卡死？ 这里涉及线程，先说说说进程/线程 进程：每个app运行时前首先创建一个进程，该进程是由Zygote fork出">
+<meta name="twitter:image" content="https://pic.sorgs.cn/handler_loop.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-07-27T09:32:03.000Z" itemprop="datePublished" class="page-time">
+  2019-07-27
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android面试/">Android面试</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Android中为什么主线程不会因为Looper-loop-里的死循环卡死？"><span class="post-toc-number">1.</span> <span class="post-toc-text">Android中为什么主线程不会因为Looper.loop()里的死循环卡死？</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#没看见哪里有相关代码为这个死循环准备了一个新线程去运转？"><span class="post-toc-number">2.</span> <span class="post-toc-text">没看见哪里有相关代码为这个死循环准备了一个新线程去运转？</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Activity的生命周期是怎么实现在死循环体外能够执行起来的？"><span class="post-toc-number">3.</span> <span class="post-toc-text">Activity的生命周期是怎么实现在死循环体外能够执行起来的？</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Android每日一问笔记-Looper-loop为什么不会阻塞掉UI线程？"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-07-27 17:32:03" datetime="2019-07-27T09:32:03.000Z"  itemprop="datePublished">2019-07-27</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android面试/">Android面试</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>基于<a href="https://www.wanandroid.com/article/list/0?cid=440" target="_blank" rel="external">https://www.wanandroid.com</a>每日一问的笔记，做一些整理，方便自己进行查看和记忆。<br>原文链接：<a href="https://www.wanandroid.com/wenda/show/8685" target="_blank" rel="external">https://www.wanandroid.com/wenda/show/8685</a></p>
+</blockquote>
+<hr>
+<h1 id="Android中为什么主线程不会因为Looper-loop-里的死循环卡死？"><a href="#Android中为什么主线程不会因为Looper-loop-里的死循环卡死？" class="headerlink" title="Android中为什么主线程不会因为Looper.loop()里的死循环卡死？"></a>Android中为什么主线程不会因为Looper.loop()里的死循环卡死？</h1><ul>
+<li>这里涉及线程，先说说说进程/线程<ul>
+<li>进程：每个app运行时前首先创建一个进程，该进程是由Zygote fork出来的，用于承载App上运行的各种Activity/Service等组件。进程对于上层应用来说是完全透明的，这也是google有意为之，让App程序都是运行在Android Runtime。大多数情况一个App就运行在一个进程中，除非在AndroidManifest.xml中配置Android:process属性，或通过native代码fork进程。</li>
+<li>线程：线程对应用来说非常常见，比如每次new Thread().start都会创建一个新的线程。该线程与App所在进程之间资源共享，从Linux角度来说进程与线程除了是否共享资源外，并没有本质的区别，都是一个task_struct结构体，在CPU看来进程或线程无非就是一段可执行的代码，CPU采用CFS调度算法，保证每个task都尽可能公平的享有CPU时间片。</li>
+<li>有了这么准备，再说说死循环问题：<ul>
+<li>对于线程既然是一段可执行的代码，当可执行代码执行完成后，线程生命周期便该终止了，线程退出。而对于主线程，我们是绝不希望会被运行一段时间，自己就退出，那么如何保证能一直存活呢？简单做法就是可执行代码是能一直执行下去的，死循环便能保证不会被退出，例如，binder线程也是采用死循环的方法，通过循环方式不同与Binder驱动进行读写操作，当然并非简单地死循环，无消息时会休眠。但这里可能又引发了另一个问题，既然是死循环又如何去处理其他事务呢？通过创建新线程的方式。</li>
+<li>真正会卡死主线程的操作是在回调方法onCreate/onStart/onResume等操作时间过长，会导致掉帧，甚至发生ANR，looper.loop本身不会导致应用卡死</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="没看见哪里有相关代码为这个死循环准备了一个新线程去运转？"><a href="#没看见哪里有相关代码为这个死循环准备了一个新线程去运转？" class="headerlink" title="没看见哪里有相关代码为这个死循环准备了一个新线程去运转？"></a>没看见哪里有相关代码为这个死循环准备了一个新线程去运转？</h1><ul>
+<li><p>事实上，会在进入死循环之前便创建了新binder线程，在代码ActivityThread.main()中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123; </div><div class="line">      .... </div><div class="line">      <span class="comment">//创建Looper和MessageQueue对象，用于处理主线程的消息 </span></div><div class="line">      Looper.prepareMainLooper(); </div><div class="line"></div><div class="line">      <span class="comment">//创建ActivityThread对象 </span></div><div class="line">      ActivityThread thread = <span class="keyword">new</span> ActivityThread(); </div><div class="line"></div><div class="line">      <span class="comment">//建立Binder通道 (创建新线程) </span></div><div class="line">      thread.attach(<span class="keyword">false</span>); </div><div class="line"></div><div class="line">      Looper.loop(); <span class="comment">//消息循环运行</span></div><div class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Main thread loop unexpectedly exited"</span>); </div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>thread.attach(false)；便会创建一个Binder线程（具体是指ApplicationThread，Binder的服务端，用于接收系统服务AMS发送来的事件），该Binder线程通过Handler将Message发送给主线程，具体过程可查看 startService流程分析，这里不展开说，简单说Binder用于进程间通信，采用C/S架构。关于binder感兴趣的朋友，可查看我回答的另一个知乎问题：<br><a href="https://www.zhihu.com/question/39440766/answer/89210950" target="_blank" rel="external">为什么Android要采用Binder作为IPC机制？ - Gityuan的回答</a></p>
+</li>
+<li><p>另外，ActivityThread实际上并非线程，不像HandlerThread类，ActivityThread并没有真正继承Thread类，只是往往运行在主线程，该人以线程的感觉，其实承载ActivityThread的主线程就是由Zygote fork而创建的进程。</p>
+</li>
+<li><p>主线程的死循环一直运行是不是特别消耗CPU资源呢？ 其实不然，这里就涉及到Linux pipe/epoll机制，简单说就是在主线程的MessageQueue没有消息时，便阻塞在loop的queue.next()中的nativePollOnce()方法里，详情见Android消息机制1-Handler(Java层)，此时主线程会释放CPU资源进入休眠状态，直到下个消息到达或者有事务发生，通过往pipe管道写端写入数据来唤醒主线程工作。这里采用的epoll机制，是一种IO多路复用机制，可以同时监控多个描述符，当某个描述符就绪(读或写就绪)，则立刻通知相应程序进行读或写操作，本质同步I/O，即读写是阻塞的。 所以说，主线程大多数时候都是处于休眠状态，并不会消耗大量CPU资源。</p>
+</li>
+</ul>
+<h1 id="Activity的生命周期是怎么实现在死循环体外能够执行起来的？"><a href="#Activity的生命周期是怎么实现在死循环体外能够执行起来的？" class="headerlink" title="Activity的生命周期是怎么实现在死循环体外能够执行起来的？"></a>Activity的生命周期是怎么实现在死循环体外能够执行起来的？</h1><ul>
+<li>ActivityThread的内部类H继承于Handler，通过handler消息机制，简单说Handler机制用于同一个进程的线程间通信。</li>
+<li>Activity的生命周期都是依靠主线程的Looper.loop，当收到不同Message时则采用相应措施：在H.handleMessage(msg)方法中，根据接收到不同的msg，执行相应的生命周期。</li>
+<li>比如收到msg=H.LAUNCH_ACTIVITY，则调用ActivityThread.handleLaunchActivity()方法，最终会通过反射机制，创建Activity实例，然后再执行Activity.onCreate()等方法；</li>
+<li>再比如收到msg=H.PAUSE_ACTIVITY，则调用ActivityThread.handlePauseActivity()方法，最终会执行Activity.onPause()等方法。 上述过程，我只挑核心逻辑讲，真正该过程远比这复杂。</li>
+<li>主线程的消息又是哪来的呢？当然是App进程中的其他线程通过Handler发送给主线程，请看接下来的内容：</li>
+<li>最后，从进程与线程间通信的角度，通过一张图加深大家对App运行过程的理解：<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://pic.sorgs.cn/handler_loop.jpg" alt="image" title="">
+                </div>
+                <div class="image-caption">image</div>
+            </figure></li>
+<li>system_server进程是系统进程，java framework框架的核心载体，里面运行了大量的系统服务，比如这里提供ApplicationThreadProxy（简称ATP），ActivityManagerService（简称AMS），这个两个服务都运行在system_server进程的不同线程中，由于ATP和AMS都是基于IBinder接口，都是binder线程，binder线程的创建与销毁都是由binder驱动来决定的。</li>
+<li>App进程则是我们常说的应用程序，主线程主要负责Activity/Service等组件的生命周期以及UI相关操作都运行在这个线程； 另外，每个App进程中至少会有两个binder线程 ApplicationThread(简称AT)和ActivityManagerProxy（简称AMP），除了图中画的线程，其中还有很多线程，比如signal catcher线程等，这里就不一一列举。</li>
+<li>Binder用于不同进程之间通信，由一个进程的Binder客户端向另一个进程的服务端发送事务，比如图中线程2向线程4发送事务；而handler用于同一个进程中不同线程的通信，比如图中线程4向主线程发送消息。</li>
+<li>结合图说说Activity生命周期，比如暂停Activity，流程如下：<ul>
+<li>线程1的AMS中调用线程2的ATP；（由于同一个进程的线程间资源共享，可以相互直接调用，但需要注意多线程并发问题）</li>
+<li>线程2通过binder传输到App进程的线程4；</li>
+<li>线程4通过handler消息机制，将暂停Activity的消息发送给主线程；</li>
+<li>主线程在looper.loop()中循环遍历消息，当收到暂停Activity的消息时，便将消息分发给ActivityThread.H.handleMessage()方法，再经过方法的调用，最后便会调用到Activity.onPause()，当onPause()处理完后，继续循环loop下去。</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.844Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/每日一问笔记/">每日一问笔记</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔记/">笔记</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/面试/">面试</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/35154/&title=《Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/35154/&title=《Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/35154/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？》 — Sorgs&url=http://sorgs.cn/post/35154/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/35154/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/15217/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">利用Retrofit+RxJava简单封装网络请求库</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/5343/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Android每日一问笔记-Handler简述</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/35154/&title=《Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/35154/&title=《Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/35154/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？》 — Sorgs&url=http://sorgs.cn/post/35154/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/35154/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABz0lEQVR42u3aS44CMQwFQO5/aUaaLZPuZ+fTjFRZIQRJwcJq++X1itf7d43e/1yjz4zeWbxwcXGnue/L9ckdHTyCXp+VG3Bxcc9zr4tXDspL2OgvuNkfFxf3y7g9SrInLi7u/+XmByTtDS4u7vdzk+an2iDlrdGWXg0XF3eCWx2Y7ni9cb6Li4tb5L6LKz8maYHKp+Pi4h7hXo88ZoYaSYjSa65wcXF3c6thSXJAPlrNGyFcXNyT3N41rGrcsiq2wcXFPcOtjjJ7YUm1BRp+FxcX9wh3pgDl1zFngtvmWAQXF3eaW20/8uKVlLA8lMXFxT3JnRlk5Nc18harPATBxcXdzM3p1etZvaboDxUuLu4RbrJFstGqyxy4uLjPcqttTPVKVjWUvWm3cHFxj3CrJazaCOXj0cLDEC4u7mZub4tqGcrD15s9cXFxD3LnI5A8kqkOSXFxcZ/i9gYZvbCkd8ErepLCxcVdxF0bxBams3FD1YxjcXFxp7m9wKM6Ws2vaESZMC4u7hFuUmgKmy5qfqKaiouL+yi3GqnOFLKbkBUXF/frudXgpPlwg4uLe5y76vJE87rV5R/U7NVwcXEnuNWOI/l51ZJXLme4uLi7uD8eVU3U5QBg9wAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

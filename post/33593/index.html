@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/33593/">
+    
+    
+    <title>Linux ubuntu的vbox和本机Windows文件共享以及Linux中的java环境配置 | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="linux,windows,java,文件共享">
+    <meta name="description" content="实验环境：本机Windows10Vbox5.1.8 r111374Linux：ubuntu  一、共享文件设置安装就不用说明了，安装完了需要再Linux把增强工具装好安装完Linux之后，在Windows本机的E盘新建一个share文件夹之后在VBOX里面设置挂在这个文件夹">
+<meta name="keywords" content="linux,windows,java,文件共享">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux ubuntu的vbox和本机Windows文件共享以及Linux中的java环境配置">
+<meta property="og:url" content="http://sorgs.cn/post/33593/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="实验环境：本机Windows10Vbox5.1.8 r111374Linux：ubuntu  一、共享文件设置安装就不用说明了，安装完了需要再Linux把增强工具装好安装完Linux之后，在Windows本机的E盘新建一个share文件夹之后在VBOX里面设置挂在这个文件夹">
+<meta property="og:image" content="http://img.blog.csdn.net/20161101212643116">
+<meta property="og:image" content="http://img.blog.csdn.net/20161102115650696">
+<meta property="og:image" content="http://img.blog.csdn.net/20161101213237509">
+<meta property="og:image" content="http://img.blog.csdn.net/20161101213301203">
+<meta property="og:image" content="http://img.blog.csdn.net/20161101215116696">
+<meta property="og:image" content="http://img.blog.csdn.net/20161101215226261">
+<meta property="og:image" content="http://pic.sorgs.cn/2f6ac9a2bf82cde2513579cd38dae4fc.gif">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.856Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux ubuntu的vbox和本机Windows文件共享以及Linux中的java环境配置">
+<meta name="twitter:description" content="实验环境：本机Windows10Vbox5.1.8 r111374Linux：ubuntu  一、共享文件设置安装就不用说明了，安装完了需要再Linux把增强工具装好安装完Linux之后，在Windows本机的E盘新建一个share文件夹之后在VBOX里面设置挂在这个文件夹">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20161101212643116">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Linux ubuntu的vbox和本机Windows文件共享以及Linux中的java环境配置</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Linux ubuntu的vbox和本机Windows文件共享以及Linux中的java环境配置</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-11-17T08:12:37.000Z" itemprop="datePublished" class="page-time">
+  2016-11-17
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一、共享文件设置"><span class="post-toc-number">1.</span> <span class="post-toc-text">一、共享文件设置</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#二、java环境配置"><span class="post-toc-number">2.</span> <span class="post-toc-text">二、java环境配置</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Linux-ubuntu的vbox和本机Windows文件共享以及Linux中的java环境配置"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Linux ubuntu的vbox和本机Windows文件共享以及Linux中的java环境配置</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-11-17 16:12:37" datetime="2016-11-17T08:12:37.000Z"  itemprop="datePublished">2016-11-17</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>实验环境：本机Windows10<br>Vbox5.1.8 r111374<br>Linux：ubuntu</p>
+</blockquote>
+<h1 id="一、共享文件设置"><a href="#一、共享文件设置" class="headerlink" title="一、共享文件设置"></a>一、共享文件设置</h1><p>安装就不用说明了，安装完了需要再Linux把增强工具装好<br>安装完Linux之后，在Windows本机的E盘新建一个share文件夹<br>之后在VBOX里面设置挂在这个文件夹</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161101212643116" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>然后打开Linux<br>在终端里面输入命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo mkdir /home/shared   //新建一个文件夹</div><div class="line">sudo mount -t vboxsf share /home/shared  //把Windows的share</div></pre></td></tr></table></figure></p>
+<p>文件夹加载到shared里来<br>需要注意的是：<br>1.shared和share不一样。不然会有如下错误：/sbin/mount.vboxsf: mounting failed with the error: Protocol error<br>2.每次开机都需要输入这命令<br>3.不想每次开机都输的话。我们接下来这样操作。<br>执行这个命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sorgs@sorgs-VirtualBox:~$ sudo nano /etc/rc.local</div></pre></td></tr></table></figure></p>
+<p>然后在最后一行加上：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mount -t vboxsf share /home/shared</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161102115650696" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>意思就是开机就执行这句话<br>然后我们去放一个文件到本机的share里面，去Linux看看时候加载进去了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161101213237509" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161101213301203" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>这就说明加载进去了</p>
+<h1 id="二、java环境配置"><a href="#二、java环境配置" class="headerlink" title="二、java环境配置"></a>二、java环境配置</h1><p>设置之前需要先删一下系统原来自带的，不管有没有<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@sorgs-VirtualBox:/home/sorgs# apt-get purge openjdk-\*</div></pre></td></tr></table></figure></p>
+<p>确认：Y，等待一段时间后，卸载完成！<br>然后更具自己的系统去官网下一个jdk.gz<br><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="external">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a><br>我是选择在本机上下好了，通过共享弄进去的。个人觉得方便。<br>然后提取出来<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@sorgs-VirtualBox:/mnt/shared# tar -xvf jdk-8u112-linux-64.gz -C /usr/local</div></pre></td></tr></table></figure></p>
+<p>之后在使用 VI 打开 /etc/profile 文件，如下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@sorgs-VirtualBox:/mnt/shared#  vi /etc/profile</div></pre></td></tr></table></figure></p>
+<p>在文件的最后位置，写入 Java 的环境变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">JAVA_HOME=/usr/local/jdk1.8.0_112</div><div class="line">PATH=$PATH:$HOME/bin:$JAVA_HOME/bin</div><div class="line">export JAVA_HOME</div><div class="line">export PATH</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161101215116696" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>esc返回，输入 :wq 保存文件。<br>再分别输入一下命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">root@sorgs-VirtualBox:/mnt/shared# update-alternatives --install &quot;/usr/bin/java&quot; &quot;java&quot; &quot;/usr/local/jdk1.8.0_112/bin/java&quot; 1</div><div class="line">root@sorgs-VirtualBox:/mnt/shared#  update-alternatives --install &quot;/usr/bin/javac&quot; &quot;javac&quot; &quot;/usr/local/jdk1.8.0_112/bin/javac&quot; 1</div><div class="line">root@sorgs-VirtualBox:/mnt/shared#  update-alternatives --install &quot;/usr/bin/javaws&quot; &quot;javaws&quot; &quot;/usr/local/jdk1.8.0_112/bin/javaws&quot; 1</div><div class="line">root@sorgs-VirtualBox:/mnt/shared# update-alternatives --set java /usr/local/jdk1.8.0_112/bin/java</div><div class="line">root@sorgs-VirtualBox:/mnt/shared# update-alternatives --set javac /usr/local/jdk1.8.0_112/bin/javac</div><div class="line">root@sorgs-VirtualBox:/mnt/shared# update-alternatives --set javaws /usr/local/jdk1.8.0_112/bin/javaws</div></pre></td></tr></table></figure></p>
+<p>最后我们来测试看看：<br>java -version</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20161101215226261" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>这就说明已经配置成功了！</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://pic.sorgs.cn/2f6ac9a2bf82cde2513579cd38dae4fc.gif" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.856Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows/">windows</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/文件共享/">文件共享</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/33593/&title=《Linux ubuntu的vbox和本机Windows文件共享以及Linux中的java环境配置》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/33593/&title=《Linux ubuntu的vbox和本机Windows文件共享以及Linux中的java环境配置》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/33593/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux ubuntu的vbox和本机Windows文件共享以及Linux中的java环境配置》 — Sorgs&url=http://sorgs.cn/post/33593/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/33593/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/33150/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Android逆向基础笔记—Android NDK开发2之Windows下的gcc手动编译（交叉连编译）和利Linux Ubuntu系统下的交叉工具链手动编译</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/47975/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Android逆向实例笔记—在so里对游戏的修改</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/33593/&title=《Linux ubuntu的vbox和本机Windows文件共享以及Linux中的java环境配置》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/33593/&title=《Linux ubuntu的vbox和本机Windows文件共享以及Linux中的java环境配置》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/33593/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux ubuntu的vbox和本机Windows文件共享以及Linux中的java环境配置》 — Sorgs&url=http://sorgs.cn/post/33593/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/33593/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABwElEQVR42u3aQW7EIAwF0N7/0um20pT02wR3RnqsRqMEHllY2ObrKx7Xy/j5/+szq3fvn3xs4OLibnOv25Esmcyw2l5uwMXFneeuIsb97/vN5IEsMeDi4n4K9z4Y7XwCXFzcz+Leh7A8ZcLFxX1/bpL8zJRUHsvVcHFxN7j5kud+H6nv4uLitrhXcdy/VU2Hyqvj4uKOcPOAki+cp1XVdXFxcSe51UfzoJYXWaqFV1xc3HPc5PiSTNq7xlE99ODi4k5yk7C1c52iF+Z+mQ0XF3eQW50iD0BN1upj4eLijnPzNmeeS/WyruUGcHFxB7n7C/SatdWEChcXd56bpC55myS5kpU3WnBxcSe5SaDplUJ6LZPqxnBxcc9xk0l7i504EuHi4v4Xd//gstNueeweGS4u7kPcaoqyQ2m2WHBxcQe5efukcJUqDpSFMwwuLu5h7lUcUSt0oywS7QMXF/cwtxpcdqbe2XB5RVxc3G1u75iSPLlzbWv5aXBxcQe5SamieiHjSKMFFxf3Lbm9kFQtrS7nxMXFfUtu3kwt3wtLYhcuLu4gt4o4dyT6I4zi4uKOcKuhpMettmwfqO/i4uJ2uN9rs+IxgTJHLQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

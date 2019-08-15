@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=59456315"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?d4de65eaf985cbadab15d98d5ed81148"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://www.sorgs.cn/post/10311/">
+    
+    
+    <title>A ndroid逆向基础笔记—Dalvik字节码小记_const/4 v2, 0x1 | Sorgs | Sorgs&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android逆向基础">
+    <meta name="description" content="这几天认真研读了一下dalvik字节码，因为这个是重点，对以后的Android逆向分析很重要。我是学过汇编的，但是感觉还是不是太懂。这玩意也太乱了吧。然后我有些看不懂，就百度一阵，也没有结果。就自己研究了下下，把自己不懂的地方写出来。不对的地方，大家请指出。我主要是集中在赋值哪里。我开始没弄懂，后来才明白过来。const/4 v1, 0x1 这里大家应该知道 v1=1。但是真真正正想过为什么？也许">
+<meta name="keywords" content="Android逆向基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A ndroid逆向基础笔记—Dalvik字节码小记_const&#x2F;4 v2, 0x1">
+<meta property="og:url" content="http://sorgs.cn/post/10311/index.html">
+<meta property="og:site_name" content="Sorgs">
+<meta property="og:description" content="这几天认真研读了一下dalvik字节码，因为这个是重点，对以后的Android逆向分析很重要。我是学过汇编的，但是感觉还是不是太懂。这玩意也太乱了吧。然后我有些看不懂，就百度一阵，也没有结果。就自己研究了下下，把自己不懂的地方写出来。不对的地方，大家请指出。我主要是集中在赋值哪里。我开始没弄懂，后来才明白过来。const/4 v1, 0x1 这里大家应该知道 v1=1。但是真真正正想过为什么？也许">
+<meta property="og:image" content="http://pic.sorgs.cn/b04494d27eb61243ab4157c58da60e97.jpg">
+<meta property="og:updated_time" content="2019-08-15T01:29:03.837Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="A ndroid逆向基础笔记—Dalvik字节码小记_const&#x2F;4 v2, 0x1">
+<meta name="twitter:description" content="这几天认真研读了一下dalvik字节码，因为这个是重点，对以后的Android逆向分析很重要。我是学过汇编的，但是感觉还是不是太懂。这玩意也太乱了吧。然后我有些看不懂，就百度一阵，也没有结果。就自己研究了下下，把自己不懂的地方写出来。不对的地方，大家请指出。我主要是集中在赋值哪里。我开始没弄懂，后来才明白过来。const/4 v1, 0x1 这里大家应该知道 v1=1。但是真真正正想过为什么？也许">
+<meta name="twitter:image" content="http://pic.sorgs.cn/b04494d27eb61243ab4157c58da60e97.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="http://blog.csdn.net/qq_24349189" class="avatar waves-effect waves-circle waves-light" target='_blank' title='点击我跳转到CSDN'>
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Sorgs</h5>
+          <a href="mailto:1042746391@qq.com" title="1042746391@qq.com" class="mail">1042746391@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/sorgs" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+		    <li class="weixin" >
+			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
+				<img src='/img/publicNumber.jpg'>
+			</a>
+			</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">A ndroid逆向基础笔记—Dalvik字节码小记_const/4 v2, 0x1</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">A ndroid逆向基础笔记—Dalvik字节码小记_const/4 v2, 0x1</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-11-16T09:23:32.000Z" itemprop="datePublished" class="page-time">
+  2016-11-16
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android逆向基础/">Android逆向基础</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-A-ndroid逆向基础笔记—Dalvik字节码小记-const-4-v2-0x1"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">A ndroid逆向基础笔记—Dalvik字节码小记_const/4 v2, 0x1</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-11-16 17:23:32" datetime="2016-11-16T09:23:32.000Z"  itemprop="datePublished">2016-11-16</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android逆向基础/">Android逆向基础</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><font color="goldenrod">这几天认真研读了一下dalvik字节码，因为这个是重点，对以后的Android逆向分析很重要。<br>我是学过汇编的，但是感觉还是不是太懂。这玩意也太乱了吧。然后我有些看不懂，就百度一阵，也没有结果。就自己研究了下下，把自己不懂的地方写出来。不对的地方，大家请指出。<br>我主要是集中在赋值哪里。我开始没弄懂，后来才明白过来。<br>const/4 v1, 0x1 这里大家应该知道 v1=1。但是真真正正想过为什么？也许很多人都知道，这里是写给不知道的。<br>首先4代表4字节，那么就是4位的。所以呢 v1=0<em>4+1=1<br>const/16 v2, 0x10  这里的话，16字节，那么16位对吧。所以v2 = 1</em>16+0 = 16<br>const/16 v3, 0x28  16字节，16位。v3 = 2*16+8 = 40；<br>这里就解释完了。后面给点dalvik的实例吧。</font><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">.local <span class="number">4</span>                   <span class="comment">//本地4个寄存器，也就是下面的v0,v1,v2,v3</span></div><div class="line"><span class="keyword">const</span>/<span class="number">4</span> v2, <span class="number">0x1</span>            <span class="comment">//4字节常量   v2=1</span></div><div class="line"><span class="keyword">const</span>/<span class="number">16</span> v1, <span class="number">0x10</span>          <span class="comment">//16字节常量  v1=16</span></div><div class="line">:local v1, <span class="string">"length"</span>:I      <span class="comment">//int length=v1</span></div><div class="line"><span class="keyword">if</span>-nez v1，：cond_1        <span class="comment">//如果v1不等于0，这跳转至cond_1</span></div><div class="line">:cond_0                    <span class="comment">//cond_0标签</span></div><div class="line">:goto_0                    <span class="comment">//goto_0标签</span></div><div class="line"><span class="keyword">return</span> v2                  <span class="comment">//返回v2的值</span></div><div class="line">:cond_1                    <span class="comment">//开始执行cond_1标签代码</span></div><div class="line"><span class="keyword">const</span>/<span class="number">4</span> v0,<span class="number">0x0</span>             <span class="comment">//4字节常量  v0=0</span></div><div class="line">:local v0, <span class="string">"i"</span>:I           <span class="comment">//int i=v0</span></div><div class="line">:goto_1                    <span class="comment">//开始执行goto_1标签代码</span></div><div class="line"><span class="keyword">if</span>-lt v0, v1, :cond_2      <span class="comment">//如果v0小于v1,则跳转至cond_2</span></div><div class="line"><span class="keyword">const</span>/<span class="number">16</span> v3,<span class="number">0x28</span>           <span class="comment">//如果v0大于等于v1，则执行下面语句： 16字节常量v3=40</span></div><div class="line"><span class="keyword">if</span>-le v1,v3, :cond_0       <span class="comment">//如果v1小于等于v3,则跳转至cond_0,即返回v2的值</span></div><div class="line"><span class="keyword">const</span>/<span class="number">4</span> v2, <span class="number">0x0</span>            <span class="comment">//如果v1大于v3,则4字节常量v2=0</span></div><div class="line">goto:goto_0                <span class="comment">//跳转至goto_0,即返回v2的值</span></div><div class="line">:cond_2                    <span class="comment">//cond_2标签</span></div><div class="line">xor-<span class="keyword">int</span>/lit8 v1, v1, <span class="number">0x3b</span>  <span class="comment">//将第二个v1寄存器中的值与0x3b（59）进行异或运算，得到的值赋值给第一个v1寄存器中</span></div><div class="line">add-<span class="keyword">int</span>/lit8 v0, v0, <span class="number">0x1</span>   <span class="comment">//将第二个v0寄存器中的值加上0x1(1)，所得的值放入第一个v0寄存器中</span></div><div class="line">goto:goto_1                <span class="comment">//跳转值goto_1标签</span></div></pre></td></tr></table></figure></p>
+<p>翻译成java代码就是</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> v2 = <span class="number">1</span>;  </div><div class="line"><span class="keyword">int</span> v1 = <span class="number">16</span>;  </div><div class="line"><span class="keyword">if</span> (v1 != <span class="number">0</span>)&#123;  </div><div class="line">   <span class="keyword">for</span> (<span class="keyword">int</span> v0 = <span class="number">0</span>; v0 &lt; v1;)&#123;  </div><div class="line">         v1 = v1 ^ <span class="number">59</span>;  </div><div class="line">         v0++;  </div><div class="line">    &#125;  </div><div class="line">    <span class="keyword">if</span> (v1 &gt; <span class="number">40</span>)&#123;  </div><div class="line">        v2 = <span class="number">0</span>;  </div><div class="line">    &#125;  </div><div class="line"> &#125;  </div><div class="line"><span class="keyword">return</span> v2;</div></pre></td></tr></table></figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://pic.sorgs.cn/b04494d27eb61243ab4157c58da60e97.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-15T01:29:03.837Z" itemprop="dateUpdated">2019-08-15 09:29:03</time>
+</span><br>
+
+
+        
+        感谢观看
+        
+    </div>
+    <footer>
+        <a href="http://sorgs.cn">
+            <img src="/img/avatar.jpg" alt="Sorgs">
+            Sorgs
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android逆向基础/">Android逆向基础</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/10311/&title=《A ndroid逆向基础笔记—Dalvik字节码小记_const/4 v2, 0x1》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/10311/&title=《A ndroid逆向基础笔记—Dalvik字节码小记_const/4 v2, 0x1》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/10311/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《A ndroid逆向基础笔记—Dalvik字节码小记_const/4 v2, 0x1》 — Sorgs&url=http://sorgs.cn/post/10311/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/10311/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/post/9560/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Android逆向实例笔记—那些搜不到的中文怎么办</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/post/50997/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Android逆向实例笔记—续力破解三个Android程序</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'sorgs',
+            repo: 'sorgs.github.io',
+            oauth: {
+                client_id: '81ec842fe974c3598df8',
+                client_secret: '2e7ec25da8b816aecf8a087c9ab183a92f5dea6b',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>Sorgs &copy; 2016 - 2019</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/10311/&title=《A ndroid逆向基础笔记—Dalvik字节码小记_const/4 v2, 0x1》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/10311/&title=《A ndroid逆向基础笔记—Dalvik字节码小记_const/4 v2, 0x1》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://sorgs.cn/post/10311/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《A ndroid逆向基础笔记—Dalvik字节码小记_const/4 v2, 0x1》 — Sorgs&url=http://sorgs.cn/post/10311/&via=http://sorgs.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://sorgs.cn/post/10311/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABuUlEQVR42u3aW47DIAwF0O5/05kFVGGuTbBS6fBV9QEn/bDgms8nHtfX6H16987DAxcXd5t7LUePu57n7vX6t7i4uPPcu4qxnjr//vqxEwMuLu6vcAsFKH4kXFzcX+f2jkyvqLu4uLgBt3po6YUao2c1XFzcDe7+Mvuvj+S7uLi4Le5VHOtf5SFIc3VcXNwRbl5QelHI+khTXRcXF3eGm0QVz7Zg7x4jmg0XF3eE+2zEefoaBy4u7gz3NCsvTJEBFxd3hFu9aFVthGyx1mc1XFzcY9xqtFFtfPbapVEJw8XFPcyNrkMdaNBWoxlcXNxJbrJ9qTZdqiFLFLDi4uKOcJ+KLZIilR+Z/lkLFxd3hHsiGD2xPcLFxZ3kRqnqRou0GrmW75Hh4uIe45ZvasTxRzJPs8mKi4t7mLsfeibboK1dGC4u7gj3Ko5kG7QTi5R7tri4uAe41eLy1AYob9I0HwYXF3eb2wtG87Aj/wui/xUXF3eQWz3w7DRjjjSDcHFxX8CtHpOqDZXbOXFxcV/JTdqovcuaUe3CxcUd5O4v07takc+Ai4s7yd2PO9dxRu/i1wP5Li4ubof7B2pOcbCfhIcJAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '哪里去了？';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '回来了哇！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
