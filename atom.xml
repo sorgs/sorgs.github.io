@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sorgs.cn/"/>
-  <updated>2019-08-15T07:17:09.398Z</updated>
+  <updated>2019-08-16T03:22:38.984Z</updated>
   <id>http://sorgs.cn/</id>
   
   <author>
@@ -14,6 +14,62 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Android每日一问笔记-对于SharedPreferences的优缺点？</title>
+    <link href="http://sorgs.cn/post/42206/"/>
+    <id>http://sorgs.cn/post/42206/</id>
+    <published>2019-08-16T03:19:19.000Z</published>
+    <updated>2019-08-16T03:22:38.984Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>基于<a href="https://www.wanandroid.com/article/list/0?cid=440" target="_blank" rel="external">https://www.wanandroid.com</a>每日一问的笔记，做一些整理，方便自己进行查看和记忆。</p>
+<p>原文链接：<a href="https://www.wanandroid.com/wenda/show/8656" target="_blank" rel="external">https://www.wanandroid.com/wenda/show/8656</a></p>
+<p>SharedPreferences，它是一个轻量级的存储类，特别适合用于保存软件配置参数</p>
+</blockquote>
+<ul>
+<li>优点：</li>
+</ul>
+<ol>
+<li>轻量级，以键值对的方式进行存储，使用方便，易于理解</li>
+<li>采用的是xml文件形式存储在本地，程序卸载后会也会一并被清除，不会残留信息</li>
+</ol>
+<ul>
+<li>缺点：</li>
+</ul>
+<ol>
+<li>由于是对文件IO读取，因此在IO上的瓶颈是个大问题，因为在每次进行get和commit时都要将数据从内存写入到文件中，或从文件中读取</li>
+<li>多线程场景下效率较低，在get操作时，会锁定SharedPreferences对象，互斥其他操作，而当put，commit时，则会锁定Editor对象，使用写入锁进行互斥，在这种情况下，效率会降低</li>
+<li>不支持跨进程通讯<br>4.由于每次都会把整个文件加载到内存中，因此，如果SharedPreferences文件过大，或者在其中的键值对是大对象的json数据则会占用大量内存，读取较慢是一方面，同时也会引发程序频繁GC，导致的界面卡顿。</li>
+</ol>
+<ul>
+<li>建议</li>
+</ul>
+<ol>
+<li>建议不要存储较大数据或者较多数据到SharedPreferences中</li>
+<li>频繁修改的数据修改后统一提交，而不是修改过后马上提交</li>
+<li>在跨进程通讯中不去使用SharedPreferences</li>
+<li>键值对不宜过多</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;基于&lt;a href=&quot;https://www.wanandroid.com/article/list/0?cid=440&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://www.wanandroid.com&lt;/a&gt;每
+    
+    </summary>
+    
+      <category term="Android面试" scheme="http://sorgs.cn/categories/Android%E9%9D%A2%E8%AF%95/"/>
+    
+    
+      <category term="每日一问笔记" scheme="http://sorgs.cn/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%97%AE%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="面试" scheme="http://sorgs.cn/tags/%E9%9D%A2%E8%AF%95/"/>
+    
+      <category term="笔记" scheme="http://sorgs.cn/tags/%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>Android Handler运行机制以及问题点解答</title>
@@ -3316,15 +3372,15 @@
       <category term="Android逆向实例" scheme="http://sorgs.cn/categories/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
     
+      <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
+    
       <category term="Android逆向实例" scheme="http://sorgs.cn/tags/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
       <category term="so修改" scheme="http://sorgs.cn/tags/so%E4%BF%AE%E6%94%B9/"/>
     
-      <category term="游戏" scheme="http://sorgs.cn/tags/%E6%B8%B8%E6%88%8F/"/>
-    
       <category term="IDA" scheme="http://sorgs.cn/tags/IDA/"/>
     
-      <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
+      <category term="游戏" scheme="http://sorgs.cn/tags/%E6%B8%B8%E6%88%8F/"/>
     
   </entry>
   
@@ -3446,15 +3502,15 @@
       <category term="Android逆向实例" scheme="http://sorgs.cn/categories/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
     
+      <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
+    
+      <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
+    
       <category term="Android逆向实例" scheme="http://sorgs.cn/tags/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
       <category term="so修改" scheme="http://sorgs.cn/tags/so%E4%BF%AE%E6%94%B9/"/>
     
       <category term="IDA" scheme="http://sorgs.cn/tags/IDA/"/>
-    
-      <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
-    
-      <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
     
   </entry>
   
@@ -3584,11 +3640,11 @@
       <category term="Android逆向实例" scheme="http://sorgs.cn/categories/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
     
+      <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
+    
       <category term="Android逆向实例" scheme="http://sorgs.cn/tags/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
       <category term="游戏" scheme="http://sorgs.cn/tags/%E6%B8%B8%E6%88%8F/"/>
-    
-      <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
     
       <category term="支付" scheme="http://sorgs.cn/tags/%E6%94%AF%E4%BB%98/"/>
     
@@ -3705,11 +3761,11 @@
       <category term="Android逆向实例" scheme="http://sorgs.cn/categories/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
     
-      <category term="Android逆向实例" scheme="http://sorgs.cn/tags/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
+      <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
     
       <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
     
-      <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
+      <category term="Android逆向实例" scheme="http://sorgs.cn/tags/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
       <category term="同步学习" scheme="http://sorgs.cn/tags/%E5%90%8C%E6%AD%A5%E5%AD%A6%E4%B9%A0/"/>
     
@@ -3912,11 +3968,11 @@
     
       <category term="Android逆向基础" scheme="http://sorgs.cn/tags/Android%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%80/"/>
     
-      <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
+      <category term="动态调试" scheme="http://sorgs.cn/tags/%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95/"/>
     
       <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
     
-      <category term="动态调试" scheme="http://sorgs.cn/tags/%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95/"/>
+      <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
     
       <category term="调试" scheme="http://sorgs.cn/tags/%E8%B0%83%E8%AF%95/"/>
     
