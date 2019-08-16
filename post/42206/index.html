@@ -41,7 +41,7 @@
 <meta property="og:url" content="http://sorgs.cn/post/42206/index.html">
 <meta property="og:site_name" content="Sorgs">
 <meta property="og:description" content="基于https://www.wanandroid.com每日一问的笔记，做一些整理，方便自己进行查看和记忆。 原文链接：https://www.wanandroid.com/wenda/show/8656 SharedPreferences，它是一个轻量级的存储类，特别适合用于保存软件配置参数   优点：   轻量级，以键值对的方式进行存储，使用方便，易于理解 采用的是xml文件形式存储在本地，">
-<meta property="og:updated_time" content="2019-08-16T03:22:38.984Z">
+<meta property="og:updated_time" content="2019-08-16T03:30:41.116Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android每日一问笔记-对于SharedPreferences的优缺点？">
 <meta name="twitter:description" content="基于https://www.wanandroid.com每日一问的笔记，做一些整理，方便自己进行查看和记忆。 原文链接：https://www.wanandroid.com/wenda/show/8656 SharedPreferences，它是一个轻量级的存储类，特别适合用于保存软件配置参数   优点：   轻量级，以键值对的方式进行存储，使用方便，易于理解 采用的是xml文件形式存储在本地，">
@@ -222,6 +222,25 @@
 <li>在跨进程通讯中不去使用SharedPreferences</li>
 <li>键值对不宜过多</li>
 </ol>
+<hr>
+<blockquote>
+<p>关于SharedPreference.Editor的apply()和commit()方法异同</p>
+<p>在androidstudio上coding经常会提示一些警告，通过它我们能了解到一些自己不了解的好的编程习惯和少用的方法，本次发现就是一个例子，用习惯了SharedPreference.Editor的commit()方法，但是在studio提示使用apply()方法替换，看到apply()方法有点不知所措，因为根本不了解这个方法的作用随即翻阅android的api和google了一下apply()和commit()两者的区别。<br>首先，两者都能实现shared存储的功能，但是两者还是有着一些不同</p>
+<ul>
+<li><a href="http://www.jianshu.com/p/61578b509e50" target="_blank" rel="external">简书</a></li>
+<li>apply方法是将share的修改提交到内存而后异步写入磁盘，但是commit是直接写入磁盘，这就造成两者性能上的差异，犹如apply不直接写入磁盘而share本身是单例创建，apply方法会覆写之前内存中的值，异步写入磁盘的值只是最后的值，而commit每次都要写入磁盘，而磁盘的写入相对来说是很低效的，所以apply方法在频繁调用时要比commit效率高很多。</li>
+<li>apply虽然高效但是commit也有着自己的优势那就是它可以返回每次操作的成功与否的返回值，根据它我们就可以在操作失败时做一些补救操作。<br>综上，studio提示我们使用apply是在效率上的优化考虑，但是如果你很重视share是否成功操作，并希望在失败时做相应的提示或者补救commit还是更好的选择。</li>
+</ul>
+</blockquote>
+<ul>
+<li><a href="https://stackoverflow.com/questions/5960678/whats-the-difference-between-commit-and-apply-in-shared-preference" target="_blank" rel="external">stack overflow</a></li>
+<li><p>apply() was added in 2.3, it commits without returning a boolean indicating success or failure.</p>
+</li>
+<li><p>commit() returns true if the save works, false otherwise.</p>
+</li>
+<li><p>apply() was added as the Android dev team noticed that almost no one took notice of the return value, so apply is faster as it is asynchronous.</p>
+</li>
+</ul>
 
         </div>
 
@@ -229,7 +248,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2019-08-16T03:22:38.984Z" itemprop="dateUpdated">2019-08-16 11:22:38</time>
+    最后更新时间：<time datetime="2019-08-16T03:30:41.116Z" itemprop="dateUpdated">2019-08-16 11:30:41</time>
 </span><br>
 
 
