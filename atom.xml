@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sorgs.cn/"/>
-  <updated>2019-08-16T15:00:57.820Z</updated>
+  <updated>2019-08-19T09:30:23.300Z</updated>
   <id>http://sorgs.cn/</id>
   
   <author>
@@ -16,11 +16,70 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Android每日一问笔记-Handler中的IdleHandler</title>
+    <link href="http://sorgs.cn/post/14041/"/>
+    <id>http://sorgs.cn/post/14041/</id>
+    <published>2019-08-19T09:10:44.000Z</published>
+    <updated>2019-08-19T09:30:23.300Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>基于<a href="https://www.wanandroid.com/article/list/0?cid=440" target="_blank" rel="external">https://www.wanandroid.com</a>每日一问的笔记，做一些整理，方便自己进行查看和记忆。</p>
+<p>原文链接：<a href="https://www.wanandroid.com/wenda/show/8723" target="_blank" rel="external">https://www.wanandroid.com/wenda/show/8723</a></p>
+</blockquote>
+<h1 id="IdleHandler"><a href="#IdleHandler" class="headerlink" title="IdleHandler"></a>IdleHandler</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Callback interface for discovering when a thread is going to block</div><div class="line"> * waiting for more messages.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">interface</span> <span class="title">IdleHandler</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Called when the message queue has run out of messages and will now</div><div class="line">     * wait for more.  Return true to keep your idle handler active, false</div><div class="line">     * to have it removed.  This may be called if there are still messages</div><div class="line">     * pending in the queue, but they are all scheduled to be dispatched</div><div class="line">     * after the current time.</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">queueIdle</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>注释中很明确地指出当消息队列空闲时会执行IdleHandler的queueIdle()方法，该方法返回一个boolean值，如果为false则执行完毕之后移除这条消息，如果为true则保留，等到下次空闲时会再次执行，下面看下MessageQueue的next()方法可以发现确实是这样</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="function">Message <span class="title">next</span><span class="params">()</span> </span>&#123;</div><div class="line">        ......</div><div class="line">        <span class="keyword">for</span> (;;) &#123;</div><div class="line">            ......</div><div class="line">            <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</div><div class="line">		<span class="comment">// 此处为正常消息队列的处理</span></div><div class="line">                ......</div><div class="line">                <span class="keyword">if</span> (mQuitting) &#123;</div><div class="line">                    dispose();</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span> (pendingIdleHandlerCount &lt; <span class="number">0</span></div><div class="line">                        &amp;&amp; (mMessages == <span class="keyword">null</span> || now &lt; mMessages.when)) &#123;</div><div class="line">                    pendingIdleHandlerCount = mIdleHandlers.size();</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span> (pendingIdleHandlerCount &lt;= <span class="number">0</span>) &#123;</div><div class="line">                    <span class="comment">// No idle handlers to run.  Loop and wait some more.</span></div><div class="line">                    mBlocked = <span class="keyword">true</span>;</div><div class="line">                    <span class="keyword">continue</span>;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span> (mPendingIdleHandlers == <span class="keyword">null</span>) &#123;</div><div class="line">                    mPendingIdleHandlers = <span class="keyword">new</span> IdleHandler[Math.max(pendingIdleHandlerCount, <span class="number">4</span>)];</div><div class="line">                &#125;</div><div class="line">                mPendingIdleHandlers = mIdleHandlers.toArray(mPendingIdleHandlers);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pendingIdleHandlerCount; i++) &#123;</div><div class="line">                <span class="keyword">final</span> IdleHandler idler = mPendingIdleHandlers[i];</div><div class="line">                mPendingIdleHandlers[i] = <span class="keyword">null</span>; <span class="comment">// release the reference to the handler</span></div><div class="line"></div><div class="line">                <span class="keyword">boolean</span> keep = <span class="keyword">false</span>;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    keep = idler.queueIdle();</div><div class="line">                &#125; <span class="keyword">catch</span> (Throwable t) &#123;</div><div class="line">                    Log.wtf(TAG, <span class="string">"IdleHandler threw exception"</span>, t);</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                <span class="keyword">if</span> (!keep) &#123;</div><div class="line">                    <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</div><div class="line">                        mIdleHandlers.remove(idler);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            pendingIdleHandlerCount = <span class="number">0</span>;</div><div class="line">            nextPollTimeoutMillis = <span class="number">0</span>;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>处理完IdleHandler后会将nextPollTimeoutMillis设置为0，也就是不阻塞消息队列，当然要注意这里执行的代码同样不能太耗时，因为它是同步执行的，如果太耗时肯定会影响后面的message执行。</li>
+<li>mPendingIdleHandlers它里面放的IdleHandler实例都是临时的，也就是每次使用完（调用了queueIdle方法）之后，都会置空（mPendingIdleHandlers[i] = null）</li>
+</ul>
+<h1 id="在什么时候用到呢？"><a href="#在什么时候用到呢？" class="headerlink" title="在什么时候用到呢？"></a>在什么时候用到呢？</h1><ul>
+<li>就在MessageQueue的next方法里面。</li>
+<li>大概流程是这样的：<ul>
+<li>如果本次循环拿到的Message为空，或者！这个Message是一个延时的消息而且还没到指定的触发时间，那么，就认定当前的队列为空闲状态;</li>
+<li>接着就会遍历mPendingIdleHandlers数组(这个数组里面的元素每次都会到mIdleHandlers中去拿)来调用每一个IdleHandler实例的queueIdle方法;</li>
+<li>如果这个方法返回false的话，那么这个实例就会从mIdleHandlers中移除，也就是当下次队列空闲的时候，不会继续回调它的queueIdle方法了。</li>
+</ul>
+</li>
+</ul>
+<h1 id="它有什么能力？"><a href="#它有什么能力？" class="headerlink" title="它有什么能力？"></a>它有什么能力？</h1><ul>
+<li>能力大概就是上面讲的那样，那么能力决定用处，用处从本质上讲就是趁着消息队列空闲的时候干点事情，当然具体的用处还是要看具体的处理。</li>
+<li>要使用IdleHandler只需要调用MessageQueue#addIdleHandler(IdleHandler handler)方法即可<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Looper.myQueue().addIdleHandler(<span class="keyword">new</span> MessageQueue.IdleHandler() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">queueIdle</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">//do something</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="合适场景"><a href="#合适场景" class="headerlink" title="合适场景"></a>合适场景</h1><ul>
+<li>消息队列相关</li>
+<li>主线程能干的事情</li>
+<li>返回true和false带来的不同结果</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;基于&lt;a href=&quot;https://www.wanandroid.com/article/list/0?cid=440&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://www.wanandroid.com&lt;/a&gt;每
+    
+    </summary>
+    
+      <category term="Android面试" scheme="http://sorgs.cn/categories/Android%E9%9D%A2%E8%AF%95/"/>
+    
+    
+      <category term="每日一问笔记" scheme="http://sorgs.cn/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%97%AE%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="面试" scheme="http://sorgs.cn/tags/%E9%9D%A2%E8%AF%95/"/>
+    
+      <category term="笔记" scheme="http://sorgs.cn/tags/%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Android每日一问笔记-对于SharedPreferences的优缺点？</title>
     <link href="http://sorgs.cn/post/42206/"/>
     <id>http://sorgs.cn/post/42206/</id>
     <published>2019-08-16T03:19:19.000Z</published>
-    <updated>2019-08-16T15:00:57.820Z</updated>
+    <updated>2019-08-16T03:30:41.116Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>基于<a href="https://www.wanandroid.com/article/list/0?cid=440" target="_blank" rel="external">https://www.wanandroid.com</a>每日一问的笔记，做一些整理，方便自己进行查看和记忆。</p>
@@ -95,7 +154,7 @@
     <link href="http://sorgs.cn/post/62013/"/>
     <id>http://sorgs.cn/post/62013/</id>
     <published>2019-08-14T15:09:18.000Z</published>
-    <updated>2019-08-16T15:00:57.807Z</updated>
+    <updated>2019-08-15T07:17:09.398Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>Handler机制笔记，原文地址<a href="https://mp.weixin.qq.com/s/7PAMm_FPrA0P3jf0tn3yyQ" target="_blank" rel="external">：https://mp.weixin.qq.com/s/7PAMm_FPrA0P3jf0tn3yy</a></p>
@@ -302,7 +361,7 @@
     <link href="http://sorgs.cn/post/3427/"/>
     <id>http://sorgs.cn/post/3427/</id>
     <published>2019-08-05T12:58:49.000Z</published>
-    <updated>2019-08-16T15:00:57.819Z</updated>
+    <updated>2019-08-15T01:29:03.845Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>基于<a href="https://www.wanandroid.com/article/list/0?cid=440" target="_blank" rel="external">https://www.wanandroid.com</a>每日一问的笔记，做一些整理，方便自己进行查看和记忆。</p>
@@ -343,7 +402,7 @@
     <link href="http://sorgs.cn/post/15217/"/>
     <id>http://sorgs.cn/post/15217/</id>
     <published>2019-08-01T08:13:35.000Z</published>
-    <updated>2019-08-16T15:00:57.845Z</updated>
+    <updated>2019-08-15T01:29:03.860Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>网络请求在移动端是极为常见和重要，随处可见。为此，为了避免到处使用增加内存和性能，以及方便使用和解耦，进行网络库的简单封装。</p>
@@ -460,7 +519,7 @@
     <link href="http://sorgs.cn/post/35154/"/>
     <id>http://sorgs.cn/post/35154/</id>
     <published>2019-07-27T09:32:03.000Z</published>
-    <updated>2019-08-16T15:00:57.817Z</updated>
+    <updated>2019-08-15T01:29:03.844Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>基于<a href="https://www.wanandroid.com/article/list/0?cid=440" target="_blank" rel="external">https://www.wanandroid.com</a>每日一问的笔记，做一些整理，方便自己进行查看和记忆。<br>原文链接：<a href="https://www.wanandroid.com/wenda/show/8685" target="_blank" rel="external">https://www.wanandroid.com/wenda/show/8685</a></p>
@@ -538,7 +597,7 @@
     <link href="http://sorgs.cn/post/5343/"/>
     <id>http://sorgs.cn/post/5343/</id>
     <published>2019-07-26T11:52:08.000Z</published>
-    <updated>2019-08-16T15:00:57.816Z</updated>
+    <updated>2019-08-15T01:29:03.843Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>基于每日一问的笔记，做一些整理，方便自己进行查看和记忆。<br><a href="https://mp.weixin.qq.com/s/ReSmYXFr_gH_39g9LevqlA" target="_blank" rel="external">nanchen的文章</a></p>
@@ -613,7 +672,7 @@
     <link href="http://sorgs.cn/post/39723/"/>
     <id>http://sorgs.cn/post/39723/</id>
     <published>2019-07-25T11:29:13.000Z</published>
-    <updated>2019-08-16T15:00:57.818Z</updated>
+    <updated>2019-08-15T01:29:03.845Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>基于<a href="https://www.wanandroid.com/article/list/0?cid=440" target="_blank" rel="external">https://www.wanandroid.com</a>每日一问的笔记，做一些整理，方便自己进行查看和记忆。</p>
@@ -732,7 +791,7 @@
     <link href="http://sorgs.cn/post/35340/"/>
     <id>http://sorgs.cn/post/35340/</id>
     <published>2019-07-16T09:31:01.000Z</published>
-    <updated>2019-08-16T15:00:57.821Z</updated>
+    <updated>2019-08-15T01:29:03.846Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>基于<a href="https://www.wanandroid.com/article/list/0?cid=440" target="_blank" rel="external">https://www.wanandroid.com</a>每日一问的笔记，做一些整理，方便自己进行查看和记忆。</p>
@@ -821,7 +880,7 @@
     <link href="http://sorgs.cn/post/7510/"/>
     <id>http://sorgs.cn/post/7510/</id>
     <published>2019-05-19T13:05:57.000Z</published>
-    <updated>2019-08-16T15:00:57.813Z</updated>
+    <updated>2019-08-15T01:29:03.842Z</updated>
     
     <content type="html"><![CDATA[<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>有时候我们在android开发JNI的时候，会涉及到引用第三方的so和头文件引用。现在网上也有相应的资料，但是还是感觉不全和描述不清晰。这里进行整理一些，方便大家参考。</p>
 <h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ul>
@@ -882,7 +941,7 @@
     <link href="http://sorgs.cn/post/9217/"/>
     <id>http://sorgs.cn/post/9217/</id>
     <published>2019-03-24T10:34:24.000Z</published>
-    <updated>2019-08-16T15:00:57.841Z</updated>
+    <updated>2019-08-15T01:29:03.857Z</updated>
     
     <content type="html"><![CDATA[<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>自己动手搭建一个属于自己的远程基础仓库</p>
 <p>不管是开发新项目亦或者是自己写demo练练手之类的。都需要建立工程，然后开始拷贝工具类，然后在啪啦啪啦引用必须的三方库，建立Base基类等等。</p>
@@ -935,7 +994,7 @@
     <link href="http://sorgs.cn/post/60878/"/>
     <id>http://sorgs.cn/post/60878/</id>
     <published>2019-01-02T15:03:09.000Z</published>
-    <updated>2019-08-16T15:00:57.850Z</updated>
+    <updated>2019-08-15T01:29:03.862Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>整理系类-Java基础</p>
@@ -1182,7 +1241,7 @@
     <link href="http://sorgs.cn/post/2500/"/>
     <id>http://sorgs.cn/post/2500/</id>
     <published>2018-10-14T05:12:03.000Z</published>
-    <updated>2019-08-16T15:00:57.842Z</updated>
+    <updated>2019-08-15T01:29:03.858Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>最近没事玩玩kotlin，随便学习了一波dagger2，打配合使用下，但是出现了些问题，记录出来</p>
@@ -1239,7 +1298,7 @@
     <link href="http://sorgs.cn/post/388/"/>
     <id>http://sorgs.cn/post/388/</id>
     <published>2018-08-19T07:46:52.000Z</published>
-    <updated>2019-08-16T15:00:57.848Z</updated>
+    <updated>2019-08-15T01:29:03.861Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>*本篇文章已授权微信公众号 guolin_blog （郭霖）独家发布</p>
@@ -1364,7 +1423,7 @@
     <link href="http://sorgs.cn/post/45123/"/>
     <id>http://sorgs.cn/post/45123/</id>
     <published>2018-05-28T13:59:04.000Z</published>
-    <updated>2019-08-16T15:00:57.843Z</updated>
+    <updated>2019-08-15T01:29:03.858Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>*本篇文章已授权微信公众号 guolin_blog （郭霖）独家发布</p>
@@ -1530,7 +1589,7 @@
     <link href="http://sorgs.cn/post/45310/"/>
     <id>http://sorgs.cn/post/45310/</id>
     <published>2018-01-26T06:39:16.000Z</published>
-    <updated>2019-08-16T15:00:57.836Z</updated>
+    <updated>2019-08-15T01:29:03.855Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>第一章对象导论(1.7-1.13)</p>
@@ -1590,7 +1649,7 @@
     <link href="http://sorgs.cn/post/4506/"/>
     <id>http://sorgs.cn/post/4506/</id>
     <published>2018-01-25T07:08:25.000Z</published>
-    <updated>2019-08-16T15:00:57.835Z</updated>
+    <updated>2019-08-15T01:29:03.854Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>第一章对象导论(1.1-1.6)</p>
@@ -1655,7 +1714,7 @@
     <link href="http://sorgs.cn/post/3403/"/>
     <id>http://sorgs.cn/post/3403/</id>
     <published>2018-01-20T12:20:08.000Z</published>
-    <updated>2019-08-16T15:00:57.814Z</updated>
+    <updated>2019-08-15T01:29:03.842Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>很久没有更新博客了，以后还是决定每个月来更新一遍。本次到来的是一个常用的场景，比如我们在发朋友圈的时候，我们可以选择多张照片，也可以删除之前选择的，但是最多一般会有个上限，达到上限之后一般添加的就消失了。这里给出一个简单的实现思路。</p>
@@ -1783,7 +1842,7 @@
     <link href="http://sorgs.cn/post/20591/"/>
     <id>http://sorgs.cn/post/20591/</id>
     <published>2017-11-18T13:44:12.000Z</published>
-    <updated>2019-08-16T15:00:57.844Z</updated>
+    <updated>2019-08-15T01:29:03.859Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>很久没有更新博客了，最近实习一直挺忙的。最近做的项目有关使用了录音类<a href="https://developer.android.com/reference/android/media/MediaRecorder.html" target="_blank" rel="external">MediaRecorder</a>。其中有个setAudioEncoder设置编解码器和setOutputFormat和输出格式。不太明白这之间有什么约束，但是总觉得不可能是随便设置的但是Google怎么都搜不到这方面相关的，于是去稍微了解了下编码解码器的区别以及它的输出容器。这里自己记录下，也方便大家有个了解。</p>
@@ -2009,7 +2068,7 @@
     <link href="http://sorgs.cn/post/12778/"/>
     <id>http://sorgs.cn/post/12778/</id>
     <published>2017-08-06T13:02:00.000Z</published>
-    <updated>2019-08-16T15:00:57.847Z</updated>
+    <updated>2019-08-15T01:29:03.861Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>公司一个需求让做一个支付宝的第三方登录，注意，是登录不是支付。也很简单，这里我自己记录下大家没有说的问题。</p>
@@ -2073,7 +2132,7 @@
     <link href="http://sorgs.cn/post/29596/"/>
     <id>http://sorgs.cn/post/29596/</id>
     <published>2017-07-26T08:33:11.000Z</published>
-    <updated>2019-08-16T15:00:57.846Z</updated>
+    <updated>2019-08-15T01:29:03.860Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>很久都没有更新博客了，之前一直忙着参加挑战杯，然后就是期末考试，再然后在室友的乱带节奏下准备找实习。现在找到了一份实习工作，老大还在给新项目打框架，让我先研究下动画，说是后面会用到，就忙里偷闲玩demo</p>
@@ -2144,7 +2203,7 @@
     <link href="http://sorgs.cn/post/50314/"/>
     <id>http://sorgs.cn/post/50314/</id>
     <published>2017-05-20T06:02:18.000Z</published>
-    <updated>2019-08-16T15:00:57.838Z</updated>
+    <updated>2019-08-15T01:29:03.856Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>看完了郭霖大神我第一行代码（第二版）,最后书上那个案例，我也用来了实现了一下。修改了一点</p>
@@ -2221,7 +2280,7 @@
     <link href="http://sorgs.cn/post/32369/"/>
     <id>http://sorgs.cn/post/32369/</id>
     <published>2017-03-28T02:31:28.000Z</published>
-    <updated>2019-08-16T15:00:57.815Z</updated>
+    <updated>2019-08-15T01:29:03.843Z</updated>
     
     <content type="html"><![CDATA[<p>在Android开发中，美工妹子给我的图片都是px的单位，但是这个但是这个单位在程序中并不好，不能够自动适配。所以需要我们手动转换为dp。</p>
 <p>#关于DP,PD,SP<br>PPI = Pixels per inch，每英寸上的像素数,即 “像素密度”</p>
@@ -2259,7 +2318,7 @@
     <link href="http://sorgs.cn/post/36822/"/>
     <id>http://sorgs.cn/post/36822/</id>
     <published>2017-03-04T05:46:37.000Z</published>
-    <updated>2019-08-16T15:00:57.808Z</updated>
+    <updated>2019-08-15T01:29:03.838Z</updated>
     
     <content type="html"><![CDATA[<p>关于这个报错，其实是Android 4.1（16）在Android studio 2.3产生的。</p>
 <p> 具体原因是因为Android 6.0之后的动态申请权限。很明显，这句话的意思是权限不足。<br>在Android studio 升级到了2.3之后，4.1的模拟器本来不需要动态权限的，估计是个bug吧（个人猜测），因为5.1是完美运行的。</p>
@@ -2289,7 +2348,7 @@
     <link href="http://sorgs.cn/post/6290/"/>
     <id>http://sorgs.cn/post/6290/</id>
     <published>2016-11-25T13:05:20.000Z</published>
-    <updated>2019-08-16T15:00:57.839Z</updated>
+    <updated>2019-08-15T01:29:03.856Z</updated>
     
     <content type="html"><![CDATA[<p>实验室系统：Windows10<br>实验室IDE：VS2012</p>
 <h1 id="创建MFC文件项目"><a href="#创建MFC文件项目" class="headerlink" title="创建MFC文件项目"></a>创建MFC文件项目</h1><p>文件-&gt;新建-&gt;项目</p>
@@ -2532,7 +2591,7 @@
     <link href="http://sorgs.cn/post/6825/"/>
     <id>http://sorgs.cn/post/6825/</id>
     <published>2016-11-21T03:00:58.000Z</published>
-    <updated>2019-08-16T15:00:57.811Z</updated>
+    <updated>2019-08-15T01:29:03.841Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>这个是书上的一个案例，我将其完善了一点而已</p>
@@ -2609,7 +2668,7 @@
     <link href="http://sorgs.cn/post/50165/"/>
     <id>http://sorgs.cn/post/50165/</id>
     <published>2016-11-21T02:34:39.000Z</published>
-    <updated>2019-08-16T15:00:57.810Z</updated>
+    <updated>2019-08-15T01:29:03.840Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>这个案例是书上的习题，我发生来了一点改变而已</p>
@@ -2668,7 +2727,7 @@
     <link href="http://sorgs.cn/post/21426/"/>
     <id>http://sorgs.cn/post/21426/</id>
     <published>2016-11-20T11:21:24.000Z</published>
-    <updated>2019-08-16T15:00:57.840Z</updated>
+    <updated>2019-08-15T01:29:03.857Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>由于书上是转到另一个页面，我是用真机，所以直接打开相机</p>
@@ -2707,7 +2766,7 @@
     <link href="http://sorgs.cn/post/16045/"/>
     <id>http://sorgs.cn/post/16045/</id>
     <published>2016-11-17T08:41:09.000Z</published>
-    <updated>2019-08-16T15:00:57.825Z</updated>
+    <updated>2019-08-15T01:29:03.848Z</updated>
     
     <content type="html"><![CDATA[<p>这部分就是最后的部分了，为什么要写Android studio呢。大家知道，eclipse 到了现在，已经不被Google支持了，所以现在最好的开发就是利用Android studio。虽然说，网上有很多类似的教程了。但是我都一一试过了，并不是太详细，还有些少许错误。所以，我在这里写出详细的过程，大家笑笑就好。但是新生我这个劝一句，最好做一遍，这个很重要。<br>我们用Android studio创建一个app工程，我这建立的是17。<br>切换到project模式。</p>
 <figure class="image-bubble">
@@ -2873,7 +2932,7 @@
     <link href="http://sorgs.cn/post/31148/"/>
     <id>http://sorgs.cn/post/31148/</id>
     <published>2016-11-17T08:35:10.000Z</published>
-    <updated>2019-08-16T15:00:57.824Z</updated>
+    <updated>2019-08-15T01:29:03.848Z</updated>
     
     <content type="html"><![CDATA[<p>做这个之前，必须把android.bat的环境配置进去</p>
 <figure class="image-bubble">
@@ -3000,7 +3059,7 @@
     <link href="http://sorgs.cn/post/3280/"/>
     <id>http://sorgs.cn/post/3280/</id>
     <published>2016-11-17T08:29:38.000Z</published>
-    <updated>2019-08-16T15:00:57.822Z</updated>
+    <updated>2019-08-15T01:29:03.847Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>有句话，叫做开发的能力决定逆向的能力。为了更好的去研究so，我整理了非虫大侠的书的NDK开发。把书中的老版本更新一下，并把不清楚的地方搞清楚。写一个NDK系类的基础教程。如有不对的地方，还请大神扶正。<br>虽然看起来这些很简单，但是实际动手去做</p>
@@ -3092,7 +3151,7 @@
     <link href="http://sorgs.cn/post/33150/"/>
     <id>http://sorgs.cn/post/33150/</id>
     <published>2016-11-17T08:18:25.000Z</published>
-    <updated>2019-08-16T15:00:57.823Z</updated>
+    <updated>2019-08-15T01:29:03.847Z</updated>
     
     <content type="html"><![CDATA[<h1 id="一、交叉工具链"><a href="#一、交叉工具链" class="headerlink" title="一、交叉工具链"></a>一、交叉工具链</h1><p>这些工具都在NDK的路径下：E:\Android\android-ndk-r13\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\bin<br>这些工具的前缀均为arm-linux-androideabi，可以直接使用他们来编写NDK原生程序<br>Windows和Linux平台使用的gcc都是一样的，命令参数也是一样的：<br>arm-linux-androideabi-addr2line  //将程序地址转换为文件名和行号<br>arm-linux-androideabi-ar  // 建立、修改、提取归档文件<br>arm-linux-androideabi-as  //gas汇编器<br>arm-linux-androideabi-c++  //工具链中arm-linux-androideabi-g++.exe的一个拷贝<br>arm-linux-androideabi-c++filt  //连接器使用它过滤符号，防止重载函数冲突<br>arm-linux-androideabi-cpp  //C++程序编译工具<br>arm-linux-androideabi-g++  //C++程序编译工具<br>arm-linux-androideabi-gcc-4.9.x //工具链中arm-linux-androideabi-gcc.exe的一个拷贝<br>arm-linux-androideabi-gcc  //C程序编译工具<br>arm-linux-androideabi-gcov  //程序覆盖度测量工具，记录代码的执行路径<br>arm-linux-androideabi-gdb  //调试工具<br>arm-linux-androideabi-gprof  //程序性能测量工具<br>arm-linux-androideabi-ld  //连接器，用于生成可执行程序<br>arm-linux-androideabi-nm  //列出目标文件中的符号<br>arm-linux-androideabi-objcopy  //复制目标文件中的内容到另一种类型的目标文件中<br>arm-linux-androideabi-objdump  //输出目标文件的信息<br>arm-linux-androideabi-ranlib  //产生归档文件索引，并将其保存到这个归档文件中<br>arm-linux-androideabi-readelf  //显示elf格式可执行文件的信息<br>arm-linux-androideabi-run  //ARM程序模拟器<br>arm-linux-androideabi-size  //列出目标文件每一段的大小及总体的大小<br>arm-linux-androideabi-strings  //输出目标文件的可打印字符串<br>arm-linux-androideabi-strip  //去除目标文件中的符号信息<br>以上摘录之《Android软件安全与逆向分析》</p>
 <h1 id="二、编写C-程序"><a href="#二、编写C-程序" class="headerlink" title="二、编写C++程序"></a>二、编写C++程序</h1><p>我这里习惯使用VS2012，大家可以按自己的习惯。记事本都可以。</p>
@@ -3174,7 +3233,7 @@
     <link href="http://sorgs.cn/post/33593/"/>
     <id>http://sorgs.cn/post/33593/</id>
     <published>2016-11-17T08:12:37.000Z</published>
-    <updated>2019-08-16T15:00:57.837Z</updated>
+    <updated>2019-08-15T01:29:03.856Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>实验环境：本机Windows10<br>Vbox5.1.8 r111374<br>Linux：ubuntu</p>
@@ -3269,7 +3328,7 @@
     <link href="http://sorgs.cn/post/47975/"/>
     <id>http://sorgs.cn/post/47975/</id>
     <published>2016-11-17T08:04:57.000Z</published>
-    <updated>2019-08-16T15:00:57.830Z</updated>
+    <updated>2019-08-15T01:29:03.851Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>这里还是利用鬼哥的提供的样本，天天消联盟</p>
@@ -3408,7 +3467,7 @@
     <link href="http://sorgs.cn/post/64124/"/>
     <id>http://sorgs.cn/post/64124/</id>
     <published>2016-11-17T07:55:37.000Z</published>
-    <updated>2019-08-16T15:00:57.828Z</updated>
+    <updated>2019-08-15T01:29:03.850Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>很久没有出基础教程了，这里做一个鬼哥的so的作业吧。很基础的东西，算是教学帖子吧。大牛路过吧。这里感谢鬼哥的apk和无名侠的软件</p>
@@ -3538,7 +3597,7 @@
     <link href="http://sorgs.cn/post/2575/"/>
     <id>http://sorgs.cn/post/2575/</id>
     <published>2016-11-16T14:53:25.000Z</published>
-    <updated>2019-08-16T15:00:57.831Z</updated>
+    <updated>2019-08-15T01:29:03.851Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>最近学到了一些内购的破解方式，就来试试手。然后找个了比较火爆的游戏BB弹，找个个没壳的就来练习。<br>这些东西都是大神写烂了的东西了，我这里只是写出我自己找不到方法的时候的思路。勿笑。</p>
@@ -3674,7 +3733,7 @@
     <link href="http://sorgs.cn/post/40324/"/>
     <id>http://sorgs.cn/post/40324/</id>
     <published>2016-11-16T14:45:30.000Z</published>
-    <updated>2019-08-16T15:00:57.829Z</updated>
+    <updated>2019-08-15T01:29:03.850Z</updated>
     
     <content type="html"><![CDATA[<p>一朋友让我来破解下一软件，我拿来一看是这玩意。我以为很难，结果发现没壳。兴趣就来了，弄了一天，就弄出来了。这里把过程和思路分享一下。其实很简单，大神一看就知道。因为这个没加壳，只是加了混淆的。<br>这算是我第一次破解玩玩整整的apk了。<br>然后我们就开始吧。</p>
 <h1 id="一、工具"><a href="#一、工具" class="headerlink" title="一、工具"></a>一、工具</h1><p>这次我用的是AndroidKiller，感觉很不错的样子<br>然后就是我每次都要用的蓝叠</p>
@@ -3797,7 +3856,7 @@
     <link href="http://sorgs.cn/post/15334/"/>
     <id>http://sorgs.cn/post/15334/</id>
     <published>2016-11-16T14:36:33.000Z</published>
-    <updated>2019-08-16T15:00:57.827Z</updated>
+    <updated>2019-08-15T01:29:03.849Z</updated>
     
     <content type="html"><![CDATA[<p>我们知道很多apk光是静态调试时远远满足不了我们对apk的分析，这个时候，我们就需要来一波静态调试。<br>此处为个人笔记，也为入门小白引路，这里就不看结果了，主要是教大家怎么结合调试。<br>起因是昨天刚看了动态调试的方法，我就想来试试。结果电脑上只有Android studio。好吧，那我就百度了Android studio的调试。然后用模拟器，结果那个模拟器太恼火了，慢死人，还卡。（学生党，只能苦逼用低配笔记本）然后身边唯一一根数据线居然罢工。没办法，后来突然想起来，蓝叠模拟器很快了，可不可以试试。于是就有了下文。好了，不废话了，进入正题。</p>
 <h1 id="一、工具"><a href="#一、工具" class="headerlink" title="一、工具"></a>一、工具</h1><p>毫无疑问：Android studio（附带SDK，这个不多说）  蓝叠<br>然后有个大家可能大家不知道的东西  smalidea  这个百度一大堆。我就不多说了，自己去下一个就是了<br>然后一个反编译的工具 jeb apkIDE AndroidKiller等等，都可以<br>我用的是jeb</p>
@@ -4002,7 +4061,7 @@
     <link href="http://sorgs.cn/post/9560/"/>
     <id>http://sorgs.cn/post/9560/</id>
     <published>2016-11-16T14:25:36.000Z</published>
-    <updated>2019-08-16T15:00:57.834Z</updated>
+    <updated>2019-08-15T01:29:03.854Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>该crackme为吾爱培训教程的课后作业，简单到爆，大神请路过</p>
@@ -4152,7 +4211,7 @@
     <link href="http://sorgs.cn/post/10311/"/>
     <id>http://sorgs.cn/post/10311/</id>
     <published>2016-11-16T09:23:32.000Z</published>
-    <updated>2019-08-16T15:00:57.806Z</updated>
+    <updated>2019-08-15T01:29:03.837Z</updated>
     
     <content type="html"><![CDATA[<p><font color="goldenrod">这几天认真研读了一下dalvik字节码，因为这个是重点，对以后的Android逆向分析很重要。<br>我是学过汇编的，但是感觉还是不是太懂。这玩意也太乱了吧。然后我有些看不懂，就百度一阵，也没有结果。就自己研究了下下，把自己不懂的地方写出来。不对的地方，大家请指出。<br>我主要是集中在赋值哪里。我开始没弄懂，后来才明白过来。<br>const/4 v1, 0x1 这里大家应该知道 v1=1。但是真真正正想过为什么？也许很多人都知道，这里是写给不知道的。<br>首先4代表4字节，那么就是4位的。所以呢 v1=0<em>4+1=1<br>const/16 v2, 0x10  这里的话，16字节，那么16位对吧。所以v2 = 1</em>16+0 = 16<br>const/16 v3, 0x28  16字节，16位。v3 = 2*16+8 = 40；<br>这里就解释完了。后面给点dalvik的实例吧。</font><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">.local <span class="number">4</span>                   <span class="comment">//本地4个寄存器，也就是下面的v0,v1,v2,v3</span></div><div class="line"><span class="keyword">const</span>/<span class="number">4</span> v2, <span class="number">0x1</span>            <span class="comment">//4字节常量   v2=1</span></div><div class="line"><span class="keyword">const</span>/<span class="number">16</span> v1, <span class="number">0x10</span>          <span class="comment">//16字节常量  v1=16</span></div><div class="line">:local v1, <span class="string">"length"</span>:I      <span class="comment">//int length=v1</span></div><div class="line"><span class="keyword">if</span>-nez v1，：cond_1        <span class="comment">//如果v1不等于0，这跳转至cond_1</span></div><div class="line">:cond_0                    <span class="comment">//cond_0标签</span></div><div class="line">:goto_0                    <span class="comment">//goto_0标签</span></div><div class="line"><span class="keyword">return</span> v2                  <span class="comment">//返回v2的值</span></div><div class="line">:cond_1                    <span class="comment">//开始执行cond_1标签代码</span></div><div class="line"><span class="keyword">const</span>/<span class="number">4</span> v0,<span class="number">0x0</span>             <span class="comment">//4字节常量  v0=0</span></div><div class="line">:local v0, <span class="string">"i"</span>:I           <span class="comment">//int i=v0</span></div><div class="line">:goto_1                    <span class="comment">//开始执行goto_1标签代码</span></div><div class="line"><span class="keyword">if</span>-lt v0, v1, :cond_2      <span class="comment">//如果v0小于v1,则跳转至cond_2</span></div><div class="line"><span class="keyword">const</span>/<span class="number">16</span> v3,<span class="number">0x28</span>           <span class="comment">//如果v0大于等于v1，则执行下面语句： 16字节常量v3=40</span></div><div class="line"><span class="keyword">if</span>-le v1,v3, :cond_0       <span class="comment">//如果v1小于等于v3,则跳转至cond_0,即返回v2的值</span></div><div class="line"><span class="keyword">const</span>/<span class="number">4</span> v2, <span class="number">0x0</span>            <span class="comment">//如果v1大于v3,则4字节常量v2=0</span></div><div class="line">goto:goto_0                <span class="comment">//跳转至goto_0,即返回v2的值</span></div><div class="line">:cond_2                    <span class="comment">//cond_2标签</span></div><div class="line">xor-<span class="keyword">int</span>/lit8 v1, v1, <span class="number">0x3b</span>  <span class="comment">//将第二个v1寄存器中的值与0x3b（59）进行异或运算，得到的值赋值给第一个v1寄存器中</span></div><div class="line">add-<span class="keyword">int</span>/lit8 v0, v0, <span class="number">0x1</span>   <span class="comment">//将第二个v0寄存器中的值加上0x1(1)，所得的值放入第一个v0寄存器中</span></div><div class="line">goto:goto_1                <span class="comment">//跳转值goto_1标签</span></div></pre></td></tr></table></figure></p>
 <p>翻译成java代码就是</p>
@@ -4183,7 +4242,7 @@
     <link href="http://sorgs.cn/post/50997/"/>
     <id>http://sorgs.cn/post/50997/</id>
     <published>2016-11-16T09:03:08.000Z</published>
-    <updated>2019-08-16T15:00:57.833Z</updated>
+    <updated>2019-08-15T01:29:03.853Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>这个首先感谢鱼C论坛的cbs大神，我是看了他的视频。自己再动手破解他给出这三个小程序。真心这样无私把技术分享给大家的人真的不多。再次感谢他。<br>这里我就我自己破解的三个小程序自己做做笔记吧，方便自己以后查看，也方便刚刚入门的童鞋。这些都是些没啥技术含量的东西，大神请飘过。</p>
@@ -4425,7 +4484,7 @@
     <link href="http://sorgs.cn/post/24104/"/>
     <id>http://sorgs.cn/post/24104/</id>
     <published>2016-11-16T08:46:17.000Z</published>
-    <updated>2019-08-16T15:00:57.832Z</updated>
+    <updated>2019-08-15T01:29:03.853Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>本实例来源于《Android软件安全与逆向分析》这本书，作者是看雪的非虫，感谢提供这么好的书和实例。</p>
@@ -4604,7 +4663,7 @@
     <link href="http://sorgs.cn/post/15339/"/>
     <id>http://sorgs.cn/post/15339/</id>
     <published>2016-11-16T08:24:13.000Z</published>
-    <updated>2019-08-16T15:00:57.826Z</updated>
+    <updated>2019-08-15T01:29:03.849Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>（本笔记来源于吾爱以及吾爱坛友，加上本人自己的整理）</p>
@@ -4769,7 +4828,7 @@
     <link href="http://sorgs.cn/post/12244/"/>
     <id>http://sorgs.cn/post/12244/</id>
     <published>2016-11-16T08:09:07.000Z</published>
-    <updated>2019-08-16T15:00:57.809Z</updated>
+    <updated>2019-08-15T01:29:03.839Z</updated>
     
     <content type="html"><![CDATA[<font color="red">学了WebView之后，心血来潮，写了这个简易的浏览器。虽然很简单，但是也查了不少没学到东西。大神就忽略吧。这里分享出来，给需要的人参考参考。</font>
 
@@ -4835,7 +4894,7 @@
     <link href="http://sorgs.cn/post/37302/"/>
     <id>http://sorgs.cn/post/37302/</id>
     <published>2016-11-16T00:40:48.000Z</published>
-    <updated>2019-08-16T15:00:57.849Z</updated>
+    <updated>2019-08-15T01:29:03.862Z</updated>
     
     <content type="html"><![CDATA[<p> 写此时为了记录自己的开发历程，方便以后的查询。二则运算（能力有限，也没有想往更深处写），菜鸟级别，代码为参考慕课网上，听课代码，并加上自己的理解和参考的一些博客！有问题的地方欢迎指正，感激不尽！开发工具为Android studio。（第一次写博客，可读性估计很差）</p>
 <figure class="image-bubble">
@@ -4912,7 +4971,7 @@
     <link href="http://sorgs.cn/post/52407/"/>
     <id>http://sorgs.cn/post/52407/</id>
     <published>2016-11-15T02:07:01.000Z</published>
-    <updated>2019-08-16T15:00:57.851Z</updated>
+    <updated>2019-08-15T01:29:03.863Z</updated>
     
     <content type="html"><![CDATA[<h1 id="还是来个Hello吧"><a href="#还是来个Hello吧" class="headerlink" title="还是来个Hello吧"></a>还是来个Hello吧</h1><p>&#160; &#160; &#160; &#160;捣鼓了好几天，终于把我的博客给建立了起来在，真是心累啊。</p>
 <p>&#160; &#160; &#160; &#160;从最最最开始的购买腾讯云的学生什么东东开始，发现WordPress不是太看看，这就很尴尬了，于是就发现装逼的hexo强力驱动还不多，还不花钱。就搞了过来。</p>
