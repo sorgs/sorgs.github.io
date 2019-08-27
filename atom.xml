@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sorgs.cn/"/>
-  <updated>2019-08-22T11:36:53.836Z</updated>
+  <updated>2019-08-27T12:40:46.430Z</updated>
   <id>http://sorgs.cn/</id>
   
   <author>
@@ -14,6 +14,58 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Android每日一问笔记-Parcelable 为什么效率高于 Serializable?</title>
+    <link href="http://sorgs.cn/post/14203/"/>
+    <id>http://sorgs.cn/post/14203/</id>
+    <published>2019-08-27T12:40:25.000Z</published>
+    <updated>2019-08-27T12:40:46.430Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>基于<a href="https://www.wanandroid.com/article/list/0?cid=440" target="_blank" rel="external">https://www.wanandroid.com</a>每日一问的笔记，做一些整理，方便自己进行查看和记忆。</p>
+<p>原文链接：<a href="https://www.wanandroid.com/wenda/show/9002" target="_blank" rel="external">https://www.wanandroid.com/wenda/show/9002</a></p>
+</blockquote>
+<h1 id="为什么Parcelable的效率比Serializable高？"><a href="#为什么Parcelable的效率比Serializable高？" class="headerlink" title="为什么Parcelable的效率比Serializable高？"></a>为什么Parcelable的效率比Serializable高？</h1><blockquote>
+<p>可以从设计目的和实现原理两个方面分析</p>
+</blockquote>
+<h2 id="设计目的"><a href="#设计目的" class="headerlink" title="设计目的"></a>设计目的</h2><ul>
+<li>Serializable是Java API,是一个通用的序列化机制，通过将文件保存到本地文件、网络流等实现便数据的传递，这种数据传递不仅可以在单个程序中进行，也可以在两个不同的程序中进行；Parcelable是Android SDK API,为了在同个程序的不同组件之间和不同程序（AIDL）之间高效的传输数据，是通过IBinder通信的消息的载体。从设计目的上可以看出Parcelable就是为了Android高效传输数据而生的。</li>
+</ul>
+<h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><ul>
+<li>Serializable是通过I/O读写存储在磁盘上的,使用反射机制，序列化过程较慢，且在序列化过程中创建许多临时对象，容易触发GC。Parcelable是直接在内存中读写的，自已实现封送和解封（marshalled &amp;unmarshalled）操作，将一个完整的对象分解成Intent所支持的数据类型，不需要使用反射，所以Parcelable具有效率高，内存开销小的优点。</li>
+</ul>
+<h1 id="Parcelable为了效率损失了什么"><a href="#Parcelable为了效率损失了什么" class="headerlink" title="Parcelable为了效率损失了什么"></a>Parcelable为了效率损失了什么</h1><ul>
+<li>Serializable是通用的序列化机制的，将数据存储在磁盘，可以做到有限持久化保存，文件的生命周期不受程序影响，Parcelable的序列化操作完全由底层实现，不同版本的Android是实现方式可能不相同，所以不能进行持久化存储。</li>
+</ul>
+<h1 id="一个对象可以序列化的关键"><a href="#一个对象可以序列化的关键" class="headerlink" title="一个对象可以序列化的关键"></a>一个对象可以序列化的关键</h1><ul>
+<li>序列化是将一个对象从存储态转化成传输态的过程，把对象转化成字节序列，该字节序列包括该对象的数据、有关对象的类型的信息和存储在对象中数据的类型。</li>
+<li>在序列化时，对象的各属性都必须是可序列化的，声明为static和transient类型的成员数据不能被序列化。</li>
+<li>并非所有的对象都可以序列化，,至于为什么不可以，有很多原因了,比如：<ul>
+<li>安全方面的原因，比如一个对象拥有private，public等field，对于一个要传输的对象，比如写到文件，或者进行rmi传输等等，在序列化进行传输的过程中，这个对象的private等域是不受保护的。</li>
+<li>资源分配方面的原因，比如socket，thread类，如果可以序列化，进行传输或者保存，也无法对他们进行重新的资源分配，而且，也是没有必要这样实现。</li>
+</ul>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;基于&lt;a href=&quot;https://www.wanandroid.com/article/list/0?cid=440&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://www.wanandroid.com&lt;/a&gt;每
+    
+    </summary>
+    
+      <category term="Android面试" scheme="http://sorgs.cn/categories/Android%E9%9D%A2%E8%AF%95/"/>
+    
+    
+      <category term="每日一问笔记" scheme="http://sorgs.cn/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%97%AE%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="面试" scheme="http://sorgs.cn/tags/%E9%9D%A2%E8%AF%95/"/>
+    
+      <category term="笔记" scheme="http://sorgs.cn/tags/%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>Android为什么卡？关于Android编译</title>
@@ -3676,15 +3728,15 @@
       <category term="Android逆向实例" scheme="http://sorgs.cn/categories/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
     
-      <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
-    
       <category term="Android逆向实例" scheme="http://sorgs.cn/tags/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
       <category term="so修改" scheme="http://sorgs.cn/tags/so%E4%BF%AE%E6%94%B9/"/>
     
-      <category term="游戏" scheme="http://sorgs.cn/tags/%E6%B8%B8%E6%88%8F/"/>
-    
       <category term="IDA" scheme="http://sorgs.cn/tags/IDA/"/>
+    
+      <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
+    
+      <category term="游戏" scheme="http://sorgs.cn/tags/%E6%B8%B8%E6%88%8F/"/>
     
   </entry>
   
@@ -3806,15 +3858,15 @@
       <category term="Android逆向实例" scheme="http://sorgs.cn/categories/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
     
-      <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
-    
-      <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
-    
       <category term="Android逆向实例" scheme="http://sorgs.cn/tags/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
       <category term="so修改" scheme="http://sorgs.cn/tags/so%E4%BF%AE%E6%94%B9/"/>
     
+      <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
+    
       <category term="IDA" scheme="http://sorgs.cn/tags/IDA/"/>
+    
+      <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
     
   </entry>
   
@@ -3944,9 +3996,9 @@
       <category term="Android逆向实例" scheme="http://sorgs.cn/categories/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
     
-      <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
-    
       <category term="Android逆向实例" scheme="http://sorgs.cn/tags/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
+    
+      <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
     
       <category term="游戏" scheme="http://sorgs.cn/tags/%E6%B8%B8%E6%88%8F/"/>
     
@@ -4065,11 +4117,11 @@
       <category term="Android逆向实例" scheme="http://sorgs.cn/categories/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
     
+      <category term="Android逆向实例" scheme="http://sorgs.cn/tags/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
+    
       <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
     
       <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
-    
-      <category term="Android逆向实例" scheme="http://sorgs.cn/tags/Android%E9%80%86%E5%90%91%E5%AE%9E%E4%BE%8B/"/>
     
       <category term="同步学习" scheme="http://sorgs.cn/tags/%E5%90%8C%E6%AD%A5%E5%AD%A6%E4%B9%A0/"/>
     
@@ -4272,11 +4324,11 @@
     
       <category term="Android逆向基础" scheme="http://sorgs.cn/tags/Android%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%80/"/>
     
-      <category term="动态调试" scheme="http://sorgs.cn/tags/%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95/"/>
-    
       <category term="破解" scheme="http://sorgs.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
     
       <category term="反编译" scheme="http://sorgs.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
+    
+      <category term="动态调试" scheme="http://sorgs.cn/tags/%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95/"/>
     
       <category term="调试" scheme="http://sorgs.cn/tags/%E8%B0%83%E8%AF%95/"/>
     
