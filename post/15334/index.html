@@ -27,19 +27,19 @@
     <link rel="canonical" href="http://www.sorgs.cn/post/15334/">
     
     
-    <title>Android逆向基础笔记—巧用蓝叠和Android Studio进行动态调试 | Sorgs | Sorgs&#39;s Blog</title>
+    <title>Android逆向基础笔记—巧用蓝叠和Android Studio进行动态调试 | 逆风更适合飞</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="Android逆向基础,破解,反编译,动态调试,调试">
+    <meta name="keywords" content="Android逆向基础,动态调试,破解,反编译,调试">
     <meta name="description" content="我们知道很多apk光是静态调试时远远满足不了我们对apk的分析，这个时候，我们就需要来一波静态调试。此处为个人笔记，也为入门小白引路，这里就不看结果了，主要是教大家怎么结合调试。起因是昨天刚看了动态调试的方法，我就想来试试。结果电脑上只有Android studio。好吧，那我就百度了Android studio的调试。然后用模拟器，结果那个模拟器太恼火了，慢死人，还卡。（学生党，只能苦逼用低配笔">
-<meta name="keywords" content="Android逆向基础,破解,反编译,动态调试,调试">
+<meta name="keywords" content="Android逆向基础,动态调试,破解,反编译,调试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android逆向基础笔记—巧用蓝叠和Android Studio进行动态调试">
 <meta property="og:url" content="http://sorgs.cn/post/15334/index.html">
-<meta property="og:site_name" content="Sorgs">
+<meta property="og:site_name" content="逆风更适合飞">
 <meta property="og:description" content="我们知道很多apk光是静态调试时远远满足不了我们对apk的分析，这个时候，我们就需要来一波静态调试。此处为个人笔记，也为入门小白引路，这里就不看结果了，主要是教大家怎么结合调试。起因是昨天刚看了动态调试的方法，我就想来试试。结果电脑上只有Android studio。好吧，那我就百度了Android studio的调试。然后用模拟器，结果那个模拟器太恼火了，慢死人，还卡。（学生党，只能苦逼用低配笔">
 <meta property="og:image" content="http://img.blog.csdn.net/20160831213525667?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
 <meta property="og:image" content="http://img.blog.csdn.net/20160831214232454?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
@@ -69,7 +69,7 @@
 <meta name="twitter:description" content="我们知道很多apk光是静态调试时远远满足不了我们对apk的分析，这个时候，我们就需要来一波静态调试。此处为个人笔记，也为入门小白引路，这里就不看结果了，主要是教大家怎么结合调试。起因是昨天刚看了动态调试的方法，我就想来试试。结果电脑上只有Android studio。好吧，那我就百度了Android studio的调试。然后用模拟器，结果那个模拟器太恼火了，慢死人，还卡。（学生党，只能苦逼用低配笔">
 <meta name="twitter:image" content="http://img.blog.csdn.net/20160831213525667?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
     
-        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+        <link rel="alternate" type="application/atom+xml" title="逆风更适合飞" href="/atom.xml">
     
     <link rel="shortcut icon" href="/img/favicon.png">
     <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
@@ -133,9 +133,9 @@
               </a>
             </li>
         
-		    <li class="weixin" >
+		    <!--<li class="weixin" >
 			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
-				<img src='/img/publicNumber.jpg'>
+				<img src='/img/publicNumber.jpg'>-->
 			</a>
 			</li>
       </ul>
@@ -440,7 +440,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/15334/&title=《Android逆向基础笔记—巧用蓝叠和Android Studio进行动态调试》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/15334/&title=《Android逆向基础笔记—巧用蓝叠和Android Studio进行动态调试》 — 逆风更适合飞&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -450,7 +450,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/15334/&title=《Android逆向基础笔记—巧用蓝叠和Android Studio进行动态调试》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/15334/&title=《Android逆向基础笔记—巧用蓝叠和Android Studio进行动态调试》 — 逆风更适合飞&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -460,7 +460,7 @@
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android逆向基础笔记—巧用蓝叠和Android Studio进行动态调试》 — Sorgs&url=http://sorgs.cn/post/15334/&via=http://sorgs.cn" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android逆向基础笔记—巧用蓝叠和Android Studio进行动态调试》 — 逆风更适合飞&url=http://sorgs.cn/post/15334/&via=http://sorgs.cn" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
@@ -593,8 +593,9 @@
     </div>
     <div class="bottom">
         <p>
-            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
-            <span>Sorgs &copy; 2016 - 2019</span>
+            <!--<span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>-->
+            <span>蜀ICP备16021171号-1</span>
+			<span>Sorgs &copy; 2016 - 2019</span>
         </p>
     </div>
 </footer>
@@ -608,7 +609,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/15334/&title=《Android逆向基础笔记—巧用蓝叠和Android Studio进行动态调试》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/15334/&title=《Android逆向基础笔记—巧用蓝叠和Android Studio进行动态调试》 — 逆风更适合飞&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -618,7 +619,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/15334/&title=《Android逆向基础笔记—巧用蓝叠和Android Studio进行动态调试》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/15334/&title=《Android逆向基础笔记—巧用蓝叠和Android Studio进行动态调试》 — 逆风更适合飞&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -628,7 +629,7 @@
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android逆向基础笔记—巧用蓝叠和Android Studio进行动态调试》 — Sorgs&url=http://sorgs.cn/post/15334/&via=http://sorgs.cn" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android逆向基础笔记—巧用蓝叠和Android Studio进行动态调试》 — 逆风更适合飞&url=http://sorgs.cn/post/15334/&via=http://sorgs.cn" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>

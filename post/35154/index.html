@@ -27,7 +27,7 @@
     <link rel="canonical" href="http://www.sorgs.cn/post/35154/">
     
     
-    <title>Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？ | Sorgs | Sorgs&#39;s Blog</title>
+    <title>Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？ | 逆风更适合飞</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
@@ -39,7 +39,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？">
 <meta property="og:url" content="http://sorgs.cn/post/35154/index.html">
-<meta property="og:site_name" content="Sorgs">
+<meta property="og:site_name" content="逆风更适合飞">
 <meta property="og:description" content="基于https://www.wanandroid.com每日一问的笔记，做一些整理，方便自己进行查看和记忆。原文链接：https://www.wanandroid.com/wenda/show/8685   Android中为什么主线程不会因为Looper.loop()里的死循环卡死？ 这里涉及线程，先说说说进程/线程 进程：每个app运行时前首先创建一个进程，该进程是由Zygote fork出">
 <meta property="og:image" content="https://pic.sorgs.cn/handler_loop.jpg">
 <meta property="og:updated_time" content="2019-08-15T01:29:03.844Z">
@@ -48,7 +48,7 @@
 <meta name="twitter:description" content="基于https://www.wanandroid.com每日一问的笔记，做一些整理，方便自己进行查看和记忆。原文链接：https://www.wanandroid.com/wenda/show/8685   Android中为什么主线程不会因为Looper.loop()里的死循环卡死？ 这里涉及线程，先说说说进程/线程 进程：每个app运行时前首先创建一个进程，该进程是由Zygote fork出">
 <meta name="twitter:image" content="https://pic.sorgs.cn/handler_loop.jpg">
     
-        <link rel="alternate" type="application/atom+xml" title="Sorgs" href="/atom.xml">
+        <link rel="alternate" type="application/atom+xml" title="逆风更适合飞" href="/atom.xml">
     
     <link rel="shortcut icon" href="/img/favicon.png">
     <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
@@ -112,9 +112,9 @@
               </a>
             </li>
         
-		    <li class="weixin" >
+		    <!--<li class="weixin" >
 			<a href='/img/publicNumber.jpg' target='_blank'>欢迎关注微信公众号<br />
-				<img src='/img/publicNumber.jpg'>
+				<img src='/img/publicNumber.jpg'>-->
 			</a>
 			</li>
       </ul>
@@ -295,7 +295,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/35154/&title=《Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/35154/&title=《Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？》 — 逆风更适合飞&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -305,7 +305,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/35154/&title=《Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/35154/&title=《Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？》 — 逆风更适合飞&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -315,7 +315,7 @@
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？》 — Sorgs&url=http://sorgs.cn/post/35154/&via=http://sorgs.cn" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？》 — 逆风更适合飞&url=http://sorgs.cn/post/35154/&via=http://sorgs.cn" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
@@ -448,8 +448,9 @@
     </div>
     <div class="bottom">
         <p>
-            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
-            <span>Sorgs &copy; 2016 - 2019</span>
+            <!--<span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>-->
+            <span>蜀ICP备16021171号-1</span>
+			<span>Sorgs &copy; 2016 - 2019</span>
         </p>
     </div>
 </footer>
@@ -463,7 +464,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/35154/&title=《Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？》 — Sorgs&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://sorgs.cn/post/35154/&title=《Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？》 — 逆风更适合飞&pic=http://sorgs.cn/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -473,7 +474,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/35154/&title=《Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？》 — Sorgs&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://sorgs.cn/post/35154/&title=《Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？》 — 逆风更适合飞&source=“你的父母尚在苟且，你却在炫耀诗和远方!”" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -483,7 +484,7 @@
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？》 — Sorgs&url=http://sorgs.cn/post/35154/&via=http://sorgs.cn" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android每日一问笔记-Looper.loop为什么不会阻塞掉UI线程？》 — 逆风更适合飞&url=http://sorgs.cn/post/35154/&via=http://sorgs.cn" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
